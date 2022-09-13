@@ -1,4 +1,8 @@
-const express = require("express");
-const app = express();
+import app from "./app";
+import { connectToDataBase } from "./db";
 
-app.listen(3000);
+connectToDataBase();
+
+app.listen(process.env.PORT, () => {
+    console.log("Server is running on PORT: " + process.env.PORT );
+})
