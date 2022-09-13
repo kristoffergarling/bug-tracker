@@ -1,0 +1,19 @@
+{
+  "name": "bug-tracker",
+  "version": "1.0.0",
+  "description": "Intial Commit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kristoffergarling/bug-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kristoffergarling/bug-tracker/issues"
+  },
+  "homepage": "https://github.com/kristoffergarling/bug-tracker#readme"
+}
