@@ -4,7 +4,7 @@ import { CenteredFlexBox } from "../../styles/customStyles";
 
 import PestControlIcon from "@mui/icons-material/PestControl";
 
-const AuthHeader: React.FC<{ titles: string[] }> = (props) => {
+const AuthHeader: React.FC = () => {
   return (
     <CenteredFlexBox>
       <PestControlIcon sx={{ fontSize: 100, mt: 2 }} color="primary" />
