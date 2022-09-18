@@ -1,10 +1,17 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signUp,
+  clearAuthError,
+  setAuthError,
+  selectAuthState,
+} from "../redux/slices/authSlice";
 
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
+import { Alert, AlertTitle } from "@mui/material";
 import { AuthFormContainer, NameInputBox } from "../styles/customStyles";
 
 import AuthHeader from "../components/Auth/AuthHeader";
@@ -25,7 +32,7 @@ const validationSchema = yup.object().shape({
     .max(30, "Must be at most 30 characters"),
   confirmPassword: yup
     .string()
-    .required("Password Confirmation is required")
+    .required("Confirm Password is required")
     .min(6, "Must be at least 6 characters")
     .max(30, "Must be at most 30 characters"),
 });
@@ -40,6 +47,7 @@ interface InputValues {
 
 const SignUp: React.FC = () => {
   const dispatch = useDispatch();
+  const { loading, error } = useSelector(selectAuthState);
 
   const methods = useForm<InputValues>({
     mode: "onChange",
@@ -47,11 +55,14 @@ const SignUp: React.FC = () => {
   });
 
   const submitHandler: SubmitHandler<InputValues> = (data: InputValues) => {
-    // dispatch(registerUser(data));
+    if (data.password !== data.confirmPassword) {
+      return dispatch(setAuthError("Both passwords need to match"));
+    }
+    dispatch(signUp(data));
   };
 
   return (
-    <AuthFormContainer sx={{ marginTop: { xs: 5, md: 15 } }} maxWidth="xs">
+    <AuthFormContainer sx={{ marginTop: { xs: 5, md: 10 } }} maxWidth="xs">
       <AuthHeader />
       <FormProvider {...methods}>
         <form
@@ -68,11 +79,26 @@ const SignUp: React.FC = () => {
           <PasswordInput label="password" />
           <PasswordInput label="confirmPassword" />
 
-          <SubmitButton label="SIGN UP" />
+          <SubmitButton label="SIGN UP" loading={loading} />
         </form>
       </FormProvider>
 
       <WrongPage type="signup" />
+
+      {error && (
+        <Alert
+          sx={{ marginTop: "15px" }}
+          severity="error"
+          onClose={() => {
+            dispatch(clearAuthError());
+          }}
+        >
+          <AlertTitle>
+            <strong>Error</strong>
+          </AlertTitle>
+          {error}
+        </Alert>
+      )}
     </AuthFormContainer>
   );
 };

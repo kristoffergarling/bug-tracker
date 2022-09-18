@@ -6,9 +6,10 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 interface SubmitButtonProps {
   label: string;
+  loading: boolean | undefined;
 }
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({ label }) => {
+const SubmitButton: React.FC<SubmitButtonProps> = ({ label, loading }) => {
   return (
     <CenteredFlexBox sx={{ marginTop: "25px" }}>
       <Button
@@ -18,6 +19,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ label }) => {
         variant="contained"
         color="primary"
         type="submit"
+        disabled={loading}
       >
         {label}
       </Button>

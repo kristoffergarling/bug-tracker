@@ -44,6 +44,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ label }) => {
               ? errors.confirmPassword?.message
               : ""
           }
+          type="password"
           id={label}
           label={label === "password" ? "Password" : "Confirm Password"}
           fullWidth

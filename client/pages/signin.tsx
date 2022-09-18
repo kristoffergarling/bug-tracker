@@ -19,7 +19,7 @@ const SignIn: React.FC = () => {
   };
 
   return (
-    <AuthFormContainer sx={{ marginTop: { xs: 5, md: 15 } }} maxWidth="xs">
+    <AuthFormContainer sx={{ marginTop: { xs: 5, md: 10 } }} maxWidth="xs">
       <AuthHeader />
 
       <form style={{ margin: "auto 20px auto 20px" }}>

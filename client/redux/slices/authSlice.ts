@@ -1,10 +1,12 @@
+import axios from "axios";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState, AppThunk } from "../store";
 
-import { UserState } from "../types";
+import { UserState, CredentialsPayload } from "../types";
 
 interface InitialAuthState {
     user: UserState | null;
-    loading: boolean | null;
+    loading: boolean;
     error: string | null;
 }
 
@@ -31,8 +33,8 @@ const authSlice = createSlice({
             state.error = null;
         },
         setAuthError: (state, action: PayloadAction<string>) => {
-            state.error = action.payload;
             state.loading = false;
+            state.error = action.payload;
         },
         clearAuthError: (state) => {
             state.error = null;
@@ -47,3 +49,27 @@ export const {
     setAuthError,
     clearAuthError,
 } = authSlice.actions;
+
+export const signUp = (credentials: CredentialsPayload): AppThunk => {
+    return async (dispatch) => {
+        try {
+            dispatch(setAuthLoading());
+            const response = await axios.post(`http://localhost:5000/signup`, credentials);
+            const userData = response.data;
+
+            console.log("Test: ", userData);
+
+            if (userData.error) {
+                dispatch(setAuthError(userData.error));
+            } else {
+                dispatch(setUser(userData));
+            }
+        } catch (error: any) {
+            dispatch(setAuthError(error.message));
+        }
+    };
+}
+
+export const selectAuthState = (state: RootState) => state.auth;
+
+export default authSlice.reducer;

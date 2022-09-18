@@ -1,20 +1,21 @@
-const express = require('express');
-const mongoose = require("mongoose");
-const app = express();
+import app from "./app";
+import mongoose from "mongoose";
+import { createServer } from "http";
+import { PORT, DB_URL } from "./utils/config";
 
-const uri = "mongodb+srv://garlingdev:igelkott55@cluster0.jfjeg.mongodb.net/?retryWrites=true&w=majority";
+const server = createServer(app);
 
-async function connect() {
-    try {
-        await mongoose.connect(uri);
-        console.log("connected to mongodb");
-    } catch (err) {
-        console.log(err);
-    }
-}
+mongoose
+  .connect(DB_URL)
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
-// connect();
-
-app.listen(8000, () => {
-    console.log("Server is running on port 8000");
-})
+// server.listen(port, () => {
+//   console.log(`Server running on port ${port}`);
+// });
