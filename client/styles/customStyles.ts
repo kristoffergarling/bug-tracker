@@ -1,10 +1,10 @@
 import { styled } from "@mui/system";
-import { Box, Container, TextField } from "@mui/material"
+import { Box, Container, TextField } from "@mui/material";
 
 export const CenteredFlexBox = styled(Box)({
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
 });
 
 export const AuthFormContainer = styled(Container)({
@@ -24,6 +24,6 @@ export const StyledNameTextField = styled(TextField)({
 
 export const NameInputBox = styled(Box)({
   marginTop: "25px",
-              display: "flex",
-              justifyContent: "space-between",
+  display: "flex",
+  justifyContent: "space-between",
 });

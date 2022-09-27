@@ -5,10 +5,10 @@ import authRoutes from "./routes/auth";
 
 const app: Express = express();
 
-app.use("/signup", authRoutes);
-
+app.use(cors());
 app.use(bodyParser.json()) 
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cors());
+
+app.use("/", authRoutes);
 
 export default app;

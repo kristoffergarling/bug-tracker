@@ -1,9 +1,9 @@
-import express from "express"; 
-import { signUpUser } from "../controllers/auth"
+import express from "express";
+import { signUpUser, signInUser } from "../controllers/auth";
 
 const router = express.Router();
 
-// Note to self: this is reached by going to localhost/signup/
-router.get("/", signUpUser);
+router.post("/signup", signUpUser);
+router.post("/signin", signInUser);
 
 export default router;

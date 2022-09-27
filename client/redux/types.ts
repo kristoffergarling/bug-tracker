@@ -6,9 +6,6 @@ export interface UserState {
 }
 
 export interface CredentialsPayload {
-    firstName: string;
-    lastName: string;
     email: string;
     password: string;
-    confirmPassword: string;
 }

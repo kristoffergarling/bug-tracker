@@ -10,16 +10,26 @@ import {
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useRouter } from "next/router";
 
 import { Alert, AlertTitle } from "@mui/material";
 import { AuthFormContainer, NameInputBox } from "../styles/customStyles";
 
+import Navbar from "../components/Navbar/Navbar";
 import AuthHeader from "../components/Auth/AuthHeader";
 import NameInput from "../components/Auth/NameInput";
 import EmailInput from "../components/Auth/EmailInput";
 import PasswordInput from "../components/Auth/PasswordInput";
 import SubmitButton from "../components/Auth/SubmitButton";
 import WrongPage from "../components/Auth/WrongPage";
+
+interface InputValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 const validationSchema = yup.object().shape({
   firstName: yup.string().required("First Name is required"),
@@ -37,16 +47,9 @@ const validationSchema = yup.object().shape({
     .max(30, "Must be at most 30 characters"),
 });
 
-interface InputValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
 const SignUp: React.FC = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { loading, error } = useSelector(selectAuthState);
 
   const methods = useForm<InputValues>({
@@ -58,48 +61,51 @@ const SignUp: React.FC = () => {
     if (data.password !== data.confirmPassword) {
       return dispatch(setAuthError("Both passwords need to match"));
     }
-    dispatch(signUp(data));
+    dispatch(signUp(data, router));
   };
 
   return (
-    <AuthFormContainer sx={{ marginTop: { xs: 5, md: 10 } }} maxWidth="xs">
-      <AuthHeader />
-      <FormProvider {...methods}>
-        <form
-          style={{ margin: "auto 20px auto 20px" }}
-          onSubmit={methods.handleSubmit(submitHandler)}
-        >
-          <NameInputBox>
-            <NameInput label="firstName" />
-            <NameInput label="lastName" />
-          </NameInputBox>
+    <>
+      <Navbar />
+      <AuthFormContainer sx={{ marginTop: { xs: 5, md: 10 } }} maxWidth="xs">
+        <AuthHeader />
+        <FormProvider {...methods}>
+          <form
+            style={{ margin: "auto 20px auto 20px" }}
+            onSubmit={methods.handleSubmit(submitHandler)}
+          >
+            <NameInputBox>
+              <NameInput label="firstName" />
+              <NameInput label="lastName" />
+            </NameInputBox>
 
-          <EmailInput />
+            <EmailInput />
 
-          <PasswordInput label="password" />
-          <PasswordInput label="confirmPassword" />
+            <PasswordInput label="password" />
+            <PasswordInput label="confirmPassword" />
 
-          <SubmitButton label="SIGN UP" loading={loading} />
-        </form>
-      </FormProvider>
+            <SubmitButton label="SIGN UP" loading={loading} />
+          </form>
+        </FormProvider>
 
-      <WrongPage type="signup" />
+        <WrongPage type="signup" />
 
-      {error && (
-        <Alert
-          sx={{ marginTop: "15px" }}
-          severity="error"
-          onClose={() => {
-            dispatch(clearAuthError());
-          }}
-        >
-          <AlertTitle>
-            <strong>Error</strong>
-          </AlertTitle>
-          {error}
-        </Alert>
-      )}
-    </AuthFormContainer>
+        {error && (
+          <Alert
+            sx={{ marginTop: "15px" }}
+            severity="error"
+            onClose={() => {
+              dispatch(clearAuthError());
+            }}
+          >
+            <AlertTitle>
+              <strong>Error</strong>
+            </AlertTitle>
+            {error}
+          </Alert>
+        )}
+      </AuthFormContainer>
+    </>
   );
 };
 export default SignUp;
