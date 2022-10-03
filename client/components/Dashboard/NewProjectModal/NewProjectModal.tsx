@@ -1,21 +1,19 @@
 import React from "react";
 import { Box, Typography, Modal, Button, TextField } from "@mui/material";
-import {
-  useForm,
-  SubmitHandler,
-  FormProvider,
-  useFormContext,
-  Controller,
-} from "react-hook-form";
+import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useDispatch } from "react-redux";
+
+import InputController from "./InputController";
+import SelectContributors from "./SelectContributors";
 
 const style = {
   position: "absolute" as "absolute",
-  top: "25%",
+  top: "34%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: { xs: "90%", sm: 400 },
   bgcolor: "background.paper",
   border: "2px solid #395B64",
   boxShadow: 24,
@@ -25,6 +23,7 @@ const style = {
 interface InputValues {
   title: string;
   description: string;
+  contributors: string[];
 }
 
 interface NewProjectModalProps {
@@ -45,19 +44,16 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
   open,
   handleModalClick,
 }) => {
+  const dispatch = useDispatch();
   const methods = useForm<InputValues>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
       title: "",
       description: "",
+      contributors: [],
     },
   });
-
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
 
   const submitHandler: SubmitHandler<InputValues> = (data: InputValues) => {
     console.log(data);
@@ -73,25 +69,13 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
       <Box sx={style}>
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(submitHandler)}>
-            <Typography variant="h6">Create a new project</Typography>
+            <Typography variant="h6">Create New Project</Typography>
 
-            <Controller
-              name="title"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  error={errors.title ? true : false}
-                  label="Project Name"
-                  helperText={errors.title?.message}
-                  id="title"
-                  fullWidth
-                />
-              )}
-            />
+            <InputController label="title" />
+            <InputController label="description" />
+            <SelectContributors />
 
-            <Button variant="contained" type="submit">
+            <Button sx={{ marginTop: 3 }} variant="contained" type="submit">
               Submit
             </Button>
           </form>

@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 
-import NewProjectModal from "./NewProjectModal";
+import NewProjectModal from "./NewProjectModal/NewProjectModal";
 
 function createData(name: string, description: string, contributors: string[]) {
   return { name, description, contributors };
@@ -72,10 +72,10 @@ const ProjectTable: React.FC = () => {
               >
                 New Project
               </Button>
-              {/* <NewProjectModal
+              <NewProjectModal
                 open={open}
                 handleModalClick={handleModalClick}
-              /> */}
+              />
             </TableCell>
           </TableRow>
         </TableHead>

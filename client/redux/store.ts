@@ -1,12 +1,16 @@
 import { configureStore, Action } from "@reduxjs/toolkit";
-import { ThunkAction } from "redux-thunk"
-import type {} from 'redux-thunk/extend-redux';
+import { ThunkAction } from "redux-thunk";
+import type {} from "redux-thunk/extend-redux";
 import authReducer from "./slices/authSlice";
+import usersReducer from "./slices/usersSlice";
+import projectsReducer from "./slices/projectsSlice";
 
 const store = configureStore({
-    reducer: {
-        auth: authReducer,
-    },
+  reducer: {
+    auth: authReducer,
+    users: usersReducer,
+    projects: projectsReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
