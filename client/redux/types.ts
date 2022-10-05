@@ -2,6 +2,10 @@ export interface User {
   id: string;
   firstName: string;
   lastName: string;
+  email: string;
+  password: string;
+  isAdmin: boolean;
+  registerDate: Date;
 }
 
 export interface UserState {
@@ -23,12 +27,12 @@ export interface ProjectContributor {
 }
 
 export interface ProjectState {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   contributors: ProjectContributor[];
   bugs: Array<{ id: string }>;
-  createdBy: User;
+  createdBy: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -37,4 +41,5 @@ export interface ProjectPayload {
   title: string;
   description: string;
   contributors: string[];
+  createdBy: string;
 }

@@ -90,7 +90,9 @@ const SignIn: React.FC = () => {
             <strong>Demo Account Credentials</strong>
           </AlertTitle>
           {/* eslint-disable-next-line react/no-unescaped-entities */}
-          Username: "username" & Password: "password"
+          Email: "demo@example.com"
+          <br />
+          Password: "demo123"
         </Alert>
       </AuthFormContainer>
     </>

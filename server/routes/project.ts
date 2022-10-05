@@ -1,9 +1,9 @@
 import express from "express";
-import { getProjects } from "../controllers/project";
-import auth from "../middleware/auth";
+import { getProjects, createProject } from "../controllers/project";
 
 const router = express.Router();
 
-router.get("/", auth, getProjects);
+router.get("/", getProjects);
+router.post("/", createProject);
 
 export default router;

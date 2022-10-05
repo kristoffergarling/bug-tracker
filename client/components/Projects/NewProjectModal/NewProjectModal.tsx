@@ -4,6 +4,7 @@ import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
+import { createProject } from "../../../redux/slices/projectsSlice";
 
 import InputController from "./InputController";
 import SelectContributors from "./SelectContributors";
@@ -24,6 +25,7 @@ interface InputValues {
   title: string;
   description: string;
   contributors: string[];
+  createdBy: string;
 }
 
 interface NewProjectModalProps {
@@ -52,11 +54,15 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
       title: "",
       description: "",
       contributors: [],
+      createdBy: "",
     },
   });
 
   const submitHandler: SubmitHandler<InputValues> = (data: InputValues) => {
-    console.log(data);
+    data.createdBy = data.contributors[0];
+    dispatch(createProject(data));
+    handleModalClick();
+    methods.reset();
   };
 
   return (
@@ -69,7 +75,9 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
       <Box sx={style}>
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(submitHandler)}>
-            <Typography variant="h6">Create New Project</Typography>
+            <Typography variant="h6">
+              <strong>Create New Project</strong>
+            </Typography>
 
             <InputController label="title" />
             <InputController label="description" />

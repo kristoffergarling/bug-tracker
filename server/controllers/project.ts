@@ -7,7 +7,7 @@ export const getProjects = async (req: Request, res: Response) => {
   res.json(response);
 };
 
-export const addProject = async (req: Request, res: Response) => {
+export const createProject = async (req: Request, res: Response) => {
   const { title, description, contributors, createdBy } = req.body;
 
   const newProject = new Project({

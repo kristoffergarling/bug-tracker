@@ -2,6 +2,7 @@ import React from "react";
 import { signOut } from "../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 import storage from "../../utils/localStorage";
+import Link from "next/link";
 
 import {
   Avatar,
@@ -22,6 +23,7 @@ import { CenteredFlexBox } from "../../styles/customStyles";
 import PestControlIcon from "@mui/icons-material/PestControl";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import GroupIcon from "@mui/icons-material/Group";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 interface SidebarProps {
@@ -46,7 +48,12 @@ const Sidebar: React.FC<SidebarProps> = ({
           justifyContent: "center",
         }}
       >
-        <PestControlIcon color="primary" sx={{ fontSize: 50 }} />
+        <Link href="/">
+          <PestControlIcon
+            color="primary"
+            sx={{ fontSize: 60, cursor: "pointer" }}
+          />
+        </Link>
       </Toolbar>
 
       <Divider />
@@ -67,14 +74,22 @@ const Sidebar: React.FC<SidebarProps> = ({
       <Divider />
 
       <List>
-        {["Dashboard", "Projects", "Create Bug"].map((text, index) => (
+        {["Dashboard", "Projects", "Team"].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <DashboardIcon /> : <AssignmentIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
+            <Link href={text === "Dashboard" ? "/" : `/${text.toLowerCase()}`}>
+              <ListItemButton>
+                <ListItemIcon>
+                  {index === 0 ? (
+                    <DashboardIcon />
+                  ) : index === 1 ? (
+                    <AssignmentIcon />
+                  ) : (
+                    <GroupIcon />
+                  )}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </Link>
           </ListItem>
         ))}
       </List>
