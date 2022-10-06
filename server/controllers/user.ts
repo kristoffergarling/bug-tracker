@@ -6,7 +6,12 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
   const users = response.map((user) => {
     return {
-      user,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      _id: user._id,
+      isAdmin: user.isAdmin,
+      registerDate: user.registerDate,
     };
   });
 

@@ -104,7 +104,7 @@ const ProjectTable: React.FC = () => {
                 "&:last-child td, &:last-child th": { border: 0 },
               }}
             >
-              <Link href={`/projects/${project._id}`} target="_blank">
+              <Link href={`/projects/${project._id}`}>
                 <TableCell
                   component="th"
                   scope="row"
@@ -145,6 +145,7 @@ const ProjectTable: React.FC = () => {
                   anchorEl={anchorEl}
                   open={openActionMenu}
                   handleClose={handleClose}
+                  projectId={project._id}
                 />
               </TableCell>
             </TableRow>

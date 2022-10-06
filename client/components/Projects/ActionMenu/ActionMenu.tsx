@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Menu, MenuItem, ListItemIcon, ListItemText, Box } from "@mui/material";
+import Link from "next/link";
 import LaunchIcon from "@mui/icons-material/Launch";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -8,12 +9,14 @@ interface ActionMenuProps {
   anchorEl: null | HTMLElement;
   handleClose: () => void;
   open: boolean;
+  projectId: string;
 }
 
 const ActionMenu: React.FC<ActionMenuProps> = ({
   anchorEl,
   open,
   handleClose,
+  projectId,
 }) => {
   return (
     <Menu
@@ -33,12 +36,14 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
         horizontal: "left",
       }}
     >
-      <MenuItem onClick={handleClose}>
-        <ListItemIcon>
-          <LaunchIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText>View Project</ListItemText>
-      </MenuItem>
+      <Link href={`/projects/${projectId}`}>
+        <MenuItem onClick={handleClose}>
+          <ListItemIcon>
+            <LaunchIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>View Project</ListItemText>
+        </MenuItem>
+      </Link>
 
       <MenuItem onClick={handleClose}>
         <ListItemIcon>

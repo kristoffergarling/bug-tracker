@@ -13,6 +13,8 @@ export interface UserState {
   lastName: string;
   email: string;
   password: string;
+  isAdmin: boolean;
+  registerDate: Date;
 }
 
 export interface CredentialsPayload {

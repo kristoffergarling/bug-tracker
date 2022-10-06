@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers, selectUsersState } from "../../redux/slices/usersSlice";
+import storage from "../../utils/localStorage";
 import {
   TableContainer,
   Table,
@@ -11,6 +12,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import Dashboard from "../../components/Dashboard/Dashboard";
 
@@ -53,8 +55,6 @@ const Index: React.FC = () => {
               <TableCell align="left">
                 <strong>Role</strong>
               </TableCell>
-
-              {/* Add action menu for handling users (admin only) */}
             </TableRow>
 
             {users.map((user) => (
@@ -63,18 +63,18 @@ const Index: React.FC = () => {
                   "&:last-child td, &:last-child th": { border: 0 },
                 }}
               >
-                <TableCell align="left">{`${user.user.firstName} ${user.user.lastName}`}</TableCell>
+                <TableCell align="left">{`${user.firstName} ${user.lastName}`}</TableCell>
 
-                <TableCell align="left">{user.user.email}</TableCell>
+                <TableCell align="left">{user.email}</TableCell>
 
                 <TableCell align="left">{`${new Date(
-                  user.user.registerDate
+                  user.registerDate
                 ).toLocaleDateString("en-GB", {
                   timeZone: "UTC",
                 })} `}</TableCell>
 
                 <TableCell align="left">
-                  {user.user.isAdmin ? "Admin" : "Employee"}
+                  {user.isAdmin ? "Admin" : "Employee"}
                 </TableCell>
               </TableRow>
             ))}
