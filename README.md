@@ -2,6 +2,8 @@
 
 ## Features
 
+<img src="https://raw.githubusercontent.com/kristoffergarling/bug-tracker/main/images/Use%20Case%20diagram%20(Bug-Tracker).png" alt="UML diagram"></img>
+
 <ul>
  <li>Authentication - Login & Register with Name, Email and Password.</li>
  <li>CRUD projects</li>
