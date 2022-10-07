@@ -29,6 +29,7 @@ import ActionMenu from "./ActionMenu/ActionMenu";
 const ProjectTable: React.FC = () => {
   const dispatch = useDispatch();
   const { projects } = useSelector(selectProjectsState);
+  console.log(projects);
 
   const [openModal, setOpenModal] = useState(false);
   const handleModalClick = () => {
@@ -64,6 +65,7 @@ const ProjectTable: React.FC = () => {
                 handleModalClick={handleModalClick}
               />
               <Button
+                sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
                 variant="contained"
                 color="primary"
                 startIcon={<PostAddIcon />}
@@ -89,14 +91,17 @@ const ProjectTable: React.FC = () => {
               </Typography>
             </TableCell>
 
-            <TableCell align="left">
+            <TableCell
+              align="left"
+              sx={{ display: { xs: "none", sm: "table-cell" } }}
+            >
               <Typography variant="body2" sx={{ cursor: "pointer" }}>
                 <strong>Date Created</strong>
               </Typography>
             </TableCell>
 
             <TableCell
-              sx={{ display: { xs: "none", md: "block" } }}
+              sx={{ display: { xs: "none", md: "table-cell" } }}
               align="center"
             >
               <Typography variant="body2">
@@ -131,12 +136,15 @@ const ProjectTable: React.FC = () => {
 
               <TableCell align="left">{project.description}</TableCell>
 
-              <TableCell align="left">{`${new Date(
-                project.createdAt
-              ).toLocaleDateString("en-GB", { timeZone: "UTC" })} `}</TableCell>
+              <TableCell
+                align="left"
+                sx={{ display: { xs: "none", sm: "table-cell" } }}
+              >{`${new Date(project.createdAt).toLocaleDateString("en-GB", {
+                timeZone: "UTC",
+              })} `}</TableCell>
 
               <TableCell
-                sx={{ display: { xs: "none", md: "block" } }}
+                sx={{ display: { xs: "none", md: "table-cell" } }}
                 align="center"
               >
                 <IconButton

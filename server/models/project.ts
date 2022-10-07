@@ -1,14 +1,24 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
+import { IBug } from "./bug";
 
-const projectSchema = new mongoose.Schema({
+export interface IProject {
+  title: string;
+  description: string;
+  contributors: string[];
+  bugs: Types.ObjectId[];
+  createdBy: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const projectSchema: Schema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   contributors: [{ type: String, required: true }],
   bugs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Bug" }],
   createdBy: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-  id: { type: String },
+  createdAt: { type: Date, default: new Date() },
+  updatedAt: { type: Date, default: new Date() },
 });
 
 export default mongoose.model("Project", projectSchema);

@@ -80,6 +80,19 @@ export const createBug = (bugData: BugPayload, projectId: string): AppThunk => {
   };
 };
 
+export const fetchBugsByProjectId = (projectId: string): AppThunk => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(
+        `${process.env.BACKEND_URI}/projects/${projectId}`
+      );
+      dispatch(setBugs({ projectId, bugs: response.data.bugs }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 export const { setBugs, addBug, updateBug, setAddBugLoading, removeBug } =
   bugsSlice.actions;
 

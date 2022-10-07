@@ -30,7 +30,7 @@ const Index: React.FC = () => {
           <TableHead>
             <TableRow>
               <TableCell>
-                <Typography variant="subtitle1" component="h6">
+                <Typography variant="h5" component="h2">
                   <strong>Team</strong>
                 </Typography>
               </TableCell>
@@ -47,11 +47,17 @@ const Index: React.FC = () => {
                 <strong>Email</strong>
               </TableCell>
 
-              <TableCell align="left">
+              <TableCell
+                align="left"
+                sx={{ display: { xs: "none", md: "table-cell" } }}
+              >
                 <strong>Register Date</strong>
               </TableCell>
 
-              <TableCell align="left">
+              <TableCell
+                align="left"
+                sx={{ display: { xs: "none", sm: "table-cell" } }}
+              >
                 <strong>Role</strong>
               </TableCell>
             </TableRow>
@@ -67,13 +73,17 @@ const Index: React.FC = () => {
 
                 <TableCell align="left">{user.email}</TableCell>
 
-                <TableCell align="left">{`${new Date(
-                  user.registerDate
-                ).toLocaleDateString("en-GB", {
+                <TableCell
+                  align="left"
+                  sx={{ display: { xs: "none", md: "table-cell" } }}
+                >{`${new Date(user.registerDate).toLocaleDateString("en-GB", {
                   timeZone: "UTC",
                 })} `}</TableCell>
 
-                <TableCell align="left">
+                <TableCell
+                  align="left"
+                  sx={{ display: { xs: "none", sm: "table-cell" } }}
+                >
                   {user.isAdmin ? "Admin" : "Employee"}
                 </TableCell>
               </TableRow>

@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectProjectById,
   fetchProjects,
 } from "../../redux/slices/projectsSlice";
+import { fetchBugsByProjectId } from "../../redux/slices/bugsSlice";
+import { BugState } from "../../redux/types";
 import { RootState } from "../../redux/store";
 
 import Dashboard from "../../components/Dashboard/Dashboard";
@@ -19,9 +21,12 @@ const Project: React.FC = () => {
   const project = useSelector((state: RootState) =>
     selectProjectById(state, projectId)
   );
+  const [bugs, setBugs] = useState([] as any);
 
   useEffect(() => {
     dispatch(fetchProjects());
+
+    setBugs(dispatch(fetchBugsByProjectId(projectId)));
   }, []);
 
   return (

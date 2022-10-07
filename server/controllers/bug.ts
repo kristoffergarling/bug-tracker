@@ -17,6 +17,11 @@ export const createBug = async (req: Request, res: Response) => {
   try {
     await newBug.save();
 
+    const project = await Project.findById(projectId);
+    console.log(newBug);
+    project?.bugs.push(newBug);
+    await project?.save();
+
     res.json(newBug);
   } catch (error) {
     console.log(error);

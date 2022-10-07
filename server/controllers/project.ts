@@ -3,9 +3,6 @@ import Project from "../models/project";
 
 export const getProjects = async (req: Request, res: Response) => {
   const response = await Project.find();
-  response.map(project => {
-        
-)
 
   res.json(response);
 };
@@ -34,6 +31,17 @@ export const deleteProject = async (req: Request, res: Response) => {
   try {
     await Project.findByIdAndDelete(projectId);
     res.json({ message: "Project deleted successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getProjectBugs = async (req: Request, res: Response) => {
+  const { projectId } = req.params;
+
+  try {
+    const project = await Project.findById(projectId).populate("bugs");
+    res.json(project?.bugs);
   } catch (error) {
     console.log(error);
   }
