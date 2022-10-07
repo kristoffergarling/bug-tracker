@@ -10,7 +10,7 @@ import {
   Button,
   Box,
 } from "@mui/material";
-import ButtonGroup from "../../../components/Projects/ButtonGroup";
+import ButtonGroup from "./ButtonGroup";
 
 interface ProjectHeaderProps {
   title: string;

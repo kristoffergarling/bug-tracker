@@ -15,7 +15,7 @@ import ErrorPage from "../../components/ErrorPage";
 const Project: React.FC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { projectId } = router.query;
+  const { projectId } = router.query as { projectId: string };
   const project = useSelector((state: RootState) =>
     selectProjectById(state, projectId)
   );
@@ -37,7 +37,7 @@ const Project: React.FC = () => {
               { timeZone: "UTC" }
             )} `}
           />
-          <ProjectBugs />
+          <ProjectBugs bugs={project.bugs} />
         </>
       ) : (
         <ErrorPage />

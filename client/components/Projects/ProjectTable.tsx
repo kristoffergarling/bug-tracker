@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { deleteProject } from "../../redux/slices/projectsSlice";
+import { ProjectState } from "../../redux/types";
 import {
   selectProjectsState,
   fetchProjects,
@@ -28,13 +30,11 @@ const ProjectTable: React.FC = () => {
   const dispatch = useDispatch();
   const { projects } = useSelector(selectProjectsState);
 
-  //New Project Modal
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const handleModalClick = () => {
-    setOpen(!open);
+    setOpenModal(!openModal);
   };
 
-  //Action Menu
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openActionMenu = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -46,7 +46,7 @@ const ProjectTable: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchProjects());
-  }, [open]);
+  }, [openModal]);
 
   return (
     <TableContainer component={Paper}>
@@ -54,13 +54,13 @@ const ProjectTable: React.FC = () => {
         <TableHead>
           <TableRow>
             <TableCell>
-              <Typography variant="subtitle1" component="h6">
+              <Typography variant="h5" component="h2">
                 <strong>Projects</strong>
               </Typography>
             </TableCell>
             <TableCell align="right" colSpan={3}>
               <NewProjectModal
-                open={open}
+                open={openModal}
                 handleModalClick={handleModalClick}
               />
               <Button
@@ -78,22 +78,30 @@ const ProjectTable: React.FC = () => {
         <TableBody>
           <TableRow sx={{ backgroundColor: "#A5C9CA" }}>
             <TableCell>
-              <strong>Project</strong>
+              <Typography variant="body2" sx={{ cursor: "pointer" }}>
+                <strong>Project</strong>
+              </Typography>
             </TableCell>
 
             <TableCell align="left">
-              <strong>Description</strong>
+              <Typography variant="body2">
+                <strong>Description</strong>
+              </Typography>
             </TableCell>
 
             <TableCell align="left">
-              <strong>Contributors</strong>
+              <Typography variant="body2" sx={{ cursor: "pointer" }}>
+                <strong>Date Created</strong>
+              </Typography>
             </TableCell>
 
             <TableCell
               sx={{ display: { xs: "none", md: "block" } }}
               align="center"
             >
-              <strong>Actions</strong>
+              <Typography variant="body2">
+                <strong>Actions</strong>
+              </Typography>
             </TableCell>
           </TableRow>
 
@@ -123,11 +131,9 @@ const ProjectTable: React.FC = () => {
 
               <TableCell align="left">{project.description}</TableCell>
 
-              <TableCell align="left">
-                {project.contributors.map((contributor) => {
-                  return `${contributor}, `;
-                })}
-              </TableCell>
+              <TableCell align="left">{`${new Date(
+                project.createdAt
+              ).toLocaleDateString("en-GB", { timeZone: "UTC" })} `}</TableCell>
 
               <TableCell
                 sx={{ display: { xs: "none", md: "block" } }}

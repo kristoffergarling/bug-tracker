@@ -1,12 +1,13 @@
+import { User } from "../redux/types";
+
 const storageKeyUser = "bugTrackerUserKey";
 
-interface User {
+interface StorageUser {
   id: string;
-  username: string;
   token: string;
 }
 
-const saveUser = (user: User) => {
+const saveUser = (user: StorageUser) => {
   localStorage.setItem(storageKeyUser, JSON.stringify(user));
 };
 

@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import { Alert, AlertTitle } from "@mui/material";
 import { AuthFormContainer, NameInputBox } from "../styles/customStyles";
 
-import Navbar from "../components/Navbar/Navbar";
+import Navbar from "../components/Auth/Navbar/Navbar";
 import AuthHeader from "../components/Auth/AuthHeader";
 import NameInput from "../components/Auth/NameInput";
 import EmailInput from "../components/Auth/EmailInput";

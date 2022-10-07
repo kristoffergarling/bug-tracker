@@ -4,6 +4,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth";
 import projectRoutes from "./routes/project";
 import userRoutes from "./routes/user";
+import bugRoutes from "./routes/bug";
 
 const app: Express = express();
 
@@ -14,5 +15,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", authRoutes, projectRoutes);
 app.use("/users", userRoutes);
 app.use("/projects", projectRoutes);
+app.use("/projects", bugRoutes);
 
 export default app;

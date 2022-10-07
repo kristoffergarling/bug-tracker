@@ -1,6 +1,9 @@
 import * as React from "react";
 import { Menu, MenuItem, ListItemIcon, ListItemText, Box } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { deleteProject } from "../../../redux/slices/projectsSlice";
 import LaunchIcon from "@mui/icons-material/Launch";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -18,6 +21,14 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
   handleClose,
   projectId,
 }) => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const deleteProjectHandler = () => {
+    handleClose();
+    dispatch(deleteProject(projectId, router));
+  };
+
   return (
     <Menu
       id="basic-menu"
@@ -59,7 +70,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
         <ListItemText>Add Contributors</ListItemText>
       </MenuItem>
 
-      <MenuItem onClick={handleClose}>
+      <MenuItem onClick={deleteProjectHandler}>
         <ListItemIcon>
           <DeleteIcon fontSize="small" />
         </ListItemIcon>

@@ -14,7 +14,7 @@ import * as yup from "yup";
 import { Alert, AlertTitle } from "@mui/material";
 import { CenteredFlexBox, AuthFormContainer } from "../styles/customStyles";
 
-import Navbar from "../components/Navbar/Navbar";
+import Navbar from "../components/Auth/Navbar/Navbar";
 import AuthHeader from "../components/Auth/AuthHeader";
 import EmailInput from "../components/Auth/EmailInput";
 import PasswordInput from "../components/Auth/PasswordInput";

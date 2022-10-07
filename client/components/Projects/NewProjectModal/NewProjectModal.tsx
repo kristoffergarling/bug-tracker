@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { useDispatch } from "react-redux";
 import { createProject } from "../../../redux/slices/projectsSlice";
 
-import InputController from "./InputController";
+import InputController from "../../InputController";
 import SelectContributors from "./SelectContributors";
 
 const style = {

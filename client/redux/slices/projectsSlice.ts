@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../store";
 import { ProjectState, ProjectPayload, ProjectContributor } from "../types";
+import { NextRouter } from "next/router";
 import axios from "axios";
 
 interface InitialProjectsState {
@@ -57,6 +58,22 @@ export const fetchProjects = (): AppThunk => {
       dispatch(setAddProjectLoading());
       const { data } = await axios.get(`${process.env.BACKEND_URI}/projects`);
       dispatch(setProjects(data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const deleteProject = (
+  projectId: string,
+  router: NextRouter
+): AppThunk => {
+  return async (dispatch) => {
+    try {
+      dispatch(setAddProjectLoading());
+      await axios.delete(`${process.env.BACKEND_URI}/projects/${projectId}`);
+      dispatch(fetchProjects());
+      router.push("/projects");
     } catch (err) {
       console.log(err);
     }

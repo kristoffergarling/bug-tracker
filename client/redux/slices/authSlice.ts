@@ -4,7 +4,6 @@ import { RootState, AppThunk } from "../store";
 import storage from "../../utils/localStorage";
 
 import { UserState, CredentialsPayload } from "../types";
-import { useRouter } from "next/router";
 import { NextRouter } from "next/router";
 
 interface InitialAuthState {

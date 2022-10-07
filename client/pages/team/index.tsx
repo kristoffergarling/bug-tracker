@@ -12,7 +12,6 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 import Dashboard from "../../components/Dashboard/Dashboard";
 
@@ -59,6 +58,7 @@ const Index: React.FC = () => {
 
             {users.map((user) => (
               <TableRow
+                key={user._id}
                 sx={{
                   "&:last-child td, &:last-child th": { border: 0 },
                 }}

@@ -1,5 +1,5 @@
 export interface User {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -44,4 +44,38 @@ export interface ProjectPayload {
   description: string;
   contributors: string[];
   createdBy: string;
+}
+
+export type BugPriority = "low" | "medium" | "high";
+
+export type BugStatus = "closed" | "open";
+
+export interface BugPayload {
+  title: string;
+  description: string;
+  priority: BugPriority;
+  createdBy: User | null;
+}
+
+export interface BugState {
+  _id: string;
+  title: string;
+  description: string;
+  priority: BugPriority;
+  status: BugStatus;
+  createdBy: User;
+  createdAt: Date;
+  updatedAt: Date;
+  closedBy?: User;
+  closeAt?: Date;
+  comments: Comment[];
+}
+
+export interface Comment {
+  id: string;
+  bugId: string;
+  body: string;
+  author: User;
+  createdAt: Date;
+  updatedAt: Date;
 }

@@ -1,4 +1,7 @@
+import LoadingSkeleton from "./UI/LoadingSkeleton";
+
 const ErrorPage: React.FC = () => {
-  return <h1>ErrorPage</h1>;
+  return <LoadingSkeleton />;
 };
+
 export default ErrorPage;
