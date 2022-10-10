@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   TableContainer,
   Table,
@@ -21,7 +21,7 @@ interface ProjectBugsProps {
   bugs: BugState[];
 }
 
-const ProjectBugs: React.FC<ProjectBugsProps> = ({ bugs }) => {
+const ProjectBugsDesktop: React.FC<ProjectBugsProps> = ({ bugs }) => {
   const [openModal, setOpenModal] = useState(false);
   const handleModalClick = () => {
     setOpenModal(!openModal);
@@ -32,13 +32,13 @@ const ProjectBugs: React.FC<ProjectBugsProps> = ({ bugs }) => {
       <Table sx={{ minWidth: 250 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>
+            <TableCell colSpan={3}>
               <Typography variant="h5" component="h3">
                 <strong>Bugs</strong>
               </Typography>
             </TableCell>
 
-            <TableCell component="th" scope="row" align="right">
+            <TableCell colSpan={3} component="th" scope="row" align="right">
               <AddBugModal
                 open={openModal}
                 handleModalClick={handleModalClick}
@@ -136,4 +136,4 @@ const ProjectBugs: React.FC<ProjectBugsProps> = ({ bugs }) => {
     </TableContainer>
   );
 };
-export default ProjectBugs;
+export default ProjectBugsDesktop;

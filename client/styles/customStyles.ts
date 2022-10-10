@@ -1,5 +1,5 @@
 import { styled } from "@mui/system";
-import { Box, Container, TextField } from "@mui/material";
+import { Box, Container, TextField, Avatar } from "@mui/material";
 
 export const CenteredFlexBox = styled(Box)({
   display: "flex",
@@ -26,4 +26,9 @@ export const NameInputBox = styled(Box)({
   marginTop: "25px",
   display: "flex",
   justifyContent: "space-between",
+});
+
+export const ColouredAvatar = styled(Avatar)({
+  backgroundColor: "#395B64",
+  boxShadow: "rgba(0, 0, 0, 0.35) 0px 2.5px 7.5px",
 });

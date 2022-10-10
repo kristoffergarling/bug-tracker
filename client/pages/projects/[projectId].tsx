@@ -8,14 +8,17 @@ import {
 import { fetchBugsByProjectId } from "../../redux/slices/bugsSlice";
 import { BugState } from "../../redux/types";
 import { RootState } from "../../redux/store";
+import getBreakpoints from "../../utils/getBreakpoints";
 
 import Dashboard from "../../components/Dashboard/Dashboard";
 import ProjectHeader from "../../components/Projects/Project/ProjectHeader";
-import ProjectBugs from "../../components/Projects/Project/ProjectBugs";
+import ProjectBugsDesktop from "../../components/Projects/Project/ProjectBugsDesktop";
+import ProjectBugsMobile from "../../components/Projects/Project/ProjectBugsMobile";
 import ErrorPage from "../../components/ErrorPage";
 
 const Project: React.FC = () => {
   const dispatch = useDispatch();
+  const { md } = getBreakpoints();
   const router = useRouter();
   const { projectId } = router.query as { projectId: string };
   const project = useSelector((state: RootState) =>
@@ -42,7 +45,11 @@ const Project: React.FC = () => {
               { timeZone: "UTC" }
             )} `}
           />
-          <ProjectBugs bugs={project.bugs} />
+          {!md ? (
+            <ProjectBugsDesktop bugs={bugs} />
+          ) : (
+            <ProjectBugsMobile bugs={bugs} />
+          )}
         </>
       ) : (
         <ErrorPage />

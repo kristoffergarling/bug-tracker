@@ -2,7 +2,7 @@
 
 ## Features
 
-<img src="https://raw.githubusercontent.com/kristoffergarling/bug-tracker/main/images/Use%20Case%20diagram%20(Bug-Tracker).png" alt="UML diagram"></img>
+<img src="https://github.com/kristoffergarling/bug-tracker/blob/main/images/bug-tracker.usecases.png" alt="UML diagram"></img>
 
 <ul>
  <li>Authentication - Login & Register with Name, Email and Password.</li>
@@ -11,7 +11,7 @@
 </ul>
 
 <hr>
-
+cd 
 ## Built using
 
 ### Frontend

@@ -7,8 +7,6 @@ import {
   Paper,
   Typography,
   TableBody,
-  Button,
-  Box,
 } from "@mui/material";
 import ButtonGroup from "./ButtonGroup";
 
@@ -46,7 +44,7 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({
 
         <TableBody>
           <TableRow>
-            <TableCell component="th" scope="row">
+            <TableCell component="th" scope="row" colSpan={2}>
               <Typography variant="subtitle1" component="p">
                 <strong>Created by: </strong>
                 {createdBy}

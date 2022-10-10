@@ -7,6 +7,7 @@ import {
   fetchProjects,
 } from "../../redux/slices/projectsSlice";
 import Link from "next/link";
+import { formatDateTime } from "../../utils/helperFunctions";
 
 import {
   TableContainer,
@@ -26,16 +27,17 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import NewProjectModal from "./NewProjectModal/NewProjectModal";
 import ActionMenu from "./ActionMenu/ActionMenu";
 
-const ProjectTable: React.FC = () => {
-  const dispatch = useDispatch();
-  const { projects } = useSelector(selectProjectsState);
-  console.log(projects);
+interface ProjectsProps {
+  projects: ProjectState[];
+  handleModalClick: () => void;
+  openModal: boolean;
+}
 
-  const [openModal, setOpenModal] = useState(false);
-  const handleModalClick = () => {
-    setOpenModal(!openModal);
-  };
-
+const ProjectsTableDesktop: React.FC<ProjectsProps> = ({
+  projects,
+  handleModalClick,
+  openModal,
+}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openActionMenu = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -45,16 +47,12 @@ const ProjectTable: React.FC = () => {
     setAnchorEl(null);
   };
 
-  useEffect(() => {
-    dispatch(fetchProjects());
-  }, [openModal]);
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 250 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>
+            <TableCell colSpan={3}>
               <Typography variant="h5" component="h2">
                 <strong>Projects</strong>
               </Typography>
@@ -91,19 +89,25 @@ const ProjectTable: React.FC = () => {
               </Typography>
             </TableCell>
 
-            <TableCell
-              align="left"
-              sx={{ display: { xs: "none", sm: "table-cell" } }}
-            >
+            <TableCell align="left">
               <Typography variant="body2" sx={{ cursor: "pointer" }}>
-                <strong>Date Created</strong>
+                <strong>Created By</strong>
               </Typography>
             </TableCell>
 
-            <TableCell
-              sx={{ display: { xs: "none", md: "table-cell" } }}
-              align="center"
-            >
+            <TableCell align="center">
+              <Typography variant="body2" sx={{ cursor: "pointer" }}>
+                <strong>Last Updated</strong>
+              </Typography>
+            </TableCell>
+
+            <TableCell align="center">
+              <Typography variant="body2" sx={{ cursor: "pointer" }}>
+                <strong>Contributors</strong>
+              </Typography>
+            </TableCell>
+
+            <TableCell align="center">
               <Typography variant="body2">
                 <strong>Actions</strong>
               </Typography>
@@ -136,17 +140,17 @@ const ProjectTable: React.FC = () => {
 
               <TableCell align="left">{project.description}</TableCell>
 
-              <TableCell
-                align="left"
-                sx={{ display: { xs: "none", sm: "table-cell" } }}
-              >{`${new Date(project.createdAt).toLocaleDateString("en-GB", {
-                timeZone: "UTC",
-              })} `}</TableCell>
+              <TableCell align="left">{project.createdBy}</TableCell>
 
-              <TableCell
-                sx={{ display: { xs: "none", md: "table-cell" } }}
-                align="center"
-              >
+              <TableCell align="center">
+                {formatDateTime(project.updatedAt)}
+              </TableCell>
+
+              <TableCell align="center">
+                {project.contributors.length}
+              </TableCell>
+
+              <TableCell align="center">
                 <IconButton
                   aria-controls={openActionMenu ? "basic-menu" : undefined}
                   aria-haspopup="true"
@@ -169,4 +173,4 @@ const ProjectTable: React.FC = () => {
     </TableContainer>
   );
 };
-export default ProjectTable;
+export default ProjectsTableDesktop;
