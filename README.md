@@ -11,7 +11,7 @@
 </ul>
 
 <hr>
-cd 
+
 ## Built using
 
 ### Frontend
