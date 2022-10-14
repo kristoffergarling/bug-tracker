@@ -19,7 +19,7 @@ const Index: React.FC = () => {
   useEffect(() => {
     dispatch(fetchUsers());
     const { result } = storage.loadUser();
-    setUser(result);
+    setUser(result as User);
   }, []);
 
   return (

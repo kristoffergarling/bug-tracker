@@ -28,7 +28,7 @@ const ProjectBugsDesktop: React.FC<ProjectBugsProps> = ({ bugs }) => {
   };
 
   return (
-    <TableContainer component={Paper} sx={{ marginTop: 3 }}>
+    <TableContainer component={Paper} sx={{ marginTop: 2 }}>
       <Table sx={{ minWidth: 250 }} aria-label="simple table">
         <TableHead>
           <TableRow>

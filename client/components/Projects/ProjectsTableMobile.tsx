@@ -137,4 +137,5 @@ const ProjectsTableDesktop: React.FC<ProjectsProps> = ({
     </TableContainer>
   );
 };
+
 export default ProjectsTableDesktop;

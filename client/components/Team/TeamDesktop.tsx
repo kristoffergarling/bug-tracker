@@ -9,8 +9,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { ColouredAvatar } from "../../styles/customStyles";
-import DeleteIcon from "@mui/icons-material/Delete";
+import AdminDeleteIcon from "./AdminDeleteIcon";
 
 interface TeamProps {
   users: User[];
@@ -56,40 +55,38 @@ const TeamDesktop: React.FC<TeamProps> = ({ users, user }) => {
             )}
           </TableRow>
 
-          {users.map((user) => (
+          {users.map((u) => (
             <TableRow
-              key={user._id}
+              key={u._id}
               sx={{
                 "&:last-child td, &:last-child th": { border: 0 },
               }}
             >
-              <TableCell align="left">{`${user.firstName} ${user.lastName}`}</TableCell>
+              <TableCell align="left">{`${u.firstName} ${u.lastName}`}</TableCell>
 
-              <TableCell align="left">{user.email}</TableCell>
+              <TableCell align="left">{u.email}</TableCell>
 
               <TableCell align="left">{`${new Date(
-                user.registerDate
+                u.registerDate
               ).toLocaleDateString("en-GB", {
                 timeZone: "UTC",
               })} `}</TableCell>
 
               <TableCell align="left">
-                {user.isAdmin ? "Admin" : "Employee"}
+                {u.isAdmin ? "Admin" : "Employee"}
               </TableCell>
-              <TableCell
-                align="center"
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                {user.isAdmin ? (
-                  <ColouredAvatar sx={{ backgroundColor: "grey !important" }}>
-                    <DeleteIcon />
-                  </ColouredAvatar>
-                ) : (
-                  <ColouredAvatar>
-                    <DeleteIcon />
-                  </ColouredAvatar>
-                )}
-              </TableCell>
+
+              {user.isAdmin && (
+                <TableCell
+                  align="center"
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
+                  <AdminDeleteIcon
+                    signedInUserIsAdmin={user.isAdmin}
+                    userIsAdmin={u.isAdmin}
+                  />
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>

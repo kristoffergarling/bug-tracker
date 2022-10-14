@@ -1,18 +1,25 @@
 import { useState, useEffect } from "react";
 import {
   Box,
+  FormControl,
   OutlinedInput,
   InputLabel,
   MenuItem,
-  FormControl,
   Chip,
   Select,
+  Dialog,
+  DialogTitle,
+  Divider,
+  DialogActions,
+  Button,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { useFormContext, Controller } from "react-hook-form";
-import storage from "../../../utils/localStorage";
+
 import { useSelector, useDispatch } from "react-redux";
-import { selectUsersState, fetchUsers } from "../../../redux/slices/usersSlice";
+import {
+  selectUsersState,
+  fetchUsers,
+} from "../../../../redux/slices/usersSlice";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -25,57 +32,50 @@ const MenuProps = {
   },
 };
 
-const SelectContributors: React.FC = () => {
+interface AddContributorsDialogProps {
+  projectId: string;
+  open: boolean;
+  handleClose: () => void;
+}
+
+const AddContributorsDialog: React.FC<AddContributorsDialogProps> = ({
+  open,
+  handleClose,
+}) => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUsersState);
-
-  const user = storage.loadUser();
-  const createdBy = JSON.stringify({
-    _id: user.result._id,
-    fullName: `${user.result.firstName} ${user.result.lastName}`,
-    email: user.result.email,
-  });
-
-  const [contributors, setContributors] = useState<string[]>([createdBy]);
-  const { control, setValue } = useFormContext();
+  const [contributors, setContributors] = useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof contributors>) => {
     const {
       target: { value },
     } = event;
 
-    const lastIndex = value.length - 1;
-
-    //Creators can't remove themself from the contributors list
-    if (value[lastIndex].includes(user.result._id) && value.length > 1) {
-      return;
-    }
-
     // On autofill we get a stringified value.
     setContributors(typeof value === "string" ? value.split(",") : value);
   };
 
   useEffect(() => {
-    setValue("contributors", contributors);
     dispatch(fetchUsers());
   }, [contributors]);
 
   return (
-    <FormControl sx={{ width: "100%", marginTop: 3 }}>
-      <InputLabel id="contributors">Select Contributors</InputLabel>
-      <Controller
-        name="contributors"
-        control={control}
-        render={({ ...otherOptions }) => (
+    <Dialog open={open}>
+      <DialogTitle>
+        <strong>Add Contributors</strong>
+      </DialogTitle>
+      <Divider />
+
+      <div>
+        <FormControl sx={{ m: 1, mt: 2, width: 300 }}>
+          <InputLabel id="add-contributors">Select Contributors</InputLabel>
           <Select
-            labelId="contributors"
-            id="selectcontributors"
+            labelId="add-contributors"
+            id="addcontributors"
             multiple
             label="Select Contributors"
             value={contributors}
             onChange={handleChange}
-            MenuProps={MenuProps}
-            {...otherOptions}
             input={
               <OutlinedInput
                 id="select-multiple-chip"
@@ -93,6 +93,7 @@ const SelectContributors: React.FC = () => {
                 ))}
               </Box>
             )}
+            MenuProps={MenuProps}
           >
             {userData.users.map((user) => (
               <MenuItem
@@ -107,10 +108,24 @@ const SelectContributors: React.FC = () => {
               </MenuItem>
             ))}
           </Select>
-        )}
-      />
-    </FormControl>
+        </FormControl>
+      </div>
+
+      <DialogActions>
+        <Button variant="outlined" autoFocus onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            handleClose();
+          }}
+        >
+          Add
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
-export default SelectContributors;
+export default AddContributorsDialog;

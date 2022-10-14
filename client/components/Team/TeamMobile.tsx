@@ -9,8 +9,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { ColouredAvatar } from "../../styles/customStyles";
-import DeleteIcon from "@mui/icons-material/Delete";
+import AdminDeleteIcon from "./AdminDeleteIcon";
 
 interface TeamProps {
   users: User[];
@@ -32,58 +31,37 @@ const TeamMobile: React.FC<TeamProps> = ({ users, user }) => {
         </TableHead>
 
         <TableBody>
-          {users.map((user) => (
-            <TableRow key={user._id}>
+          {users.map((u) => (
+            <TableRow key={u._id}>
               <TableCell colSpan={2} align="left">
                 <Typography variant="h6" sx={{ display: "flex" }}>
-                  <strong>{`${user.firstName} ${user.lastName}`}</strong>
-                  {user.isAdmin ? (
-                    <ColouredAvatar
-                      sx={{
-                        backgroundColor: "grey !important",
-                        ml: 2,
-                        width: 30,
-                        height: 30,
-                      }}
-                    >
-                      <DeleteIcon />
-                    </ColouredAvatar>
-                  ) : (
-                    <ColouredAvatar
-                      sx={{
-                        ml: 2,
-                        width: 30,
-                        height: 30,
-                      }}
-                    >
-                      <DeleteIcon />
-                    </ColouredAvatar>
-                  )}
+                  <strong>{`${u.firstName} ${u.lastName}`}</strong>
+                  <AdminDeleteIcon
+                    signedInUserIsAdmin={user.isAdmin}
+                    userIsAdmin={u.isAdmin}
+                  />
                 </Typography>
 
                 <Typography variant="subtitle1" sx={{ display: "flex" }}>
                   <strong>Registered At: </strong>{" "}
                   <Typography sx={{ marginLeft: 1 }} variant="subtitle1">
-                    {`${new Date(user.registerDate).toLocaleDateString(
-                      "en-GB",
-                      {
-                        timeZone: "UTC",
-                      }
-                    )} `}
+                    {`${new Date(u.registerDate).toLocaleDateString("en-GB", {
+                      timeZone: "UTC",
+                    })} `}
                   </Typography>
                 </Typography>
 
                 <Typography variant="subtitle1" sx={{ display: "flex" }}>
                   <strong>Email: </strong>{" "}
                   <Typography sx={{ marginLeft: 1 }} variant="subtitle1">
-                    {user.email}
+                    {u.email}
                   </Typography>
                 </Typography>
 
                 <Typography variant="subtitle1" sx={{ display: "flex" }}>
                   <strong>Role: </strong>{" "}
                   <Typography sx={{ marginLeft: 1 }} variant="subtitle1">
-                    {user.isAdmin ? "Admin" : "User"}
+                    {u.isAdmin ? "Admin" : "User"}
                   </Typography>
                 </Typography>
               </TableCell>

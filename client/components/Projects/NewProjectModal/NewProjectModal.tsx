@@ -59,7 +59,7 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
   });
 
   const submitHandler: SubmitHandler<InputValues> = (data: InputValues) => {
-    data.createdBy = data.contributors[0];
+    data.createdBy = JSON.parse(data.contributors[0]).fullName;
     dispatch(createProject(data));
     handleModalClick();
     methods.reset();

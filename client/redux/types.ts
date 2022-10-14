@@ -22,17 +22,11 @@ export interface CredentialsPayload {
   password: string;
 }
 
-export interface ProjectContributor {
-  id: string;
-  joinDate: Date;
-  user: User;
-}
-
 export interface ProjectState {
   _id: string;
   title: string;
   description: string;
-  contributors: ProjectContributor[];
+  contributors: string[];
   bugs: Array<{ id: string }>;
   createdBy: string;
   createdAt: Date;

@@ -37,8 +37,10 @@ const Project: React.FC = () => {
       {project ? (
         <>
           <ProjectHeader
+            projectId={projectId}
             title={project.title}
             description={project.description}
+            contributors={project.contributors}
             createdBy={project.createdBy}
             createdAt={`${new Date(project.createdAt).toLocaleDateString(
               "en-GB",
