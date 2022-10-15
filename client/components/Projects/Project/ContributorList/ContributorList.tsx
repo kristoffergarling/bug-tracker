@@ -55,7 +55,7 @@ const ContributorList: React.FC<ContributorListProps> = ({
   };
 
   return (
-    <Grid item xs={12} md={6}>
+    <Grid item xs={12} md={6} sx={{ padding: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h6" component="div">
           <strong>Contributors:</strong>
@@ -75,7 +75,7 @@ const ContributorList: React.FC<ContributorListProps> = ({
         <List>
           {contributors.map((contributor) => (
             <ListItem
-              key={JSON.parse(contributor)._id}
+              key={contributor}
               secondaryAction={
                 <ColouredAvatar
                   onClick={handleClickConfirmDialog}

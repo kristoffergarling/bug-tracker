@@ -15,6 +15,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", authRoutes, projectRoutes);
 app.use("/users", userRoutes);
 app.use("/projects", projectRoutes);
-app.use("/projects", bugRoutes);
+app.use("/projects/:projectId/bugs", bugRoutes);
 
 export default app;

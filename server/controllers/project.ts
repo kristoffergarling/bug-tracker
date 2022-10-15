@@ -61,14 +61,3 @@ export const deleteProjectContributor = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
-
-export const getProjectBugs = async (req: Request, res: Response) => {
-  const { projectId } = req.params;
-
-  try {
-    const project = await Project.findById(projectId).populate("bugs");
-    res.json(project?.bugs);
-  } catch (error) {
-    console.log(error);
-  }
-};

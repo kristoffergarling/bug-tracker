@@ -65,7 +65,7 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({
         </Table>
       </TableContainer>
 
-      <TableContainer
+      <Box
         sx={{
           ml: { xs: "auto", md: 2 },
           mt: { xs: 2, md: "auto" },
@@ -74,15 +74,8 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({
         }}
         component={Paper}
       >
-        <Table sx={{ minWidth: 250 }} aria-label="simple table">
-          <TableCell>
-            <ContributorList
-              projectId={projectId}
-              contributors={contributors}
-            />
-          </TableCell>
-        </Table>
-      </TableContainer>
+        <ContributorList projectId={projectId} contributors={contributors} />
+      </Box>
     </Box>
   );
 };

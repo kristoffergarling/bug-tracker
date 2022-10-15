@@ -1,40 +1,53 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { NextPage, NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectProjectById,
   fetchProjects,
 } from "../../redux/slices/projectsSlice";
-import { fetchBugsByProjectId } from "../../redux/slices/bugsSlice";
-import { BugState } from "../../redux/types";
+import { ProjectState } from "../../redux/types";
+import {
+  fetchBugsByProjectId,
+  selectBugsByProjectId,
+} from "../../redux/slices/bugsSlice";
 import { RootState } from "../../redux/store";
 import getBreakpoints from "../../utils/getBreakpoints";
+import { formatDateTime } from "../../utils/helperFunctions";
 
 import Dashboard from "../../components/Dashboard/Dashboard";
 import ProjectHeader from "../../components/Projects/Project/ProjectHeader";
 import ProjectBugsDesktop from "../../components/Projects/Project/ProjectBugsDesktop";
 import ProjectBugsMobile from "../../components/Projects/Project/ProjectBugsMobile";
-import ErrorPage from "../../components/ErrorPage";
+import LoadingSkeleton from "../../components/UI/LoadingSkeleton";
 
-const Project: React.FC = () => {
-  const dispatch = useDispatch();
+interface ProjectProps {
+  projectId: string;
+}
+
+const Project: NextPage<ProjectProps> = ({ projectId }) => {
   const { md } = getBreakpoints();
-  const router = useRouter();
-  const { projectId } = router.query as { projectId: string };
+  const dispatch = useDispatch();
+
   const project = useSelector((state: RootState) =>
     selectProjectById(state, projectId)
   );
-  const [bugs, setBugs] = useState([] as any);
+
+  const bugs = useSelector((state: RootState) =>
+    selectBugsByProjectId(state, projectId)
+  );
 
   useEffect(() => {
     dispatch(fetchProjects());
-
-    setBugs(dispatch(fetchBugsByProjectId(projectId)));
+    dispatch(fetchBugsByProjectId(projectId));
   }, []);
 
+  console.log(bugs);
   return (
     <Dashboard title="Project">
-      {project ? (
+      {!project ? (
+        <LoadingSkeleton />
+      ) : (
         <>
           <ProjectHeader
             projectId={projectId}
@@ -42,10 +55,7 @@ const Project: React.FC = () => {
             description={project.description}
             contributors={project.contributors}
             createdBy={project.createdBy}
-            createdAt={`${new Date(project.createdAt).toLocaleDateString(
-              "en-GB",
-              { timeZone: "UTC" }
-            )} `}
+            createdAt={formatDateTime(project.createdAt)}
           />
           {!md ? (
             <ProjectBugsDesktop bugs={bugs} />
@@ -53,11 +63,15 @@ const Project: React.FC = () => {
             <ProjectBugsMobile bugs={bugs} />
           )}
         </>
-      ) : (
-        <ErrorPage />
       )}
     </Dashboard>
   );
+};
+
+Project.getInitialProps = async (ctx: NextPageContext) => {
+  const { query } = ctx;
+  const { projectId } = query as { projectId: string };
+  return { projectId };
 };
 
 export default Project;

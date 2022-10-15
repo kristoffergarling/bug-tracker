@@ -70,7 +70,7 @@ export const createBug = (bugData: BugPayload, projectId: string): AppThunk => {
     try {
       dispatch(setAddBugLoading());
       const response = await axios.post(
-        `${process.env.BACKEND_URI}/projects/${projectId}/bugs`,
+        `${process.env.BACKEND_URI}/projects/${projectId}/bugs/${projectId}`,
         bugData
       );
       dispatch(addBug(response.data));
@@ -84,9 +84,9 @@ export const fetchBugsByProjectId = (projectId: string): AppThunk => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `${process.env.BACKEND_URI}/projects/${projectId}`
+        `${process.env.BACKEND_URI}/projects/${projectId}/bugs/${projectId}`
       );
-      dispatch(setBugs({ projectId, bugs: response.data.bugs }));
+      dispatch(setBugs({ projectId, bugs: response.data }));
     } catch (err) {
       console.log(err);
     }
@@ -95,5 +95,9 @@ export const fetchBugsByProjectId = (projectId: string): AppThunk => {
 
 export const { setBugs, addBug, updateBug, setAddBugLoading, removeBug } =
   bugsSlice.actions;
+
+export const selectBugsByProjectId = (state: RootState, projectId: string) => {
+  return state.bugs.bugs?.[projectId];
+};
 
 export default bugsSlice.reducer;

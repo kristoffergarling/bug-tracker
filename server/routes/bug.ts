@@ -1,8 +1,9 @@
 import express from "express";
-import { createBug } from "../controllers/bug";
+import { createBug, getBugsByProjectId } from "../controllers/bug";
 
 const router = express.Router();
 
-router.post("/:projectId/bugs", createBug);
+router.get("/:projectId", getBugsByProjectId);
+router.post("/:projectId", createBug);
 
 export default router;

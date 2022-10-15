@@ -12,9 +12,9 @@ import {
   Chip,
   Badge,
 } from "@mui/material";
+import { BugState } from "../../../redux/types";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CommentIcon from "@mui/icons-material/Comment";
-import { BugState } from "../../../redux/types";
 import AddBugModal from "./AddBugModal/AddBugModal";
 
 interface ProjectBugsProps {
@@ -94,43 +94,48 @@ const ProjectBugsDesktop: React.FC<ProjectBugsProps> = ({ bugs }) => {
             </TableCell>
           </TableRow>
 
-          <TableRow>
-            <TableCell align="center">
-              <Typography variant="body2">Title</Typography>
-            </TableCell>
+          {bugs.map((bug) => (
+            <TableRow key={bug._id}>
+              <TableCell align="center">
+                <Typography variant="body2">{bug.title}</Typography>
+              </TableCell>
 
-            <TableCell align="center">
-              <Typography component={"span"} variant="body2">
-                <Chip label="Low" color="success" />
-              </Typography>
-            </TableCell>
+              <TableCell align="center">
+                <Typography component={"span"} variant="body2">
+                  <Chip
+                    label={bug.priority}
+                    color={bug.priority === "low" ? "success" : "warning"}
+                  />
+                </Typography>
+              </TableCell>
 
-            <TableCell align="center">
-              <Typography component={"span"} variant="body2">
-                <Chip label="Closed" color="success" />
-              </Typography>
-            </TableCell>
+              <TableCell align="center">
+                <Typography component={"span"} variant="body2">
+                  <Chip label="Closed" color="success" />
+                </Typography>
+              </TableCell>
 
-            <TableCell align="center">
-              <Typography variant="body2">
-                <strong>Created At</strong>
-              </Typography>
-            </TableCell>
+              <TableCell align="center">
+                <Typography variant="body2">
+                  <strong>Created At</strong>
+                </Typography>
+              </TableCell>
 
-            <TableCell align="center">
-              <Typography variant="body2">
-                <strong>Updated At</strong>
-              </Typography>
-            </TableCell>
+              <TableCell align="center">
+                <Typography variant="body2">
+                  <strong>Updated At</strong>
+                </Typography>
+              </TableCell>
 
-            <TableCell align="center">
-              <Typography variant="body2">
-                <Badge badgeContent={0} color="primary">
-                  <CommentIcon color="primary" />
-                </Badge>
-              </Typography>
-            </TableCell>
-          </TableRow>
+              <TableCell align="center">
+                <Typography variant="body2">
+                  <Badge badgeContent={0} color="primary">
+                    <CommentIcon color="primary" />
+                  </Badge>
+                </Typography>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
