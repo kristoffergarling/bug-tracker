@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { NextPage, NextPageContext } from "next";
-import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectProjectById,
@@ -42,7 +41,6 @@ const Project: NextPage<ProjectProps> = ({ projectId }) => {
     dispatch(fetchBugsByProjectId(projectId));
   }, []);
 
-  console.log(bugs);
   return (
     <Dashboard title="Project">
       {!project ? (

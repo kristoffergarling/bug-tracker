@@ -39,6 +39,7 @@ interface AddContributorsDialogProps {
 }
 
 const AddContributorsDialog: React.FC<AddContributorsDialogProps> = ({
+  projectId,
   open,
   handleClose,
 }) => {
@@ -60,7 +61,7 @@ const AddContributorsDialog: React.FC<AddContributorsDialogProps> = ({
   }, [contributors]);
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>
         <strong>Add Contributors</strong>
       </DialogTitle>

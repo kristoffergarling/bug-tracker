@@ -60,6 +60,7 @@ export interface BugState {
   createdBy: User;
   createdAt: Date;
   updatedAt: Date;
+  isOpen: boolean;
   closedBy?: User;
   closeAt?: Date;
   comments: Comment[];

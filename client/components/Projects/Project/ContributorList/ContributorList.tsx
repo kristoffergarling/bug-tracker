@@ -13,8 +13,12 @@ import {
   Divider,
   DialogActions,
   Button,
+  TableContainer,
+  Paper,
+  Table,
+  TableCell,
 } from "@mui/material";
-import AddContributorsDialog from "./AddContributorsDialog";
+import AddContributorsModal from "./AddContributorsDialog";
 import { useDispatch } from "react-redux";
 import {
   addProjectContributor,
@@ -35,10 +39,9 @@ const ContributorList: React.FC<ContributorListProps> = ({
 }) => {
   const dispatch = useDispatch();
 
-  const [openAddContributorDialog, setOpenAddContributorDialog] =
-    useState(false);
+  const [openAddContributorModal, setOpenAddContributorModal] = useState(false);
   const handleClickAddContributorDialog = () => {
-    setOpenAddContributorDialog(!openAddContributorDialog);
+    setOpenAddContributorModal(!openAddContributorModal);
   };
 
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
@@ -55,7 +58,7 @@ const ContributorList: React.FC<ContributorListProps> = ({
   };
 
   return (
-    <Grid item xs={12} md={6} sx={{ padding: 2 }}>
+    <Grid>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h6" component="div">
           <strong>Contributors:</strong>
@@ -65,24 +68,26 @@ const ContributorList: React.FC<ContributorListProps> = ({
           sx={{ cursor: "pointer" }}
         >
           <GroupAddIcon />
-          <AddContributorsDialog
-            open={openAddContributorDialog}
-            handleClose={handleClickAddContributorDialog}
-          />
         </ColouredAvatar>
+        <AddContributorsModal
+          projectId={projectId}
+          open={openAddContributorModal}
+          handleClose={handleClickAddContributorDialog}
+        />
       </Box>
       <Box>
         <List>
           {contributors.map((contributor) => (
             <ListItem
+              sx={{ pr: 0, pl: 0 }}
               key={contributor}
               secondaryAction={
                 <ColouredAvatar
                   onClick={handleClickConfirmDialog}
                   sx={
                     contributors[0] === contributor
-                      ? { backgroundColor: "grey !important" }
-                      : { cursor: "pointer" }
+                      ? { backgroundColor: "grey !important", right: "-16px" }
+                      : { cursor: "pointer", right: "-16px" }
                   }
                 >
                   {contributors[0] === contributor ? (

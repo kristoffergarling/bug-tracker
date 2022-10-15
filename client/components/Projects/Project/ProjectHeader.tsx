@@ -30,7 +30,7 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({
 }) => {
   return (
     <Box sx={{ display: { xs: "auto", md: "flex" } }}>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
         <Table sx={{ minWidth: 250 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -69,12 +69,26 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({
         sx={{
           ml: { xs: "auto", md: 2 },
           mt: { xs: 2, md: "auto" },
-          maxWidth: { xs: "auto", md: 400 },
+          width: "100%",
+          maxWidth: { xs: "auto", md: 400, xl: "30%" },
           maxHeight: 300,
         }}
         component={Paper}
       >
-        <ContributorList projectId={projectId} contributors={contributors} />
+        <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
+          <Table sx={{ minWidth: 300 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <ContributorList
+                    projectId={projectId}
+                    contributors={contributors}
+                  />
+                </TableCell>
+              </TableRow>
+            </TableHead>
+          </Table>
+        </TableContainer>
       </Box>
     </Box>
   );
