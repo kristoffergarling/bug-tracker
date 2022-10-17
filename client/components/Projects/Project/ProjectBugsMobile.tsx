@@ -1,4 +1,4 @@
-import { useState } from "react";
+import Link from "next/link";
 import {
   TableContainer,
   Table,
@@ -28,11 +28,16 @@ import getBreakpoints from "../../../utils/getBreakpoints";
 
 interface ProjectBugsProps {
   bugs: BugState[];
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ProjectBugsMobile: React.FC<ProjectBugsProps> = ({ bugs }) => {
+const ProjectBugsMobile: React.FC<ProjectBugsProps> = ({
+  bugs,
+  openModal,
+  setOpenModal,
+}) => {
   const { xs, sm, md } = getBreakpoints();
-  const [openModal, setOpenModal] = useState(false);
   const handleModalClick = () => {
     setOpenModal(!openModal);
   };
@@ -71,7 +76,7 @@ const ProjectBugsMobile: React.FC<ProjectBugsProps> = ({ bugs }) => {
         </TableHead>
 
         <TableBody>
-          {!bugs ? (
+          {!bugs || bugs[bugs.length - 1] === undefined ? (
             <TableRow>
               <TableCell colSpan={2}>
                 <LoadingSkeleton />
@@ -80,11 +85,16 @@ const ProjectBugsMobile: React.FC<ProjectBugsProps> = ({ bugs }) => {
           ) : (
             <>
               {bugs.map((bug) => (
-                <TableRow>
+                <TableRow key={bug._id}>
                   <TableCell colSpan={2} align="left">
-                    <Typography variant="h6" sx={{ display: "flex" }}>
-                      <strong>{firstLetterToUpperCase(bug.title)}</strong>
-                    </Typography>
+                    <Link href={`/projects/${bug.projectId}/bugs/${bug._id}`}>
+                      <Typography
+                        variant="h6"
+                        sx={{ display: "flex", cursor: "pointer" }}
+                      >
+                        <strong>{firstLetterToUpperCase(bug.title)}</strong>
+                      </Typography>
+                    </Link>
 
                     <Typography
                       variant="subtitle1"

@@ -21,3 +21,7 @@ export const renderPrioColor = (prio: string) => {
       return "info";
   }
 };
+
+export const shortenString = (s: string, length: number) => {
+  return s.length > length ? s.substring(0, length) + "..." : s;
+};

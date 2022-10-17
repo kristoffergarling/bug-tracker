@@ -14,12 +14,18 @@ import {
   Button,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
+import {
+  selectProjectById,
+  addProjectContributor,
+} from "../../../../redux/slices/projectsSlice";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectUsersState,
   fetchUsers,
 } from "../../../../redux/slices/usersSlice";
+import { User } from "../../../../redux/types";
+import { RootState } from "../../../../redux/store";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -45,7 +51,25 @@ const AddContributorsDialog: React.FC<AddContributorsDialogProps> = ({
 }) => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUsersState);
-  const [contributors, setContributors] = useState<string[]>([]);
+  const existingContributors = useSelector(
+    (state: RootState) => selectProjectById(state, projectId)?.contributors
+  );
+
+  const [potentialContributors, setPotentialContributors] = useState<User[]>(
+    []
+  );
+
+  const getPotentialContributors = () => {
+    return userData.users.filter((user) => {
+      return !existingContributors?.some((contributor) => {
+        return contributor.includes(user._id);
+      });
+    });
+  };
+
+  const [contributors, setContributors] = useState<string[] | undefined>(
+    existingContributors
+  );
 
   const handleChange = (event: SelectChangeEvent<typeof contributors>) => {
     const {
@@ -56,8 +80,15 @@ const AddContributorsDialog: React.FC<AddContributorsDialogProps> = ({
     setContributors(typeof value === "string" ? value.split(",") : value);
   };
 
+  const addProjectContributors = () => {
+    if (contributors) {
+      dispatch(addProjectContributor(projectId, contributors));
+    }
+  };
+
   useEffect(() => {
     dispatch(fetchUsers());
+    setPotentialContributors(getPotentialContributors());
   }, [contributors]);
 
   return (
@@ -88,7 +119,7 @@ const AddContributorsDialog: React.FC<AddContributorsDialogProps> = ({
                 {selected.map((value) => (
                   <Chip
                     sx={{ backgroundColor: "#E7F6F2" }}
-                    key={value}
+                    key={JSON.parse(value)._id}
                     label={JSON.parse(value).fullName}
                   />
                 ))}
@@ -96,7 +127,7 @@ const AddContributorsDialog: React.FC<AddContributorsDialogProps> = ({
             )}
             MenuProps={MenuProps}
           >
-            {userData.users.map((user) => (
+            {potentialContributors.map((user) => (
               <MenuItem
                 key={user._id}
                 value={JSON.stringify({
@@ -119,6 +150,7 @@ const AddContributorsDialog: React.FC<AddContributorsDialogProps> = ({
         <Button
           variant="contained"
           onClick={() => {
+            addProjectContributors();
             handleClose();
           }}
         >

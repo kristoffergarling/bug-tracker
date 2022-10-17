@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   TableContainer,
   Table,
@@ -13,6 +12,7 @@ import {
   Badge,
 } from "@mui/material";
 import { BugState } from "../../../redux/types";
+import Link from "next/link";
 import {
   formatDateTime,
   firstLetterToUpperCase,
@@ -26,10 +26,15 @@ import AddBugModal from "./AddBugModal/AddBugModal";
 
 interface ProjectBugsProps {
   bugs: BugState[];
+  openModal: boolean;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ProjectBugsDesktop: React.FC<ProjectBugsProps> = ({ bugs }) => {
-  const [openModal, setOpenModal] = useState(false);
+const ProjectBugsDesktop: React.FC<ProjectBugsProps> = ({
+  bugs,
+  openModal,
+  setOpenModal,
+}) => {
   const handleModalClick = () => {
     setOpenModal(!openModal);
   };
@@ -101,7 +106,7 @@ const ProjectBugsDesktop: React.FC<ProjectBugsProps> = ({ bugs }) => {
             </TableCell>
           </TableRow>
 
-          {!bugs ? (
+          {!bugs || bugs[bugs.length - 1] === undefined ? (
             <TableRow>
               <TableCell colSpan={6}>
                 <LoadingSkeleton />
@@ -111,11 +116,23 @@ const ProjectBugsDesktop: React.FC<ProjectBugsProps> = ({ bugs }) => {
             <>
               {bugs.map((bug) => (
                 <TableRow key={bug._id}>
-                  <TableCell align="center">
-                    <Typography variant="body2">
-                      {firstLetterToUpperCase(bug.title)}
-                    </Typography>
-                  </TableCell>
+                  <Link href={`/projects/${bug.projectId}/bugs/${bug._id}`}>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        color: "#395B64",
+                        cursor: "pointer",
+                        "&:hover": {
+                          backgroundColor: "#E7F6F2",
+                          textDecoration: "underline",
+                        },
+                      }}
+                    >
+                      <Typography variant="body2">
+                        {firstLetterToUpperCase(bug.title)}
+                      </Typography>
+                    </TableCell>
+                  </Link>
 
                   <TableCell align="center">
                     <Typography component={"span"} variant="body2">

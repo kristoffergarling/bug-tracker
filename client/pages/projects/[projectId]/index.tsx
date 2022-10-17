@@ -4,21 +4,21 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectProjectById,
   fetchProjects,
-} from "../../redux/slices/projectsSlice";
-import { ProjectState } from "../../redux/types";
+} from "../../../redux/slices/projectsSlice";
+import { ProjectState } from "../../../redux/types";
 import {
   fetchBugsByProjectId,
   selectBugsByProjectId,
-} from "../../redux/slices/bugsSlice";
-import { RootState } from "../../redux/store";
-import getBreakpoints from "../../utils/getBreakpoints";
-import { formatDateTime } from "../../utils/helperFunctions";
+} from "../../../redux/slices/bugsSlice";
+import { RootState } from "../../../redux/store";
+import getBreakpoints from "../../../utils/getBreakpoints";
+import { formatDateTime } from "../../../utils/helperFunctions";
 
-import Dashboard from "../../components/Dashboard/Dashboard";
-import ProjectHeader from "../../components/Projects/Project/ProjectHeader";
-import ProjectBugsDesktop from "../../components/Projects/Project/ProjectBugsDesktop";
-import ProjectBugsMobile from "../../components/Projects/Project/ProjectBugsMobile";
-import LoadingSkeleton from "../../components/UI/LoadingSkeleton";
+import Dashboard from "../../../components/Dashboard/Dashboard";
+import ProjectHeader from "../../../components/Projects/Project/ProjectHeader";
+import ProjectBugsDesktop from "../../../components/Projects/Project/ProjectBugsDesktop";
+import ProjectBugsMobile from "../../../components/Projects/Project/ProjectBugsMobile";
+import LoadingSkeleton from "../../../components/UI/LoadingSkeleton";
 
 interface ProjectProps {
   projectId: string;
@@ -27,6 +27,7 @@ interface ProjectProps {
 const Project: NextPage<ProjectProps> = ({ projectId }) => {
   const { md } = getBreakpoints();
   const dispatch = useDispatch();
+  const [openAddBugModal, setOpenAddBugModal] = useState(false);
 
   const project = useSelector((state: RootState) =>
     selectProjectById(state, projectId)
@@ -39,7 +40,7 @@ const Project: NextPage<ProjectProps> = ({ projectId }) => {
   useEffect(() => {
     dispatch(fetchProjects());
     dispatch(fetchBugsByProjectId(projectId));
-  }, []);
+  }, [openAddBugModal]);
 
   return (
     <Dashboard title="Project">
@@ -56,9 +57,17 @@ const Project: NextPage<ProjectProps> = ({ projectId }) => {
             createdAt={formatDateTime(project.createdAt)}
           />
           {!md ? (
-            <ProjectBugsDesktop bugs={bugs} />
+            <ProjectBugsDesktop
+              bugs={bugs}
+              openModal={openAddBugModal}
+              setOpenModal={setOpenAddBugModal}
+            />
           ) : (
-            <ProjectBugsMobile bugs={bugs} />
+            <ProjectBugsMobile
+              bugs={bugs}
+              openModal={openAddBugModal}
+              setOpenModal={setOpenAddBugModal}
+            />
           )}
         </>
       )}

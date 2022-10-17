@@ -50,6 +50,8 @@ const ContributorList: React.FC<ContributorListProps> = ({
   };
 
   const handleDeleteContributor = (contributor: string) => {
+    console.log(contributor);
+
     // Can't delete creator of the project
     if (contributor === contributors[0]) {
       return;
@@ -80,7 +82,7 @@ const ContributorList: React.FC<ContributorListProps> = ({
           {contributors.map((contributor) => (
             <ListItem
               sx={{ pr: 0, pl: 0 }}
-              key={contributor}
+              key={JSON.parse(contributor)._id}
               secondaryAction={
                 <ColouredAvatar
                   onClick={handleClickConfirmDialog}

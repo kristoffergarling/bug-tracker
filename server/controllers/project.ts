@@ -37,13 +37,14 @@ export const deleteProject = async (req: Request, res: Response) => {
 };
 
 export const addProjectContributor = async (req: Request, res: Response) => {
-  const { projectId, contributor } = req.params;
+  const { projectId } = req.params;
+  const contributors = req.body;
 
   try {
     await Project.findByIdAndUpdate(projectId, {
-      $addToSet: { contributors: contributor },
+      $set: { contributors: contributors },
     });
-    res.json({ message: "Contributor added successfully" });
+    res.json({ message: "Contributor(s) added successfully" });
   } catch (error) {
     console.log(error);
   }

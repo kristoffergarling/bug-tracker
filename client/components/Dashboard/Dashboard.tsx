@@ -4,7 +4,7 @@ import useAuthCheck from "../../hooks/useAuthCheck";
 import { Box, Toolbar } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 
-import LoadingSkeleton from "../../components/UI/LoadingSkeleton";
+import LoadingScreen from "../../components/LoadingScreen";
 import Header from "../../components/Dashboard/Header";
 import Sidebar from "../../components/Dashboard/Sidebar";
 
@@ -20,7 +20,7 @@ const Dashboard: React.FC<DashboardProps> = ({ title, children }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   if (!user) {
-    return <LoadingSkeleton />;
+    return <LoadingScreen />;
   }
 
   const handleDrawerToggle = () => {

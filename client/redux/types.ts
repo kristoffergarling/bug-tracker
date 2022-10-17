@@ -53,6 +53,7 @@ export interface BugPayload {
 
 export interface BugState {
   _id: string;
+  projectId: string;
   title: string;
   description: string;
   priority: BugPriority;
