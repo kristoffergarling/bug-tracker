@@ -40,6 +40,11 @@ export interface ProjectPayload {
   createdBy: string;
 }
 
+export interface EditProjectPayload {
+  title: string;
+  description: string;
+}
+
 export type BugPriority = "low" | "medium" | "high";
 
 export type BugStatus = "closed" | "open";

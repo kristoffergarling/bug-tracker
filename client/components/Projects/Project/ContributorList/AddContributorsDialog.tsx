@@ -4,7 +4,6 @@ import {
   FormControl,
   OutlinedInput,
   InputLabel,
-  MenuItem,
   Chip,
   Select,
   Dialog,
@@ -12,8 +11,14 @@ import {
   Divider,
   DialogActions,
   Button,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
+import { ColouredAvatar } from "../../../../styles/customStyles";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import {
   selectProjectById,
   addProjectContributor,
@@ -40,17 +45,20 @@ const MenuProps = {
 
 interface AddContributorsDialogProps {
   projectId: string;
-  open: boolean;
-  handleClose: () => void;
+  isProjectPage?: boolean;
 }
 
 const AddContributorsDialog: React.FC<AddContributorsDialogProps> = ({
   projectId,
-  open,
-  handleClose,
+  isProjectPage,
 }) => {
   const dispatch = useDispatch();
   const userData = useSelector(selectUsersState);
+  const [open, setOpen] = useState(false);
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
   const existingContributors = useSelector(
     (state: RootState) => selectProjectById(state, projectId)?.contributors
   );
@@ -92,72 +100,87 @@ const AddContributorsDialog: React.FC<AddContributorsDialogProps> = ({
   }, [contributors]);
 
   return (
-    <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>
-        <strong>Add Contributors</strong>
-      </DialogTitle>
-      <Divider />
+    <>
+      {isProjectPage ? (
+        <Box sx={{ display: "flex" }} onClick={handleClick}>
+          <ListItemIcon>
+            <PersonAddIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Add Contributors</ListItemText>
+        </Box>
+      ) : (
+        <ColouredAvatar onClick={handleClick} sx={{ cursor: "pointer" }}>
+          <GroupAddIcon />
+        </ColouredAvatar>
+      )}
 
-      <div>
-        <FormControl sx={{ m: 1, mt: 2, width: 300 }}>
-          <InputLabel id="add-contributors">Select Contributors</InputLabel>
-          <Select
-            labelId="add-contributors"
-            id="addcontributors"
-            multiple
-            label="Select Contributors"
-            value={contributors}
-            onChange={handleChange}
-            input={
-              <OutlinedInput
-                id="select-multiple-chip"
-                label="Select Contributors"
-              />
-            }
-            renderValue={(selected) => (
-              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                {selected.map((value) => (
-                  <Chip
-                    sx={{ backgroundColor: "#E7F6F2" }}
-                    key={JSON.parse(value)._id}
-                    label={JSON.parse(value).fullName}
-                  />
-                ))}
-              </Box>
-            )}
-            MenuProps={MenuProps}
+      <Dialog open={open} onClose={handleClick}>
+        <DialogTitle>
+          <strong>Add Contributors</strong>
+        </DialogTitle>
+        <Divider />
+
+        <div>
+          <FormControl sx={{ m: 1, mt: 2, width: 300 }}>
+            <InputLabel id="add-contributors">Select Contributors</InputLabel>
+            <Select
+              labelId="add-contributors"
+              id="addcontributors"
+              multiple
+              label="Select Contributors"
+              value={contributors}
+              onChange={handleChange}
+              input={
+                <OutlinedInput
+                  id="select-multiple-chip"
+                  label="Select Contributors"
+                />
+              }
+              renderValue={(selected) => (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip
+                      sx={{ backgroundColor: "#E7F6F2" }}
+                      key={JSON.parse(value)._id}
+                      label={JSON.parse(value).fullName}
+                    />
+                  ))}
+                </Box>
+              )}
+              MenuProps={MenuProps}
+            >
+              {potentialContributors.map((user) => (
+                <MenuItem
+                  key={user._id}
+                  value={JSON.stringify({
+                    id: user._id,
+                    fullName: `${user.firstName} ${user.lastName}`,
+                    email: user.email,
+                  })}
+                >
+                  {`${user.firstName} ${user.lastName}`}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+
+        <DialogActions>
+          <Button variant="outlined" autoFocus onClick={handleClick}>
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              addProjectContributors();
+              handleClick();
+            }}
           >
-            {potentialContributors.map((user) => (
-              <MenuItem
-                key={user._id}
-                value={JSON.stringify({
-                  id: user._id,
-                  fullName: `${user.firstName} ${user.lastName}`,
-                  email: user.email,
-                })}
-              >
-                {`${user.firstName} ${user.lastName}`}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
-
-      <DialogActions>
-        <Button variant="outlined" autoFocus onClick={handleClose}>
-          Cancel
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => {
-            addProjectContributors();
-            handleClose();
-          }}
-        >
-          Add
-        </Button>
-      </DialogActions>
-    </Dialog>
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 

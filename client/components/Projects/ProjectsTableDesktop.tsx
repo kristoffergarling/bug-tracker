@@ -13,11 +13,9 @@ import {
   Paper,
   Button,
   Typography,
-  IconButton,
   Box,
 } from "@mui/material";
 import PostAddIcon from "@mui/icons-material/PostAdd";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import NewProjectModal from "./NewProjectModal/NewProjectModal";
 import ActionMenu from "./ActionMenu/ActionMenu";
@@ -149,18 +147,8 @@ const ProjectsTableDesktop: React.FC<ProjectsProps> = ({
                 </TableCell>
 
                 <TableCell align="center">
-                  <IconButton
-                    aria-controls={openActionMenu ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={openActionMenu ? "true" : undefined}
-                    onClick={handleClick}
-                  >
-                    <MoreVertIcon sx={{ cursor: "pointer" }} color="primary" />
-                  </IconButton>
                   <ActionMenu
-                    anchorEl={anchorEl}
-                    open={openActionMenu}
-                    handleClose={handleClose}
+                    projectTitle={project.title}
                     projectId={project._id}
                   />
                 </TableCell>

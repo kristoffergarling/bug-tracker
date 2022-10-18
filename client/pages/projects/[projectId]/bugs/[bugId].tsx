@@ -1,4 +1,7 @@
 import { NextPage, NextPageContext } from "next";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../../redux/store";
+import { selectBugByBugId } from "../../../../redux/slices/bugsSlice";
 
 import {
   TableContainer,
@@ -19,7 +22,10 @@ interface BugProps {
 }
 
 const Bug: NextPage<BugProps> = ({ bugId }) => {
-  console.log(bugId);
+  const bug = useSelector((state: RootState) =>
+    selectBugByBugId(state, "6347f183a3fcebe94bb95bee", bugId)
+  );
+  console.log(bug);
   return (
     <Dashboard title="Bugs">
       <Box sx={{ display: { xs: "auto", md: "flex" } }}>
