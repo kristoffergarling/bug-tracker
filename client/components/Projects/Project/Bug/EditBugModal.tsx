@@ -1,13 +1,23 @@
-import { useState } from "react";
-import { Button, Modal, Box, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import {
+  Button,
+  Modal,
+  Box,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import InputController from "../../../InputController";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
-import { EditBugPayload, BugState } from "../../../../redux/types";
-import { editProject } from "../../../../redux/slices/projectsSlice";
+import { EditBugPayload, BugState, BugPriority } from "../../../../redux/types";
+import { editBug } from "../../../../redux/slices/bugsSlice";
 
 const style = {
   position: "absolute" as "absolute",
@@ -28,10 +38,14 @@ interface EditBugModalProps {
 const validationSchema = yup.object().shape({
   title: yup
     .string()
-    .required("Project Title is required")
+    .required("Bug Title is required")
     .min(3, "Must be at least 3 characters")
     .max(30, "Must be at most 30 characters"),
-  description: yup.string().required("Project Description is required"),
+  description: yup
+    .string()
+    .required("Bug Description is required")
+    .min(6, "Specify the bug in detail")
+    .max(200, "Must be at most 200 characters"),
 });
 
 const EditBugModal: React.FC<EditBugModalProps> = ({ bug }) => {
@@ -40,8 +54,10 @@ const EditBugModal: React.FC<EditBugModalProps> = ({ bug }) => {
   const handleClick = () => {
     setOpen(!open);
   };
-  const handleOpen = () => {
-    setOpen(true);
+
+  const [priority, setpriority] = useState<BugPriority>(bug.priority);
+  const handleChange = (event: SelectChangeEvent) => {
+    setpriority(event.target.value as BugPriority);
   };
 
   const methods = useForm<EditBugPayload>({
@@ -57,11 +73,14 @@ const EditBugModal: React.FC<EditBugModalProps> = ({ bug }) => {
   const submitHandler: SubmitHandler<EditBugPayload> = (
     data: EditBugPayload
   ) => {
-    console.log(data);
-    // dispatch(editBug(bug._id, data.title, data.description, data.priority));
+    dispatch(editBug(data, bug.projectId, bug?._id));
     handleClick();
     methods.reset();
   };
+
+  useEffect(() => {
+    methods.setValue("priority", priority);
+  }, [priority]);
 
   return (
     <>
@@ -85,6 +104,21 @@ const EditBugModal: React.FC<EditBugModalProps> = ({ bug }) => {
 
               <InputController label="title" />
               <InputController label="description" />
+
+              <FormControl fullWidth sx={{ marginTop: 3 }}>
+                <InputLabel id="select-priority-label">Priority</InputLabel>
+                <Select
+                  labelId="select-priority-label"
+                  id="select-priority"
+                  value={priority}
+                  label="Priority"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={"low"}>Low</MenuItem>
+                  <MenuItem value={"medium"}>Medium</MenuItem>
+                  <MenuItem value={"high"}>High</MenuItem>
+                </Select>
+              </FormControl>
 
               <Button sx={{ marginTop: 3 }} variant="contained" type="submit">
                 Submit

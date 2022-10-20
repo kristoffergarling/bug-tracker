@@ -25,11 +25,15 @@ import {
   TableBody,
   Box,
   Chip,
+  Button,
 } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
 import getBreakpoints from "../../../../utils/getBreakpoints";
 import Dashboard from "../../../../components/Dashboard/Dashboard";
 import LoadingScreen from "../../../../components/LoadingScreen";
-import EditIcon from "@mui/icons-material/Edit";
+import EditBugModal from "../../../../components/Projects/Project/Bug/EditBugModal";
 
 interface BugProps {
   bugId: string;
@@ -50,7 +54,7 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
 
   useEffect(() => {
     dispatch(fetchBugsByProjectId(projectId));
-  }, []);
+  }, [bug]);
 
   return (
     <Dashboard title="Bugs">
@@ -65,9 +69,7 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
                   <TableCell>
                     <Typography variant="h4" component="h2">
                       <strong>{bug.title}</strong>
-                      {user?.isAdmin && (
-                        <EditIcon color="primary" sx={{ cursor: "pointer" }} />
-                      )}
+                      {user?.isAdmin && <EditBugModal bug={bug} />}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -119,6 +121,23 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
                     </Typography>
                   </TableCell>
                 </TableRow>
+                {user.isAdmin && (
+                  <TableRow>
+                    <TableCell component="th" scope="row" colSpan={2}>
+                      <Button
+                        startIcon={<CloseIcon />}
+                        sx={{ mr: 1 }}
+                        variant="contained"
+                        color="secondary"
+                      >
+                        Close Bug
+                      </Button>
+                      <Button startIcon={<DeleteIcon />} variant="contained">
+                        Delete Bug
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>

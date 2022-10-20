@@ -38,3 +38,18 @@ export const getBugsByProjectId = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
+
+export const editBug = async (req: Request, res: Response) => {
+  const { bugId } = req.params;
+  const { title, description, priority } = req.body;
+
+  try {
+    const bug = await Bug.findById(bugId);
+    bug?.set({ title, description, priority, updatedAt: Date.now() });
+    await bug?.save();
+
+    res.json(bug);
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../store";
-import { BugState, BugPayload } from "../types";
+import { BugState, BugPayload, EditBugPayload } from "../types";
 import axios from "axios";
 
 interface InitialBugsState {
@@ -80,6 +80,26 @@ export const createBug = (bugData: BugPayload, projectId: string): AppThunk => {
   };
 };
 
+export const editBug = (
+  bugData: EditBugPayload,
+  projectId: string,
+  bugId: string
+): AppThunk => {
+  return async (dispatch) => {
+    try {
+      dispatch(setAddBugLoading());
+      const response = await axios.post(
+        `${process.env.BACKEND_URI}/projects/${projectId}/bugs/edit/${bugId}`,
+        bugData
+      );
+      dispatch(updateBug(response.data));
+      dispatch(fetchBugsByProjectId(projectId));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 export const fetchBugsByProjectId = (projectId: string): AppThunk => {
   return async (dispatch) => {
     try {
@@ -87,6 +107,19 @@ export const fetchBugsByProjectId = (projectId: string): AppThunk => {
         `${process.env.BACKEND_URI}/projects/${projectId}/bugs/${projectId}`
       );
       dispatch(setBugs({ projectId, bugs: response.data }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const deleteBug = (bugId: string): AppThunk => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.delete(
+        `${process.env.BACKEND_URI}/projects/bugs/delete/${bugId}`
+      );
+      dispatch(removeBug(response.data));
     } catch (err) {
       console.log(err);
     }
