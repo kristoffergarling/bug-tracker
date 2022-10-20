@@ -109,6 +109,12 @@ const Sidebar: React.FC<SidebarProps> = ({
           LOG OUT
         </Button>
       </CenteredFlexBox>
+
+      <CenteredFlexBox sx={{ alignSelf: "end" }}>
+        <Typography variant="caption" sx={{ marginTop: 2 }}>
+          © 2022 Kristoffer Gärling
+        </Typography>
+      </CenteredFlexBox>
     </div>
   );
 

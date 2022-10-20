@@ -100,13 +100,12 @@ export const selectBugsByProjectId = (state: RootState, projectId: string) => {
   return state.bugs.bugs?.[projectId];
 };
 
-export const selectBugByBugId = (
+export const selectBugByProjectId = (
   state: RootState,
   projectId: string,
   bugId: string
 ) => {
-  console.log(state.bugs.bugs);
-  return state.bugs.bugs?.find((bug) => bug._id === bugId);
+  return state.bugs.bugs?.[projectId]?.find((bug) => bug._id === bugId);
 };
 
 export default bugsSlice.reducer;

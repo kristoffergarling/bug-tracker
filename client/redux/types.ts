@@ -49,11 +49,17 @@ export type BugPriority = "low" | "medium" | "high";
 
 export type BugStatus = "closed" | "open";
 
+export interface EditBugPayload {
+  title: string;
+  description: string;
+  priority: BugPriority;
+}
+
 export interface BugPayload {
   title: string;
   description: string;
   priority: BugPriority;
-  createdBy: User | null;
+  createdBy: string | null;
 }
 
 export interface BugState {

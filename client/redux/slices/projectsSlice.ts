@@ -80,6 +80,25 @@ export const deleteProject = (
   };
 };
 
+export const editProject = (
+  projectId: string,
+  title?: string,
+  description?: string
+): AppThunk => {
+  return async (dispatch) => {
+    try {
+      dispatch(setAddProjectLoading());
+      await axios.post(`${process.env.BACKEND_URI}/projects/${projectId}`, {
+        title,
+        description,
+      });
+      dispatch(fetchProjects());
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
 export const addProjectContributor = (
   projectId: string,
   contributors: string[]

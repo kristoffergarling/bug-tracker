@@ -11,10 +11,12 @@ import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useRouter } from "next/router";
+import useAuthCheck from "../hooks/useAuthCheck";
 
 import { Alert, AlertTitle } from "@mui/material";
 import { AuthFormContainer, NameInputBox } from "../styles/customStyles";
 
+import LoadingScreen from "../components/LoadingScreen";
 import Navbar from "../components/Auth/Navbar/Navbar";
 import AuthHeader from "../components/Auth/AuthHeader";
 import NameInput from "../components/Auth/NameInput";
@@ -48,6 +50,7 @@ const validationSchema = yup.object().shape({
 });
 
 const SignUp: React.FC = () => {
+  const user = useAuthCheck();
   const dispatch = useDispatch();
   const router = useRouter();
   const { loading, error } = useSelector(selectAuthState);
@@ -63,6 +66,11 @@ const SignUp: React.FC = () => {
     }
     dispatch(signUp(data, router));
   };
+
+  if (user) {
+    router.push("/");
+    return <LoadingScreen />;
+  }
 
   return (
     <>

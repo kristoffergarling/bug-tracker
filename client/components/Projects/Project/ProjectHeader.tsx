@@ -10,24 +10,17 @@ import {
   Box,
 } from "@mui/material";
 import ContributorList from "./ContributorList/ContributorList";
+import { formatDateTime } from "../../../utils/helperFunctions";
+import { ProjectState } from "../../../redux/types";
+import EditTitleDialog from "../ActionMenu/EditTitleDialog";
+import storage from "../../../utils/localStorage";
 
 interface ProjectHeaderProps {
-  projectId: string;
-  title: string;
-  description: string;
-  contributors: string[];
-  createdBy: string;
-  createdAt: string;
+  project: ProjectState;
 }
 
-const ProjectHeader: React.FC<ProjectHeaderProps> = ({
-  projectId,
-  title,
-  description,
-  contributors,
-  createdBy,
-  createdAt,
-}) => {
+const ProjectHeader: React.FC<ProjectHeaderProps> = ({ project }) => {
+  const user = storage.loadUser().result;
   return (
     <Box sx={{ display: { xs: "auto", md: "flex" } }}>
       <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
@@ -36,13 +29,17 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({
             <TableRow>
               <TableCell>
                 <Typography variant="h4" component="h2">
-                  <strong>{title}</strong>
+                  <strong>{project.title}</strong>
+                  {user.isAdmin && (
+                    <EditTitleDialog isMenuItem={false} project={project} />
+                  )}
                 </Typography>
               </TableCell>
+
               <TableCell align="right">
                 <Typography variant="subtitle1" component="p">
                   <strong>Created At: </strong>
-                  {createdAt}
+                  {formatDateTime(project.createdAt)}
                 </Typography>
               </TableCell>
             </TableRow>
@@ -53,11 +50,11 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({
               <TableCell component="th" scope="row" colSpan={2}>
                 <Typography variant="subtitle1" component="p">
                   <strong>Created by: </strong>
-                  {createdBy}
+                  {project.createdBy}
                 </Typography>
                 <Typography variant="subtitle1" component="p">
                   <strong>Description: </strong>
-                  {description}
+                  {project.description}
                 </Typography>
               </TableCell>
             </TableRow>
@@ -81,8 +78,8 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({
               <TableRow>
                 <TableCell>
                   <ContributorList
-                    projectId={projectId}
-                    contributors={contributors}
+                    projectId={project._id}
+                    contributors={project.contributors}
                   />
                 </TableCell>
               </TableRow>

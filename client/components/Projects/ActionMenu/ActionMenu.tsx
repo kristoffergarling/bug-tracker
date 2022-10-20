@@ -16,18 +16,18 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { deleteProject } from "../../../redux/slices/projectsSlice";
+import { ProjectState } from "../../../redux/types";
 import AddContributorsDialog from "../Project/ContributorList/AddContributorsDialog";
 import LaunchIcon from "@mui/icons-material/Launch";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 interface ActionMenuProps {
-  projectId: string;
-  projectTitle: string;
+  userIsAdmin: boolean | undefined;
+  project: ProjectState;
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ projectId, projectTitle }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ userIsAdmin, project }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -47,7 +47,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ projectId, projectTitle }) => {
 
   const deleteProjectHandler = () => {
     handleClose();
-    dispatch(deleteProject(projectId, router));
+    dispatch(deleteProject(project._id, router));
   };
 
   return (
@@ -77,7 +77,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ projectId, projectTitle }) => {
           horizontal: "left",
         }}
       >
-        <Link href={`/projects/${projectId}`}>
+        <Link href={`/projects/${project._id}`}>
           <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <LaunchIcon fontSize="small" />
@@ -86,46 +86,50 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ projectId, projectTitle }) => {
           </MenuItem>
         </Link>
 
-        <EditTitleDialog
-          handleActionMenuClose={handleClose}
-          projectId={projectId}
-          projectTitle={projectTitle}
-        />
+        {userIsAdmin && (
+          <EditTitleDialog
+            isMenuItem={true}
+            handleActionMenuClose={handleClose}
+            project={project}
+          />
+        )}
 
         <MenuItem>
-          <AddContributorsDialog isProjectPage={true} projectId={projectId} />
+          <AddContributorsDialog isProjectPage={true} projectId={project._id} />
         </MenuItem>
 
-        <MenuItem onClick={handleClickConfirmDialog}>
-          <ListItemIcon>
-            <DeleteIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Delete Project</ListItemText>
-          <Dialog open={openConfirmDialog} onClose={handleClickConfirmDialog}>
-            <DialogTitle>
-              <strong>Delete "{projectTitle}" as Project</strong>
-            </DialogTitle>
-            <Divider />
-            <DialogActions>
-              <Button
-                variant="outlined"
-                autoFocus
-                onClick={handleClickConfirmDialog}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  deleteProjectHandler();
-                  handleClickConfirmDialog();
-                }}
-              >
-                Delete
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </MenuItem>
+        {userIsAdmin && (
+          <MenuItem onClick={handleClickConfirmDialog}>
+            <ListItemIcon>
+              <DeleteIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Delete Project</ListItemText>
+            <Dialog open={openConfirmDialog} onClose={handleClickConfirmDialog}>
+              <DialogTitle>
+                <strong>Delete "{project.title}" as Project</strong>
+              </DialogTitle>
+              <Divider />
+              <DialogActions>
+                <Button
+                  variant="outlined"
+                  autoFocus
+                  onClick={handleClickConfirmDialog}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    deleteProjectHandler();
+                    handleClickConfirmDialog();
+                  }}
+                >
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </MenuItem>
+        )}
       </Menu>
     </>
   );

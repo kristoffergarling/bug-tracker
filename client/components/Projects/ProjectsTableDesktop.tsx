@@ -16,6 +16,8 @@ import {
   Box,
 } from "@mui/material";
 import PostAddIcon from "@mui/icons-material/PostAdd";
+import { useSelector } from "react-redux";
+import { selectAuthState } from "../../redux/slices/authSlice";
 
 import NewProjectModal from "./NewProjectModal/NewProjectModal";
 import ActionMenu from "./ActionMenu/ActionMenu";
@@ -31,14 +33,7 @@ const ProjectsTableDesktop: React.FC<ProjectsProps> = ({
   handleModalClick,
   openModal,
 }) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const openActionMenu = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const user = useSelector(selectAuthState).user;
 
   return (
     <Box>
@@ -147,10 +142,7 @@ const ProjectsTableDesktop: React.FC<ProjectsProps> = ({
                 </TableCell>
 
                 <TableCell align="center">
-                  <ActionMenu
-                    projectTitle={project.title}
-                    projectId={project._id}
-                  />
+                  <ActionMenu userIsAdmin={user?.isAdmin} project={project} />
                 </TableCell>
               </TableRow>
             ))}

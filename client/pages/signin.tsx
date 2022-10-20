@@ -10,10 +10,12 @@ import { useRouter } from "next/router";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import useAuthCheck from "../hooks/useAuthCheck";
 
 import { Alert, AlertTitle } from "@mui/material";
 import { CenteredFlexBox, AuthFormContainer } from "../styles/customStyles";
 
+import LoadingScreen from "../components/LoadingScreen";
 import Navbar from "../components/Auth/Navbar/Navbar";
 import AuthHeader from "../components/Auth/AuthHeader";
 import EmailInput from "../components/Auth/EmailInput";
@@ -32,6 +34,7 @@ const validationSchema = yup.object({
 });
 
 const SignIn: React.FC = () => {
+  const user = useAuthCheck();
   const router = useRouter();
   const dispatch = useDispatch();
   const { loading, error } = useSelector(selectAuthState);
@@ -48,6 +51,11 @@ const SignIn: React.FC = () => {
     email = email.toLowerCase();
     dispatch(signIn({ email, password }, router));
   };
+
+  if (user) {
+    router.push("/");
+    return <LoadingScreen />;
+  }
 
   return (
     <>
@@ -98,4 +106,5 @@ const SignIn: React.FC = () => {
     </>
   );
 };
+
 export default SignIn;

@@ -40,7 +40,7 @@ interface NewProjectModalProps {
 
 const getUser = () => {
   const { result } = storage.loadUser();
-  return result as User;
+  return `${result.firstName} ${result.lastName}` as string;
 };
 
 const validationSchema = yup.object().shape({
@@ -76,12 +76,11 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
       title: "",
       description: "",
       priority: "low",
-      createdBy: null,
+      createdBy: getUser(),
     },
   });
 
   const submitHandler: SubmitHandler<BugPayload> = (data: BugPayload) => {
-    data.createdBy = getUser();
     dispatch(createBug(data, projectId));
     handleModalClick();
     methods.reset();

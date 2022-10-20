@@ -5,14 +5,12 @@ import {
   selectProjectById,
   fetchProjects,
 } from "../../../redux/slices/projectsSlice";
-import { ProjectState } from "../../../redux/types";
 import {
   fetchBugsByProjectId,
   selectBugsByProjectId,
 } from "../../../redux/slices/bugsSlice";
 import { RootState } from "../../../redux/store";
 import getBreakpoints from "../../../utils/getBreakpoints";
-import { formatDateTime } from "../../../utils/helperFunctions";
 
 import Dashboard from "../../../components/Dashboard/Dashboard";
 import ProjectHeader from "../../../components/Projects/Project/ProjectHeader";
@@ -48,14 +46,7 @@ const Project: NextPage<ProjectProps> = ({ projectId }) => {
         <LoadingSkeleton />
       ) : (
         <>
-          <ProjectHeader
-            projectId={projectId}
-            title={project.title}
-            description={project.description}
-            contributors={project.contributors}
-            createdBy={project.createdBy}
-            createdAt={formatDateTime(project.createdAt)}
-          />
+          <ProjectHeader project={project} />
           {!md ? (
             <ProjectBugsDesktop
               bugs={bugs}

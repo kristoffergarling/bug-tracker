@@ -36,13 +36,28 @@ export const deleteProject = async (req: Request, res: Response) => {
   }
 };
 
+export const editProject = async (req: Request, res: Response) => {
+  const { projectId } = req.params;
+  const { title, description } = req.body;
+  console.log(title, description);
+
+  try {
+    await Project.findByIdAndUpdate(projectId, {
+      $set: { title: title, description: description, updatedAt: Date.now() },
+    });
+    res.json({ message: "Project updated successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const addProjectContributor = async (req: Request, res: Response) => {
   const { projectId } = req.params;
   const contributors = req.body;
 
   try {
     await Project.findByIdAndUpdate(projectId, {
-      $set: { contributors: contributors },
+      $set: { contributors: contributors, updatedAt: Date.now() },
     });
     res.json({ message: "Contributor(s) added successfully" });
   } catch (error) {

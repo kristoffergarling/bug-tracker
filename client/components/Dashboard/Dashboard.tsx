@@ -1,5 +1,7 @@
 import React from "react";
 import useAuthCheck from "../../hooks/useAuthCheck";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/slices/authSlice";
 
 import { Box, Toolbar } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,12 +18,15 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ title, children }) => {
+  const dispatch = useDispatch();
   const user = useAuthCheck();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   if (!user) {
     return <LoadingScreen />;
   }
+
+  dispatch(setUser(user));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

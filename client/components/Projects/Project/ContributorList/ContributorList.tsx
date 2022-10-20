@@ -1,6 +1,8 @@
 import { Grid, Box, Typography, List } from "@mui/material";
 import AddContributorsDialog from "./AddContributorsDialog";
 import DeleteContributor from "./DeleteContributor";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuthState } from "../../../../redux/slices/authSlice";
 
 interface ContributorListProps {
   projectId: string;
@@ -11,6 +13,7 @@ const ContributorList: React.FC<ContributorListProps> = ({
   projectId,
   contributors,
 }) => {
+  const user = useSelector(selectAuthState).user;
   return (
     <Grid>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -23,6 +26,7 @@ const ContributorList: React.FC<ContributorListProps> = ({
         <List>
           {contributors.map((contributor) => (
             <DeleteContributor
+              userIsAdmin={user?.isAdmin}
               projectId={projectId}
               contributors={contributors}
               contributor={contributor}
