@@ -74,7 +74,7 @@ const dummyData = [
 
 const Index: React.FC = () => {
   return (
-    <Dashboard title="Dashboard">
+    <Dashboard prevPage="Dashboard" href="">
       <TableContainer component={Paper} sx={{ marginTop: 3 }}>
         <Table sx={{ minWidth: 250 }} aria-label="simple table">
           <TableHead>

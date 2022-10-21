@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { NextPage, NextPageContext } from "next";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -29,11 +29,11 @@ import {
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import DeleteIcon from "@mui/icons-material/Delete";
 import getBreakpoints from "../../../../utils/getBreakpoints";
 import Dashboard from "../../../../components/Dashboard/Dashboard";
 import LoadingScreen from "../../../../components/LoadingScreen";
 import EditBugModal from "../../../../components/Projects/Project/Bug/EditBugModal";
+import DeleteBugDialog from "../../../../components/Projects/Project/Bug/DeleteBugDialog";
 
 interface BugProps {
   bugId: string;
@@ -57,7 +57,7 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
   }, [bug]);
 
   return (
-    <Dashboard title="Bugs">
+    <Dashboard prevPage="Project" href={`/projects/${projectId}`}>
       {!bug || !user ? (
         <LoadingScreen />
       ) : (
@@ -132,9 +132,11 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
                       >
                         Close Bug
                       </Button>
-                      <Button startIcon={<DeleteIcon />} variant="contained">
-                        Delete Bug
-                      </Button>
+                      <DeleteBugDialog
+                        bugId={bug._id}
+                        title={bug.title}
+                        projectId={projectId}
+                      />
                     </TableCell>
                   </TableRow>
                 )}

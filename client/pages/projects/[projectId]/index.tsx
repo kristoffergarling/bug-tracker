@@ -41,7 +41,7 @@ const Project: NextPage<ProjectProps> = ({ projectId }) => {
   }, [openAddBugModal]);
 
   return (
-    <Dashboard title="Project">
+    <Dashboard prevPage="Projects" href="/projects">
       {!project ? (
         <LoadingSkeleton />
       ) : (

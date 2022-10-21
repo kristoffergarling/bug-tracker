@@ -53,3 +53,14 @@ export const editBug = async (req: Request, res: Response) => {
     console.log(error);
   }
 };
+
+export const deleteBug = async (req: Request, res: Response) => {
+  const { bugId } = req.params;
+
+  try {
+    const bug = await Bug.findById(bugId);
+    await bug?.remove();
+  } catch (error) {
+    console.log(error);
+  }
+};

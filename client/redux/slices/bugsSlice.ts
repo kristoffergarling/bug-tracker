@@ -113,11 +113,11 @@ export const fetchBugsByProjectId = (projectId: string): AppThunk => {
   };
 };
 
-export const deleteBug = (bugId: string): AppThunk => {
+export const deleteBug = (bugId: string, projectId: string): AppThunk => {
   return async (dispatch) => {
     try {
       const response = await axios.delete(
-        `${process.env.BACKEND_URI}/projects/bugs/delete/${bugId}`
+        `${process.env.BACKEND_URI}/projects/${projectId}/bugs/${bugId}`
       );
       dispatch(removeBug(response.data));
     } catch (err) {

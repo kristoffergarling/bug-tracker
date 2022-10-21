@@ -13,11 +13,12 @@ import Sidebar from "../../components/Dashboard/Sidebar";
 const drawerWidth = 210;
 
 interface DashboardProps {
-  title: string;
+  prevPage: string;
+  href: string;
   children: React.ReactNode;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ title, children }) => {
+const Dashboard: React.FC<DashboardProps> = ({ href, prevPage, children }) => {
   const dispatch = useDispatch();
   const user = useAuthCheck();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -37,7 +38,8 @@ const Dashboard: React.FC<DashboardProps> = ({ title, children }) => {
       <CssBaseline />
 
       <Header
-        title={title}
+        prevPage={prevPage}
+        href={href}
         drawerWidth={drawerWidth}
         handleDrawerToggle={handleDrawerToggle}
       />

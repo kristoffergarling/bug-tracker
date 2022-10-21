@@ -23,7 +23,7 @@ const Index: React.FC = () => {
   }, []);
 
   return (
-    <Dashboard title="Team">
+    <Dashboard prevPage="Home" href="/">
       {!user ? (
         <LoadingSkeleton />
       ) : md ? (

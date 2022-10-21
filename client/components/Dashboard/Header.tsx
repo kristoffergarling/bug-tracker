@@ -1,10 +1,12 @@
-import React from "react";
+import Link from "next/link";
 
-import { Toolbar, AppBar, Typography, IconButton } from "@mui/material";
+import { Toolbar, AppBar, IconButton, Button, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 interface HeaderProps {
-  title: string;
+  prevPage: string;
+  href: string;
   drawerWidth: number;
   handleDrawerToggle: () => void;
 }
@@ -12,7 +14,8 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({
   drawerWidth,
   handleDrawerToggle,
-  title,
+  prevPage,
+  href,
 }) => {
   return (
     <AppBar
@@ -32,9 +35,21 @@ const Header: React.FC<HeaderProps> = ({
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
-          {title}
-        </Typography>
+        {prevPage !== "Dashboard" ? (
+          <Link href={href}>
+            <Button
+              startIcon={<ArrowBackIcon />}
+              sx={{ color: "white", fontSize: 15 }}
+              variant="outlined"
+            >
+              {prevPage}
+            </Button>
+          </Link>
+        ) : (
+          <Typography variant="h6" component="h3">
+            Home
+          </Typography>
+        )}
       </Toolbar>
     </AppBar>
   );

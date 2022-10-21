@@ -25,7 +25,7 @@ const Index: React.FC = () => {
   }, [openModal]);
 
   return (
-    <Dashboard title="Projects">
+    <Dashboard prevPage="Home" href="/">
       {md ? (
         <ProjectsTableMobile
           projects={projects}
