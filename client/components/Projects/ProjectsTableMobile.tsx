@@ -42,13 +42,19 @@ const ProjectsTableDesktop: React.FC<ProjectsProps> = ({
                 <strong>Projects</strong>
               </Typography>
             </TableCell>
-            <TableCell align="right" colSpan={3}>
+            <TableCell
+              sx={{
+                display: "flex",
+                justifyContent: "end",
+              }}
+              colSpan={3}
+            >
               <NewProjectModal
                 open={openModal}
                 handleModalClick={handleModalClick}
               />
               <ColouredAvatar
-                sx={{ cursor: "pointer" }}
+                sx={{ cursor: "pointer", textAlign: "right" }}
                 onClick={handleModalClick}
               >
                 <PostAddIcon />

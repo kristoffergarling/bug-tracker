@@ -1,4 +1,5 @@
-import React from "react";
+import Head from "next/head";
+import { useEffect, useState } from "react";
 import Dashboard from "../components/Dashboard/Dashboard";
 import {
   TableContainer,
@@ -9,10 +10,9 @@ import {
   Paper,
   Typography,
   TableBody,
-  Button,
   Chip,
-  Badge,
 } from "@mui/material";
+import { BugState } from "../redux/types";
 
 const dummyData = [
   {
@@ -75,6 +75,10 @@ const dummyData = [
 const Index: React.FC = () => {
   return (
     <Dashboard prevPage="Dashboard" href="">
+      <Head>
+        <title>Dashboard | Bug Tracker by K. Garling</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <TableContainer component={Paper} sx={{ marginTop: 3 }}>
         <Table sx={{ minWidth: 250 }} aria-label="simple table">
           <TableHead>

@@ -10,7 +10,7 @@ export const signInUser = async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({ email });
     if (!user)
-      return res.status(404).json({ message: "Email is not registered." });
+      return res.status(404).send({ message: "Email is not registered." });
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect)

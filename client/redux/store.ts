@@ -5,6 +5,7 @@ import authReducer from "./slices/authSlice";
 import usersReducer from "./slices/usersSlice";
 import projectsReducer from "./slices/projectsSlice";
 import bugsReducer from "./slices/bugsSlice";
+import commentsReducer from "./slices/commentsSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     users: usersReducer,
     projects: projectsReducer,
     bugs: bugsReducer,
+    comments: commentsReducer,
   },
 });
 

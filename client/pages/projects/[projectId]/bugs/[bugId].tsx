@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import Head from "next/head";
+import { useEffect } from "react";
 import { NextPage, NextPageContext } from "next";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -20,20 +21,22 @@ import {
   TableHead,
   TableRow,
   TableCell,
+  FormControl,
+  Input,
+  InputLabel,
+  InputAdornment,
   Paper,
   Typography,
   TableBody,
   Box,
   Chip,
-  Button,
 } from "@mui/material";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
-import getBreakpoints from "../../../../utils/getBreakpoints";
+import CommentIcon from "@mui/icons-material/Comment";
 import Dashboard from "../../../../components/Dashboard/Dashboard";
 import LoadingScreen from "../../../../components/LoadingScreen";
 import EditBugModal from "../../../../components/Projects/Project/Bug/EditBugModal";
 import DeleteBugDialog from "../../../../components/Projects/Project/Bug/DeleteBugDialog";
+import CloseBugDialog from "../../../../components/Projects/Project/Bug/CloseBugDialog";
 
 interface BugProps {
   bugId: string;
@@ -54,7 +57,7 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
 
   useEffect(() => {
     dispatch(fetchBugsByProjectId(projectId));
-  }, [bug]);
+  }, []);
 
   return (
     <Dashboard prevPage="Project" href={`/projects/${projectId}`}>
@@ -62,6 +65,13 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
         <LoadingScreen />
       ) : (
         <Box sx={{ display: { xs: "auto", md: "flex" } }}>
+          <Head>
+            <title>Bug: {bug.title} | Bug Tracker by K. Garling</title>
+            <meta
+              name="viewport"
+              content="initial-scale=1.0, width=device-width"
+            />
+          </Head>
           <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
             <Table sx={{ minWidth: 250 }} aria-label="simple table">
               <TableHead>
@@ -124,14 +134,12 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
                 {user.isAdmin && (
                   <TableRow>
                     <TableCell component="th" scope="row" colSpan={2}>
-                      <Button
-                        startIcon={<CloseIcon />}
-                        sx={{ mr: 1 }}
-                        variant="contained"
-                        color="secondary"
-                      >
-                        Close Bug
-                      </Button>
+                      <CloseBugDialog
+                        isOpen={bug.isOpen}
+                        bugId={bug._id}
+                        title={bug.title}
+                        projectId={projectId}
+                      />
                       <DeleteBugDialog
                         bugId={bug._id}
                         title={bug.title}
@@ -169,6 +177,26 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
                         <strong>FirstName LastName: </strong> This is a great
                         bug!
                       </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <FormControl sx={{ width: "100%" }} variant="standard">
+                        <InputLabel
+                          sx={{ color: "black" }}
+                          htmlFor="input-with-icon-adornment"
+                        >
+                          Write a Comment
+                        </InputLabel>
+                        <Input
+                          id="input-with-icon-adornment"
+                          startAdornment={
+                            <InputAdornment position="start">
+                              <CommentIcon color="primary" />
+                            </InputAdornment>
+                          }
+                        />
+                      </FormControl>
                     </TableCell>
                   </TableRow>
                 </TableHead>

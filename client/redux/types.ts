@@ -79,7 +79,7 @@ export interface BugState {
 }
 
 export interface Comment {
-  id: string;
+  _id: string;
   bugId: string;
   body: string;
   author: User;

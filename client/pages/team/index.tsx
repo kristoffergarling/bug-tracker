@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers, selectUsersState } from "../../redux/slices/usersSlice";
@@ -24,6 +25,10 @@ const Index: React.FC = () => {
 
   return (
     <Dashboard prevPage="Home" href="/">
+      <Head>
+        <title>Team | Bug Tracker by K. Garling</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       {!user ? (
         <LoadingSkeleton />
       ) : md ? (

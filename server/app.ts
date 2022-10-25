@@ -12,9 +12,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/", authRoutes, projectRoutes);
+app.use("/", authRoutes);
 app.use("/users", userRoutes);
 app.use("/projects", projectRoutes);
-app.use("/projects/:projectId/bugs", bugRoutes);
+app.use("/projects/bugs", bugRoutes);
 
 export default app;

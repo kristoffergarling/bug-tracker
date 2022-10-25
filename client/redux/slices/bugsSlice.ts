@@ -70,7 +70,7 @@ export const createBug = (bugData: BugPayload, projectId: string): AppThunk => {
     try {
       dispatch(setAddBugLoading());
       const response = await axios.post(
-        `${process.env.BACKEND_URI}/projects/${projectId}/bugs/${projectId}`,
+        `${process.env.BACKEND_URI}/projects/bugs/${projectId}`,
         bugData
       );
       dispatch(addBug(response.data));
@@ -89,8 +89,28 @@ export const editBug = (
     try {
       dispatch(setAddBugLoading());
       const response = await axios.post(
-        `${process.env.BACKEND_URI}/projects/${projectId}/bugs/edit/${bugId}`,
+        `${process.env.BACKEND_URI}/projects/bugs/edit/${bugId}`,
         bugData
+      );
+      dispatch(updateBug(response.data));
+      dispatch(fetchBugsByProjectId(projectId));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const changeBugStatus = (
+  isOpen: boolean,
+  projectId: string,
+  bugId: string
+): AppThunk => {
+  return async (dispatch) => {
+    try {
+      dispatch(setAddBugLoading());
+      const response = await axios.post(
+        `${process.env.BACKEND_URI}/projects/bugs/edit/status/${bugId}`,
+        { isOpen }
       );
       dispatch(updateBug(response.data));
       dispatch(fetchBugsByProjectId(projectId));
@@ -104,7 +124,7 @@ export const fetchBugsByProjectId = (projectId: string): AppThunk => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `${process.env.BACKEND_URI}/projects/${projectId}/bugs/${projectId}`
+        `${process.env.BACKEND_URI}/projects/bugs/${projectId}`
       );
       dispatch(setBugs({ projectId, bugs: response.data }));
     } catch (err) {
@@ -117,7 +137,7 @@ export const deleteBug = (bugId: string, projectId: string): AppThunk => {
   return async (dispatch) => {
     try {
       const response = await axios.delete(
-        `${process.env.BACKEND_URI}/projects/${projectId}/bugs/${bugId}`
+        `${process.env.BACKEND_URI}/projects/bugs/${bugId}`
       );
       dispatch(removeBug(response.data));
     } catch (err) {

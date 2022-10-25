@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import Head from "next/head";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectProjectsState,
@@ -26,6 +27,10 @@ const Index: React.FC = () => {
 
   return (
     <Dashboard prevPage="Home" href="/">
+      <Head>
+        <title>Projects | Bug Tracker by K. Garling</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       {md ? (
         <ProjectsTableMobile
           projects={projects}

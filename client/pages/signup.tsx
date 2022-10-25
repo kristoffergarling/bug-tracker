@@ -1,4 +1,4 @@
-import React from "react";
+import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
 import {
   signUp,
@@ -74,6 +74,10 @@ const SignUp: React.FC = () => {
 
   return (
     <>
+      <Head>
+        <title>Sign Up | Bug Tracker by K. Garling</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Navbar />
       <AuthFormContainer sx={{ marginTop: { xs: 5, md: 10 } }} maxWidth="xs">
         <AuthHeader />

@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useState, useEffect } from "react";
 import { NextPage, NextPageContext } from "next";
 import { useSelector, useDispatch } from "react-redux";
@@ -46,6 +47,13 @@ const Project: NextPage<ProjectProps> = ({ projectId }) => {
         <LoadingSkeleton />
       ) : (
         <>
+          <Head>
+            <title>{project.title} | Bug Tracker by K. Garling</title>
+            <meta
+              name="viewport"
+              content="initial-scale=1.0, width=device-width"
+            />
+          </Head>
           <ProjectHeader project={project} />
           {!md ? (
             <ProjectBugsDesktop

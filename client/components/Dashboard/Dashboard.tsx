@@ -1,4 +1,5 @@
-import React from "react";
+import { useState } from "react";
+import { useRouter } from "next/router";
 import useAuthCheck from "../../hooks/useAuthCheck";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/slices/authSlice";
@@ -19,9 +20,10 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ href, prevPage, children }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const user = useAuthCheck();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   if (!user) {
     return <LoadingScreen />;
@@ -32,6 +34,8 @@ const Dashboard: React.FC<DashboardProps> = ({ href, prevPage, children }) => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  console.log("This is a Render from Dashboard.tsx");
 
   return (
     <Box sx={{ display: "flex" }}>

@@ -113,8 +113,8 @@ export const signUp = (
 export const signOut = (): AppThunk => {
   return async (dispatch) => {
     try {
-      dispatch(removeUser());
       storage.removeUser();
+      dispatch(removeUser());
     } catch (error: any) {
       dispatch(setAuthError(error.message));
     }

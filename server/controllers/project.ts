@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Project from "../models/project";
+import Bug from "../models/project";
 
 export const getProjects = async (req: Request, res: Response) => {
   const response = await Project.find();
@@ -29,6 +30,10 @@ export const deleteProject = async (req: Request, res: Response) => {
   const { projectId } = req.params;
 
   try {
+    const project = await Project.findById(projectId);
+    project?.bugs.map(async (bugId: string) => {
+      await Bug.findByIdAndDelete(bugId);
+    });
     await Project.findByIdAndDelete(projectId);
     res.json({ message: "Project deleted successfully" });
   } catch (error) {

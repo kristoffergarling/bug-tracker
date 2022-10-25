@@ -13,6 +13,9 @@ export default function useAuthCheck() {
     if (!user) {
       const isLoggedIn = storage.loadUser();
       if (!isLoggedIn) {
+        if (router.pathname === "/signup") {
+          return;
+        }
         router.push("/signin");
         return;
       }
