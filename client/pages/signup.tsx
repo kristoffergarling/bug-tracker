@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
 import {
   signUp,
@@ -16,6 +15,7 @@ import useAuthCheck from "../hooks/useAuthCheck";
 import { Alert, AlertTitle } from "@mui/material";
 import { AuthFormContainer, NameInputBox } from "../styles/customStyles";
 
+import HeadTag from "../components/HeadTag";
 import LoadingScreen from "../components/LoadingScreen";
 import Navbar from "../components/Auth/Navbar/Navbar";
 import AuthHeader from "../components/Auth/AuthHeader";
@@ -74,10 +74,7 @@ const SignUp: React.FC = () => {
 
   return (
     <>
-      <Head>
-        <title>Sign Up | Bug Tracker by K. Garling</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+      <HeadTag title="Sign Up | Bug Tracker by K. Garling" />
       <Navbar />
       <AuthFormContainer sx={{ marginTop: { xs: 5, md: 10 } }} maxWidth="xs">
         <AuthHeader />

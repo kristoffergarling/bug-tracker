@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { useState, useEffect } from "react";
 import { NextPage, NextPageContext } from "next";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,6 +12,7 @@ import {
 import { RootState } from "../../../redux/store";
 import getBreakpoints from "../../../utils/getBreakpoints";
 
+import HeadTag from "../../../components/HeadTag";
 import Dashboard from "../../../components/Dashboard/Dashboard";
 import ProjectHeader from "../../../components/Projects/Project/ProjectHeader";
 import ProjectBugsDesktop from "../../../components/Projects/Project/ProjectBugsDesktop";
@@ -49,13 +49,7 @@ const Project: NextPage<ProjectProps> = ({ projectId }) => {
         <LoadingSkeleton />
       ) : (
         <>
-          <Head>
-            <title>{project.title} | Bug Tracker by K. Garling</title>
-            <meta
-              name="viewport"
-              content="initial-scale=1.0, width=device-width"
-            />
-          </Head>
+          <HeadTag title={`${project.title} | Bug Tracker by K. Garling`} />
           <ProjectHeader project={project} />
           {!md ? (
             <ProjectBugsDesktop

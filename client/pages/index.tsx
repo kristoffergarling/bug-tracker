@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -8,6 +7,7 @@ import {
 
 import getBreakpoints from "../utils/getBreakpoints";
 import Dashboard from "../components/Dashboard/Dashboard";
+import HeadTag from "../components/HeadTag";
 import ProjectsTableDesktop from "../components/Projects/ProjectsTableDesktop";
 import ProjectsTableMobile from "../components/Projects/ProjectsTableMobile";
 
@@ -27,10 +27,7 @@ const Index: React.FC = () => {
 
   return (
     <Dashboard prevPage="Dashboard" href="">
-      <Head>
-        <title>Projects | Bug Tracker by K. Garling</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+      <HeadTag title="Bug Tracker by K. Garling" />
       {md ? (
         <ProjectsTableMobile
           projects={projects}

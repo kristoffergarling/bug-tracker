@@ -32,6 +32,7 @@ import {
   Chip,
 } from "@mui/material";
 import CommentIcon from "@mui/icons-material/Comment";
+import HeadTag from "../../../../components/HeadTag";
 import Dashboard from "../../../../components/Dashboard/Dashboard";
 import LoadingScreen from "../../../../components/LoadingScreen";
 import EditBugModal from "../../../../components/Projects/Project/Bug/EditBugModal";
@@ -65,13 +66,7 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
         <LoadingScreen />
       ) : (
         <Box sx={{ display: { xs: "auto", md: "flex" } }}>
-          <Head>
-            <title>Bug: {bug.title} | Bug Tracker by K. Garling</title>
-            <meta
-              name="viewport"
-              content="initial-scale=1.0, width=device-width"
-            />
-          </Head>
+          <HeadTag title={`Bug: ${bug.title} | Bug Tracker by K. Garling`} />
           <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
             <Table sx={{ minWidth: 250 }} aria-label="simple table">
               <TableHead>

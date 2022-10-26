@@ -6,6 +6,7 @@ import storage from "../../utils/localStorage";
 import getBreakpoints from "../../utils/getBreakpoints";
 import { User } from "../../redux/types";
 
+import HeadTag from "../../components/HeadTag";
 import Dashboard from "../../components/Dashboard/Dashboard";
 import TeamDesktop from "../../components/Team/TeamDesktop";
 import TeamMobile from "../../components/Team/TeamMobile";
@@ -25,10 +26,7 @@ const Index: React.FC = () => {
 
   return (
     <Dashboard prevPage="Home" href="/">
-      <Head>
-        <title>Team | Bug Tracker by K. Garling</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+      <HeadTag title="Team | Bug Tracker by K. Garling" />
       {!user ? (
         <LoadingSkeleton />
       ) : md ? (

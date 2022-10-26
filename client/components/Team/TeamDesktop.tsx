@@ -9,7 +9,6 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import AdminDeleteIcon from "./AdminDeleteIcon";
 
 interface TeamProps {
   users: User[];
@@ -47,12 +46,6 @@ const TeamDesktop: React.FC<TeamProps> = ({ users, user }) => {
             <TableCell align="left">
               <strong>Role</strong>
             </TableCell>
-
-            {user.isAdmin && (
-              <TableCell align="center">
-                <strong>Delete</strong>
-              </TableCell>
-            )}
           </TableRow>
 
           {users.map((u) => (
@@ -75,18 +68,6 @@ const TeamDesktop: React.FC<TeamProps> = ({ users, user }) => {
               <TableCell align="left">
                 {u.isAdmin ? "Admin" : "Employee"}
               </TableCell>
-
-              {user.isAdmin && (
-                <TableCell
-                  align="center"
-                  sx={{ display: "flex", justifyContent: "center" }}
-                >
-                  <AdminDeleteIcon
-                    signedInUserIsAdmin={user.isAdmin}
-                    userIsAdmin={u.isAdmin}
-                  />
-                </TableCell>
-              )}
             </TableRow>
           ))}
         </TableBody>

@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
 import {
   signIn,
@@ -15,6 +14,7 @@ import useAuthCheck from "../hooks/useAuthCheck";
 import { Alert, AlertTitle } from "@mui/material";
 import { CenteredFlexBox, AuthFormContainer } from "../styles/customStyles";
 
+import HeadTag from "../components/HeadTag";
 import LoadingScreen from "../components/LoadingScreen";
 import Navbar from "../components/Auth/Navbar/Navbar";
 import AuthHeader from "../components/Auth/AuthHeader";
@@ -59,10 +59,7 @@ const SignIn: React.FC = () => {
 
   return (
     <>
-      <Head>
-        <title>Sign In | Bug Tracker by K. Garling</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+      <HeadTag title="Sign In | Bug Tracker by K. Garling" />
       <Navbar />
       <AuthFormContainer sx={{ marginTop: { xs: 5, md: 10 } }} maxWidth="xs">
         <AuthHeader />

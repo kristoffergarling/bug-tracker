@@ -9,7 +9,6 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import AdminDeleteIcon from "./AdminDeleteIcon";
 
 interface TeamProps {
   users: User[];
@@ -36,10 +35,6 @@ const TeamMobile: React.FC<TeamProps> = ({ users, user }) => {
               <TableCell colSpan={2} align="left">
                 <Typography variant="h6" sx={{ display: "flex" }}>
                   <strong>{`${u.firstName} ${u.lastName}`}</strong>
-                  <AdminDeleteIcon
-                    signedInUserIsAdmin={user.isAdmin}
-                    userIsAdmin={u.isAdmin}
-                  />
                 </Typography>
 
                 <Typography variant="subtitle1" sx={{ display: "flex" }}>
