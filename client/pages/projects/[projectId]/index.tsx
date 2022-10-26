@@ -41,8 +41,10 @@ const Project: NextPage<ProjectProps> = ({ projectId }) => {
     dispatch(fetchBugsByProjectId(projectId));
   }, [openAddBugModal]);
 
+  console.log(bugs);
+
   return (
-    <Dashboard prevPage="Projects" href="/projects">
+    <Dashboard prevPage="Home" href="/">
       {!project ? (
         <LoadingSkeleton />
       ) : (

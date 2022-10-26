@@ -35,8 +35,6 @@ const Dashboard: React.FC<DashboardProps> = ({ href, prevPage, children }) => {
     setMobileOpen(!mobileOpen);
   };
 
-  console.log("This is a Render from Dashboard.tsx");
-
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />

@@ -74,18 +74,12 @@ const Sidebar: React.FC<SidebarProps> = ({
       <Divider />
 
       <List>
-        {["Dashboard", "Projects", "Team"].map((text, index) => (
+        {["Home", "Team"].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <Link href={text === "Dashboard" ? "/" : `/${text.toLowerCase()}`}>
+            <Link href={text === "Home" ? "/" : `/${text.toLowerCase()}`}>
               <ListItemButton>
                 <ListItemIcon>
-                  {index === 0 ? (
-                    <DashboardIcon />
-                  ) : index === 1 ? (
-                    <AssignmentIcon />
-                  ) : (
-                    <GroupIcon />
-                  )}
+                  {index === 0 ? <DashboardIcon /> : <GroupIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>

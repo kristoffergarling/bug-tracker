@@ -1,171 +1,49 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
-import Dashboard from "../components/Dashboard/Dashboard";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  Paper,
-  Typography,
-  TableBody,
-  Chip,
-} from "@mui/material";
-import { BugState } from "../redux/types";
+  selectProjectsState,
+  fetchProjects,
+} from "../redux/slices/projectsSlice";
 
-const dummyData = [
-  {
-    id: 1,
-    title: "Bug 1",
-    description: "Bug 1 description",
-    priority: "High",
-    status: "Open",
-    type: "Bug",
-    createdBy: "John Doe",
-    createdAt: "2021-10-10",
-    updatedAt: "2021-10-10",
-  },
-  {
-    id: 5,
-    title: "Bug 1",
-    description: "Bug 1 description",
-    priority: "High",
-    status: "Open",
-    type: "Bug",
-    createdBy: "John Doe",
-    createdAt: "2021-10-10",
-    updatedAt: "2021-10-10",
-  },
-  {
-    id: 4,
-    title: "Bug 1",
-    description: "Bug 1 description",
-    priority: "High",
-    status: "Open",
-    type: "Bug",
-    createdBy: "John Doe",
-    createdAt: "2021-10-10",
-    updatedAt: "2021-10-10",
-  },
-  {
-    id: 3,
-    title: "Bug 1",
-    description: "Bug 1 description",
-    priority: "High",
-    status: "Open",
-    type: "Bug",
-    createdBy: "John Doe",
-    createdAt: "2021-10-10",
-    updatedAt: "2021-10-10",
-  },
-  {
-    id: 2,
-    title: "Bug 1",
-    description: "Bug 1 description",
-    priority: "High",
-    status: "Open",
-    type: "Bug",
-    createdBy: "John Doe",
-    createdAt: "2021-10-10",
-    updatedAt: "2021-10-10",
-  },
-];
+import getBreakpoints from "../utils/getBreakpoints";
+import Dashboard from "../components/Dashboard/Dashboard";
+import ProjectsTableDesktop from "../components/Projects/ProjectsTableDesktop";
+import ProjectsTableMobile from "../components/Projects/ProjectsTableMobile";
 
 const Index: React.FC = () => {
+  const { md } = getBreakpoints();
+  const dispatch = useDispatch();
+  const { projects } = useSelector(selectProjectsState);
+
+  const [openModal, setOpenModal] = useState(false);
+  const handleModalClick = () => {
+    setOpenModal(!openModal);
+  };
+
+  useEffect(() => {
+    dispatch(fetchProjects());
+  }, [openModal]);
+
   return (
     <Dashboard prevPage="Dashboard" href="">
       <Head>
-        <title>Dashboard | Bug Tracker by K. Garling</title>
+        <title>Projects | Bug Tracker by K. Garling</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <TableContainer component={Paper} sx={{ marginTop: 3 }}>
-        <Table sx={{ minWidth: 250 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell colSpan={3}>
-                <Typography variant="h5" component="h3">
-                  <strong>Latest Bugs</strong>
-                </Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            <TableRow sx={{ backgroundColor: "#A5C9CA" }}>
-              <TableCell align="center">
-                <Typography variant="body2">
-                  <strong>Project</strong>
-                </Typography>
-              </TableCell>
-
-              <TableCell align="center">
-                <Typography variant="body2">
-                  <strong>Bug</strong>
-                </Typography>
-              </TableCell>
-
-              <TableCell align="center">
-                <Typography variant="body2">
-                  <strong>Priority</strong>
-                </Typography>
-              </TableCell>
-
-              <TableCell align="center">
-                <Typography variant="body2">
-                  <strong>Created At</strong>
-                </Typography>
-              </TableCell>
-
-              <TableCell align="center">
-                <Typography variant="body2">
-                  <strong>Created By</strong>
-                </Typography>
-              </TableCell>
-
-              <TableCell align="center">
-                <Typography variant="body2">
-                  <strong>Comments</strong>
-                </Typography>
-              </TableCell>
-            </TableRow>
-
-            {dummyData.map((bug) => (
-              <TableRow>
-                <TableCell align="center">
-                  <Typography variant="body2">ProjectName</Typography>
-                </TableCell>
-
-                <TableCell align="center">
-                  <Typography variant="body2">BugTitle</Typography>
-                </TableCell>
-
-                <TableCell align="center">
-                  <Typography component={"span"} variant="body2">
-                    <Chip label="Low" color="warning" />
-                  </Typography>
-                </TableCell>
-
-                <TableCell align="center">
-                  <Typography component={"span"} variant="body2">
-                    {bug.createdAt}
-                  </Typography>
-                </TableCell>
-
-                <TableCell align="center">
-                  <Typography variant="body2">Demo Account</Typography>
-                </TableCell>
-
-                <TableCell align="center">
-                  <Typography variant="body2">
-                    <strong>Created At</strong>
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {md ? (
+        <ProjectsTableMobile
+          projects={projects}
+          handleModalClick={handleModalClick}
+          openModal={openModal}
+        />
+      ) : (
+        <ProjectsTableDesktop
+          projects={projects}
+          handleModalClick={handleModalClick}
+          openModal={openModal}
+        />
+      )}
     </Dashboard>
   );
 };
