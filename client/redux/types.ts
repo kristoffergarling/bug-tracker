@@ -81,8 +81,13 @@ export interface BugState {
 export interface Comment {
   _id: string;
   bugId: string;
-  body: string;
-  author: User;
+  text: string;
   createdAt: Date;
-  updatedAt: Date;
+  createdBy: string;
+}
+
+export interface CommentPayload {
+  text: string;
+  bugId: string;
+  createdBy: string;
 }

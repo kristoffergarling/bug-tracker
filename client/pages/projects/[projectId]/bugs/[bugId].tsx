@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { NextPage, NextPageContext } from "next";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import {
   selectBugByProjectId,
   fetchBugsByProjectId,
@@ -20,23 +20,19 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  FormControl,
-  Input,
-  InputLabel,
-  InputAdornment,
   Paper,
   Typography,
   TableBody,
   Box,
   Chip,
 } from "@mui/material";
-import CommentIcon from "@mui/icons-material/Comment";
 import HeadTag from "../../../../components/HeadTag";
 import Dashboard from "../../../../components/Dashboard/Dashboard";
 import LoadingScreen from "../../../../components/LoadingScreen";
 import EditBugModal from "../../../../components/Projects/Project/Bug/EditBugModal";
 import DeleteBugDialog from "../../../../components/Projects/Project/Bug/DeleteBugDialog";
 import CloseBugDialog from "../../../../components/Projects/Project/Bug/CloseBugDialog";
+import Comments from "../../../../components/Projects/Project/Bug/Comments";
 
 interface BugProps {
   bugId: string;
@@ -51,9 +47,11 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
     path[10] === "/" ? 11 : 10,
     path.indexOf("/bugs")
   );
-  const bug = useSelector((state: RootState) =>
-    selectBugByProjectId(state, projectId, bugId)
+  const bug = useSelector(
+    (state: RootState) => selectBugByProjectId(state, projectId, bugId),
+    shallowEqual
   );
+  console.log(user);
 
   useEffect(() => {
     dispatch(fetchBugsByProjectId(projectId));
@@ -156,45 +154,11 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
             component={Paper}
           >
             <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
-              <Table sx={{ minWidth: 300 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>
-                      <Typography variant="h6" component="h3">
-                        <strong>Comments</strong>
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <Typography variant="subtitle1" component="p">
-                        <strong>FirstName LastName: </strong> This is a great
-                        bug!
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <FormControl sx={{ width: "100%" }} variant="standard">
-                        <InputLabel
-                          sx={{ color: "black" }}
-                          htmlFor="input-with-icon-adornment"
-                        >
-                          Write a Comment
-                        </InputLabel>
-                        <Input
-                          id="input-with-icon-adornment"
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <CommentIcon color="primary" />
-                            </InputAdornment>
-                          }
-                        />
-                      </FormControl>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-              </Table>
+              <Comments
+                comments={bug.comments}
+                bugId={bugId}
+                userFullName={`${user.firstName} ${user.lastName}`}
+              />
             </TableContainer>
           </Box>
         </Box>

@@ -16,7 +16,7 @@ import * as yup from "yup";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { createBug } from "../../../../redux/slices/bugsSlice";
-import { BugPriority, BugPayload, User } from "../../../../redux/types";
+import { BugPriority, BugPayload } from "../../../../redux/types";
 import storage from "../../../../utils/localStorage";
 
 import InputController from "../../../InputController";
