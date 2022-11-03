@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { deleteProjectContributor } from "../../../../redux/slices/projectsSlice";
+import { fetchUsers } from "../../../../redux/slices/usersSlice";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ColouredAvatar } from "../../../../styles/customStyles";
 
@@ -40,6 +41,7 @@ const DeleteContributor: React.FC<DeleteContributor> = ({
       return;
     }
     dispatch(deleteProjectContributor(projectId, contributor));
+    dispatch(fetchUsers());
   };
 
   return (

@@ -91,6 +91,7 @@ const AddContributorsDialog: React.FC<AddContributorsDialogProps> = ({
   const addProjectContributors = () => {
     if (contributors) {
       dispatch(addProjectContributor(projectId, contributors));
+      dispatch(fetchUsers());
     }
   };
 

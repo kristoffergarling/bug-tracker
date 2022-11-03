@@ -50,6 +50,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ userIsAdmin, project }) => {
     dispatch(deleteProject(project._id, router));
   };
 
+  // console.log(userIsAdmin);
+
   return (
     <>
       <IconButton

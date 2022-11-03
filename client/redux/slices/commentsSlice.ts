@@ -46,6 +46,25 @@ const commentsSlice = createSlice({
   },
 });
 
+// export const postComment =
+//   (comment: Comment): AppThunk =>
+//   async (dispatch) => {
+//     try {
+//       dispatch(setAddCommentLoading());
+//       const response = await fetch("/api/comments", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(comment),
+//       });
+//       const data = await response.json();
+//       dispatch(addComment(data));
+//     } catch (error) {
+//       dispatch(setAddCommentError(error.message));
+//     }
+//   };
+
 export const {
   setComments,
   addComment,

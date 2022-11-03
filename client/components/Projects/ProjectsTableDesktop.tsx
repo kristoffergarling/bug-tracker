@@ -142,7 +142,10 @@ const ProjectsTableDesktop: React.FC<ProjectsProps> = ({
                 </TableCell>
 
                 <TableCell align="center">
-                  <ActionMenu userIsAdmin={user?.isAdmin} project={project} />
+                  <ActionMenu
+                    userIsAdmin={user?.result?.isAdmin}
+                    project={project}
+                  />
                 </TableCell>
               </TableRow>
             ))}

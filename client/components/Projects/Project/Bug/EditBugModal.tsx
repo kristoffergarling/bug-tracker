@@ -17,7 +17,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
 import { EditBugPayload, BugState, BugPriority } from "../../../../redux/types";
-import { editBug } from "../../../../redux/slices/bugsSlice";
+import {
+  fetchBugsByProjectId,
+  editBug,
+} from "../../../../redux/slices/bugsSlice";
 
 const style = {
   position: "absolute" as "absolute",
@@ -51,6 +54,7 @@ const validationSchema = yup.object().shape({
 const EditBugModal: React.FC<EditBugModalProps> = ({ bug }) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+
   const handleClick = () => {
     setOpen(!open);
   };
@@ -69,11 +73,17 @@ const EditBugModal: React.FC<EditBugModalProps> = ({ bug }) => {
       priority: bug.priority,
     },
   });
+  console.log(2);
 
   const submitHandler: SubmitHandler<EditBugPayload> = (
     data: EditBugPayload
   ) => {
     dispatch(editBug(data, bug.projectId, bug?._id));
+    //Temp solution 03/11/2022
+    dispatch(fetchBugsByProjectId(bug.projectId));
+    dispatch(fetchBugsByProjectId(bug.projectId));
+    dispatch(fetchBugsByProjectId(bug.projectId));
+    dispatch(fetchBugsByProjectId(bug.projectId));
     handleClick();
     methods.reset();
   };

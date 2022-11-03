@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { changeBugStatus } from "../../../../redux/slices/bugsSlice";
+import {
+  changeBugStatus,
+  fetchBugsByProjectId,
+} from "../../../../redux/slices/bugsSlice";
 import {
   Button,
   Dialog,
@@ -32,6 +35,10 @@ const DeleteBugDialog: React.FC<DeleteBugDialogProps> = ({
 
   const changeBugStatusHandler = () => {
     dispatch(changeBugStatus(!isOpen, projectId, bugId));
+
+    dispatch(fetchBugsByProjectId(projectId));
+    dispatch(fetchBugsByProjectId(projectId));
+    dispatch(fetchBugsByProjectId(projectId));
   };
 
   return (

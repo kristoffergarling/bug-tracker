@@ -79,7 +79,13 @@ const ProjectBugsMobile: React.FC<ProjectBugsProps> = ({
           {!bugs || bugs[bugs.length - 1] === undefined ? (
             <TableRow>
               <TableCell colSpan={2}>
-                <LoadingSkeleton />
+                {bugs && bugs.length === 0 ? (
+                  <Typography variant="body2" sx={{ textAlign: "center" }}>
+                    No bugs yet
+                  </Typography>
+                ) : (
+                  <LoadingSkeleton />
+                )}
               </TableCell>
             </TableRow>
           ) : (
