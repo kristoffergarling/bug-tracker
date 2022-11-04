@@ -8,8 +8,10 @@ import {
   FormControl,
   TableRow,
   InputAdornment,
+  Button,
 } from "@mui/material";
 import CommentIcon from "@mui/icons-material/Comment";
+import SendIcon from "@mui/icons-material/Send";
 import { Comment, CommentPayload } from "../../../../redux/types";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -76,22 +78,32 @@ const Comments: React.FC<CommentsProps> = ({
 
       <TableRow>
         <TableCell>
-          <FormControl {...methods} sx={{ width: "100%" }} variant="standard">
-            <InputLabel
-              sx={{ color: "black" }}
-              htmlFor="input-with-icon-adornment"
+          <FormProvider {...methods}>
+            <form
+              onSubmit={methods.handleSubmit(submitHandler)}
+              style={{ display: "flex" }}
             >
-              Write a Comment
-            </InputLabel>
-            <Input
-              id="input-with-icon-adornment"
-              startAdornment={
-                <InputAdornment position="start">
-                  <CommentIcon color="primary" />
-                </InputAdornment>
-              }
-            />
-          </FormControl>
+              <FormControl sx={{ width: "100%" }} variant="standard">
+                <InputLabel
+                  sx={{ color: "black" }}
+                  htmlFor="input-with-icon-adornment"
+                >
+                  Write a Comment
+                </InputLabel>
+                <Input
+                  id="input-with-icon-adornment"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <CommentIcon color="primary" />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+              <Button endIcon={<SendIcon />} type="submit">
+                Send
+              </Button>
+            </form>
+          </FormProvider>
         </TableCell>
       </TableRow>
     </Table>

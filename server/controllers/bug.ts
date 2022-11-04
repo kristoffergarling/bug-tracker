@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Bug from "../models/bug";
 import Comment from "../models/comment";
 import Project from "../models/project";
+import { ObjectID } from "typeorm";
 
 export const createBug = async (req: Request, res: Response) => {
   const { projectId } = req.params;
@@ -88,18 +89,21 @@ export const deleteBug = async (req: Request, res: Response) => {
   }
 };
 
-export const addBugComment = async (req: Request, res: Response) => {
-  const { bugId } = req.params;
-  const { text, createdBy } = req.body;
+// export const addBugComment = async (req: Request, res: Response) => {
+//   const { bugId } = req.params;
+//   const { text, createdBy } = req.body;
 
-  try {
-    const bug = await Bug.findById(bugId);
-    const comment = await Comment.create({ text, createdBy, bugId });
-    bug?.comments.push(comment);
-    await bug?.save();
+//   try {
+//     const bug = await Bug.findById(bugId);
+//     const comment = await Comment.create({
+//       text,
+//       createdBy,
+//       bugId);
+//     bug?.comments.push(comment);
+//     await bug?.save();
 
-    res.json(bug);
-  } catch (error) {
-    console.log(error);
-  }
-};
+//     res.json(bug);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
