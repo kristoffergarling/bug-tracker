@@ -5,7 +5,6 @@ export interface IComment {
   createdBy: string;
   createdAt: Date;
   budId: string;
-  id: string;
 }
 
 const commentSchema = new mongoose.Schema({
@@ -13,7 +12,6 @@ const commentSchema = new mongoose.Schema({
   createdBy: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   bugId: { type: String, required: true },
-  id: { type: String },
 });
 
 export default mongoose.model("Comment", commentSchema);

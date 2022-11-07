@@ -12,7 +12,7 @@ export interface IBug extends Document {
   updatedAt: Date;
   closedBy: string | null;
   closedAt: Date | null;
-  comments: Types.ObjectId[];
+  comments: string[];
 }
 
 const bugSchema: Schema = new mongoose.Schema({
@@ -26,7 +26,7 @@ const bugSchema: Schema = new mongoose.Schema({
   updatedAt: { type: Date, default: new Date() },
   closedBy: { type: String, default: null },
   closedAt: { type: Date, default: null },
-  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  comments: [{ type: String, default: [] }],
 });
 
 export default mongoose.model<IBug>("Bug", bugSchema);

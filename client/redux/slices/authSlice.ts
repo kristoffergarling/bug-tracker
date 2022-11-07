@@ -102,7 +102,7 @@ export const signUp = (
         return;
       }
 
-      dispatch(setUser(userData));
+      dispatch(clearAuthError());
       router.push("/signin");
     } catch (error: any) {
       dispatch(setAuthError(error.message));

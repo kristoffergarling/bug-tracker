@@ -1,5 +1,4 @@
-import mongoose, { Schema, Document, Types } from "mongoose";
-import { IBug } from "./bug";
+import mongoose, { Schema } from "mongoose";
 
 export interface IProject {
   title: string;

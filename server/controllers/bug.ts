@@ -89,21 +89,21 @@ export const deleteBug = async (req: Request, res: Response) => {
   }
 };
 
-// export const addBugComment = async (req: Request, res: Response) => {
-//   const { bugId } = req.params;
-//   const { text, createdBy } = req.body;
+export const addBugComment = async (req: Request, res: Response) => {
+  const { bugId } = req.params;
+  const { comment } = req.body;
+  const { text, createdBy } = comment;
+  console.log(comment);
 
-//   try {
-//     const bug = await Bug.findById(bugId);
-//     const comment = await Comment.create({
-//       text,
-//       createdBy,
-//       bugId);
-//     bug?.comments.push(comment);
-//     await bug?.save();
-
-//     res.json(bug);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+  try {
+    const bug = await Bug.findById(bugId);
+    const newComment = new Comment({ text, createdBy, bugId });
+    await newComment.save();
+    const comment = JSON.stringify({ bugId, text, createdBy });
+    bug?.comments.push(comment);
+    await bug?.save();
+    res.json(comment);
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -22,14 +22,12 @@ interface DashboardProps {
 const Dashboard: React.FC<DashboardProps> = ({ href, prevPage, children }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const user = useAuthCheck();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const user = useAuthCheck() as any;
 
   if (!user) {
     return <LoadingScreen />;
   }
-
-  dispatch(setUser(user));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -50,6 +48,8 @@ const Dashboard: React.FC<DashboardProps> = ({ href, prevPage, children }) => {
         drawerWidth={drawerWidth}
         handleDrawerToggle={handleDrawerToggle}
         mobileOpen={mobileOpen}
+        userFirstName={user?.firstName}
+        userLastName={user?.lastName}
       />
 
       <Box

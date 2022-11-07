@@ -10,9 +10,11 @@ import {
   InputAdornment,
   Button,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
 import CommentIcon from "@mui/icons-material/Comment";
 import SendIcon from "@mui/icons-material/Send";
 import { Comment, CommentPayload } from "../../../../redux/types";
+import { createComment } from "../../../../redux/slices/commentsSlice";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -24,11 +26,7 @@ interface CommentsProps {
 }
 
 const validationSchema = yup.object().shape({
-  text: yup
-    .string()
-    .required("Text is required")
-    .min(3, "Must be at least 3 characters")
-    .max(30, "Must be at most 30 characters"),
+  text: yup.string().required("Text is required"),
 });
 
 const Comments: React.FC<CommentsProps> = ({
@@ -36,6 +34,7 @@ const Comments: React.FC<CommentsProps> = ({
   userFullName,
   bugId,
 }) => {
+  const dispatch = useDispatch();
   const methods = useForm<CommentPayload>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
@@ -50,6 +49,7 @@ const Comments: React.FC<CommentsProps> = ({
     data: CommentPayload
   ) => {
     console.log(data);
+    dispatch(createComment(data));
     methods.reset();
   };
 
@@ -91,6 +91,7 @@ const Comments: React.FC<CommentsProps> = ({
                   Write a Comment
                 </InputLabel>
                 <Input
+                  {...methods.register("text")}
                   id="input-with-icon-adornment"
                   startAdornment={
                     <InputAdornment position="start">

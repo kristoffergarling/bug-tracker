@@ -73,7 +73,6 @@ const EditBugModal: React.FC<EditBugModalProps> = ({ bug }) => {
       priority: bug.priority,
     },
   });
-  console.log(2);
 
   const submitHandler: SubmitHandler<EditBugPayload> = (
     data: EditBugPayload

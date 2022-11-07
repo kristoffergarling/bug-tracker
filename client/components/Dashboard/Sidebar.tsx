@@ -1,7 +1,6 @@
 import React from "react";
 import { signOut } from "../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
-import storage from "../../utils/localStorage";
 import Link from "next/link";
 
 import {
@@ -22,7 +21,6 @@ import { CenteredFlexBox } from "../../styles/customStyles";
 
 import PestControlIcon from "@mui/icons-material/PestControl";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import AssignmentIcon from "@mui/icons-material/Assignment";
 import GroupIcon from "@mui/icons-material/Group";
 import LogoutIcon from "@mui/icons-material/Logout";
 
@@ -30,15 +28,18 @@ interface SidebarProps {
   drawerWidth: number;
   handleDrawerToggle: () => void;
   mobileOpen: boolean;
+  userFirstName: string;
+  userLastName: string;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   drawerWidth,
   handleDrawerToggle,
   mobileOpen,
+  userFirstName,
+  userLastName,
 }) => {
   const dispatch = useDispatch();
-  const { firstName, lastName } = storage.loadUser().result;
 
   const drawer = (
     <div>
@@ -66,9 +67,9 @@ const Sidebar: React.FC<SidebarProps> = ({
         }}
       >
         <Avatar sx={{ backgroundColor: "#395B64", marginBottom: 0.5 }}>
-          {firstName.charAt(0)}
+          {userFirstName.charAt(0)}
         </Avatar>
-        <Typography variant="subtitle1">{`${firstName} ${lastName}`}</Typography>
+        <Typography variant="subtitle1">{`${userFirstName} ${userLastName}`}</Typography>
       </CenteredFlexBox>
 
       <Divider />

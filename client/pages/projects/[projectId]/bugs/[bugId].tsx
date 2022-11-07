@@ -13,6 +13,7 @@ import {
   renderPrioColor,
   firstLetterToUpperCase,
 } from "../../../../utils/helperFunctions";
+import useAuthCheck from "../../../../hooks/useAuthCheck";
 
 import {
   TableContainer,
@@ -40,7 +41,7 @@ interface BugProps {
 
 const Bug: NextPage<BugProps> = ({ bugId }) => {
   const dispatch = useDispatch();
-  const user = useSelector(selectAuthState).user;
+  const user = useAuthCheck() as any;
   const router = useRouter();
   const path = router.asPath as string;
   const projectId = path.slice(
@@ -51,7 +52,6 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
     (state: RootState) => selectBugByProjectId(state, projectId, bugId),
     shallowEqual
   );
-  console.log(user);
 
   useEffect(() => {
     dispatch(fetchBugsByProjectId(projectId));

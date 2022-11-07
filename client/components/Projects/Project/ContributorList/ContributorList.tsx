@@ -1,8 +1,7 @@
 import { Grid, Box, Typography, List } from "@mui/material";
 import AddContributorsDialog from "./AddContributorsDialog";
 import DeleteContributor from "./DeleteContributor";
-import { useDispatch, useSelector } from "react-redux";
-import { selectAuthState } from "../../../../redux/slices/authSlice";
+import useAuthCheck from "../../../../hooks/useAuthCheck";
 
 interface ContributorListProps {
   projectId: string;
@@ -13,7 +12,7 @@ const ContributorList: React.FC<ContributorListProps> = ({
   projectId,
   contributors,
 }) => {
-  const user = useSelector(selectAuthState).user;
+  const user = useAuthCheck() as any;
   return (
     <Grid>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>

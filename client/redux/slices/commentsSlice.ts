@@ -1,15 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../store";
-import { Comment } from "../types";
+import { Comment, CommentPayload } from "../types";
+import axios from "axios";
 
 interface InitialCommentsState {
-  comments: Comment[];
+  comments: { [bugId: string]: Comment[] };
   loading: boolean;
   error: string | null;
 }
 
 const initialState: InitialCommentsState = {
-  comments: [],
+  comments: {},
   loading: false,
   error: null,
 };
@@ -18,13 +19,19 @@ const commentsSlice = createSlice({
   name: "comments",
   initialState,
   reducers: {
-    setComments: (state, action: PayloadAction<Comment[]>) => {
-      state.comments = action.payload;
+    setComments: (
+      state,
+      action: PayloadAction<{ bugId: string; comments: Comment[] }>
+    ) => {
+      state.comments[action.payload.bugId] = action.payload.comments;
       state.loading = false;
       state.error = null;
     },
-    addComment: (state, action: PayloadAction<Comment>) => {
-      state.comments.push(action.payload);
+    addComment: (
+      state,
+      action: PayloadAction<{ bugId: string; comment: Comment }>
+    ) => {
+      state.comments[action.payload.bugId].push(action.payload.comment);
       state.loading = false;
       state.error = null;
     },
@@ -32,44 +39,45 @@ const commentsSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    setAddCommentError: (state, action: PayloadAction<string>) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
-    removeComment: (state, action: PayloadAction<string>) => {
-      state.comments = state.comments.filter(
-        (comment) => comment._id !== action.payload
+    removeComment: (
+      state,
+      action: PayloadAction<{ bugId: string; commentId: string }>
+    ) => {
+      const { bugId, commentId } = action.payload;
+      state.comments[bugId] = state.comments[bugId].filter(
+        (comment) => comment._id !== commentId
       );
       state.loading = false;
       state.error = null;
     },
+    setCommentsError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
   },
 });
 
-// export const postComment =
-//   (comment: Comment): AppThunk =>
-//   async (dispatch) => {
-//     try {
-//       dispatch(setAddCommentLoading());
-//       const response = await fetch("/api/comments", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(comment),
-//       });
-//       const data = await response.json();
-//       dispatch(addComment(data));
-//     } catch (error) {
-//       dispatch(setAddCommentError(error.message));
-//     }
-//   };
+export const createComment = (commentData: CommentPayload): AppThunk => {
+  return async (dispatch) => {
+    try {
+      dispatch(setAddCommentLoading());
+      const { data } = await axios.post(
+        `${process.env.BACKEND_URI}/projects/bugs/comment/${commentData.bugId}`,
+        commentData
+      );
+      console.log(data);
+      dispatch(addComment(JSON.parse(data)));
+    } catch (error: any) {
+      dispatch(setCommentsError(error));
+    }
+  };
+};
 
 export const {
   setComments,
   addComment,
   setAddCommentLoading,
-  setAddCommentError,
+  setCommentsError,
   removeComment,
 } = commentsSlice.actions;
 
