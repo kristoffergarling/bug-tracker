@@ -147,15 +147,14 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
           <Box
             sx={{
               ml: { xs: "auto", md: 2 },
-              mt: { xs: 2, md: "auto" },
+              mt: { xs: 2, md: 0 },
               width: "100%",
               maxHeight: 300,
             }}
             component={Paper}
           >
-            <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
+            <TableContainer component={Paper}>
               <Comments
-                comments={bug.comments}
                 bugId={bugId}
                 userFullName={`${user.firstName} ${user.lastName}`}
               />

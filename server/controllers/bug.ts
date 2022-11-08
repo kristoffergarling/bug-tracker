@@ -91,18 +91,41 @@ export const deleteBug = async (req: Request, res: Response) => {
 
 export const addBugComment = async (req: Request, res: Response) => {
   const { bugId } = req.params;
-  const { comment } = req.body;
-  const { text, createdBy } = comment;
-  console.log(comment);
+  const commentData = req.body;
 
   try {
     const bug = await Bug.findById(bugId);
-    const newComment = new Comment({ text, createdBy, bugId });
-    await newComment.save();
-    const comment = JSON.stringify({ bugId, text, createdBy });
-    bug?.comments.push(comment);
+    const comment = new Comment(commentData);
+    await comment.save();
+
+    bug?.comments.push(JSON.stringify(JSON.stringify(comment)));
     await bug?.save();
-    res.json(comment);
+    res.json(commentData);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchCommentsByBugId = async (req: Request, res: Response) => {
+  const { bugId } = req.params;
+
+  try {
+    const bug = await Bug.findById(bugId);
+    const comments = bug?.comments.map((comment) => JSON.parse(comment));
+    res.json(comments);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteComment = async (req: Request, res: Response) => {
+  const { bugId } = req.params;
+  const { comment } = req.body;
+
+  try {
+    const bug = await Bug.findById(bugId);
+    await bug?.save();
+    res.json(bug);
   } catch (error) {
     console.log(error);
   }

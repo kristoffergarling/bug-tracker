@@ -60,13 +60,26 @@ const commentsSlice = createSlice({
 export const createComment = (commentData: CommentPayload): AppThunk => {
   return async (dispatch) => {
     try {
+      console.log(commentData);
       dispatch(setAddCommentLoading());
       const { data } = await axios.post(
-        `${process.env.BACKEND_URI}/projects/bugs/comment/${commentData.bugId}`,
+        `${process.env.BACKEND_URI}/projects/bugs/comments/${commentData.bugId}`,
         commentData
       );
-      console.log(data);
       dispatch(addComment(JSON.parse(data)));
+    } catch (error: any) {
+      dispatch(setCommentsError(error));
+    }
+  };
+};
+
+export const fetchCommentsByBugId = (bugId: string): AppThunk => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.BACKEND_URI}/projects/bugs/comments/${bugId}`
+      );
+      dispatch(setComments({ bugId, comments: data }));
     } catch (error: any) {
       dispatch(setCommentsError(error));
     }
@@ -82,5 +95,9 @@ export const {
 } = commentsSlice.actions;
 
 export const selectComments = (state: RootState) => state.comments.comments;
+
+export const selectCommentsByBugId = (state: RootState, bugId: string) => {
+  return state.comments.comments[bugId];
+};
 
 export default commentsSlice.reducer;

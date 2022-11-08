@@ -1,7 +1,9 @@
+import { useEffect, useState } from "react";
 import {
   Table,
   TableHead,
   TableCell,
+  TableBody,
   Typography,
   Input,
   InputLabel,
@@ -9,18 +11,31 @@ import {
   TableRow,
   InputAdornment,
   Button,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Divider,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CommentIcon from "@mui/icons-material/Comment";
 import SendIcon from "@mui/icons-material/Send";
-import { Comment, CommentPayload } from "../../../../redux/types";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { CommentPayload } from "../../../../redux/types";
 import { createComment } from "../../../../redux/slices/commentsSlice";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { formatDateTime } from "../../../../utils/helperFunctions";
+import {
+  selectCommentsByBugId,
+  fetchCommentsByBugId,
+} from "../../../../redux/slices/commentsSlice";
+import { RootState } from "../../../../redux/store";
+import { ColouredAvatar } from "../../../../styles/customStyles";
 
 interface CommentsProps {
-  comments: Comment[];
   userFullName: string;
   bugId: string;
 }
@@ -29,11 +44,7 @@ const validationSchema = yup.object().shape({
   text: yup.string().required("Text is required"),
 });
 
-const Comments: React.FC<CommentsProps> = ({
-  comments,
-  userFullName,
-  bugId,
-}) => {
+const Comments: React.FC<CommentsProps> = ({ userFullName, bugId }) => {
   const dispatch = useDispatch();
   const methods = useForm<CommentPayload>({
     mode: "onChange",
@@ -45,13 +56,34 @@ const Comments: React.FC<CommentsProps> = ({
     },
   });
 
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+  const handleClickConfirmDialog = () => {
+    setOpenConfirmDialog(!openConfirmDialog);
+  };
+
+  const handleDeleteComment = (comment: string) => {
+    console.log(comment);
+    dispatch(fetchCommentsByBugId(bugId));
+  };
+
+  const comments = useSelector((state: RootState) =>
+    selectCommentsByBugId(state, bugId)
+  );
+
   const submitHandler: SubmitHandler<CommentPayload> = (
     data: CommentPayload
   ) => {
-    console.log(data);
     dispatch(createComment(data));
+    dispatch(fetchCommentsByBugId(bugId));
+    dispatch(fetchCommentsByBugId(bugId));
+    dispatch(fetchCommentsByBugId(bugId));
+    dispatch(fetchCommentsByBugId(bugId));
     methods.reset();
   };
+
+  useEffect(() => {
+    dispatch(fetchCommentsByBugId(bugId));
+  }, []);
 
   return (
     <Table sx={{ minWidth: 300 }} aria-label="simple table">
@@ -64,17 +96,68 @@ const Comments: React.FC<CommentsProps> = ({
           </TableCell>
         </TableRow>
       </TableHead>
-      {comments
-        ? comments.map((comment) => (
-            <TableRow>
-              <TableCell>
-                <Typography variant="subtitle1" component="p">
-                  <strong>FirstName LastName: </strong> This is a great bug!
-                </Typography>
-              </TableCell>
-            </TableRow>
-          ))
-        : null}
+
+      <TableBody sx={{ overflow: "hidden" }}>
+        {comments
+          ? comments.map((comment) => (
+              <TableRow key={comment}>
+                <TableCell
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    overflow: "hidden",
+                  }}
+                >
+                  <Box>
+                    <Typography variant="body2" component="p">
+                      {formatDateTime(JSON.parse(comment).createdAt)}
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      component="p"
+                      sx={{ width: "fit-content" }}
+                    >
+                      <strong>{JSON.parse(comment).createdBy}: </strong>{" "}
+                      {JSON.parse(comment).text}
+                    </Typography>
+                  </Box>
+                  <ColouredAvatar
+                    onClick={handleClickConfirmDialog}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    <DeleteIcon />
+                    <Dialog
+                      open={openConfirmDialog}
+                      onClose={handleClickConfirmDialog}
+                    >
+                      <DialogTitle>
+                        <strong>Remove Comment</strong>
+                      </DialogTitle>
+                      <Divider />
+                      <DialogActions>
+                        <Button
+                          variant="outlined"
+                          autoFocus
+                          onClick={handleClickConfirmDialog}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          variant="contained"
+                          onClick={() => {
+                            handleClickConfirmDialog;
+                          }}
+                        >
+                          Remove
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </ColouredAvatar>
+                </TableCell>
+              </TableRow>
+            ))
+          : null}
+      </TableBody>
 
       <TableRow>
         <TableCell>

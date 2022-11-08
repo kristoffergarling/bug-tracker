@@ -75,7 +75,7 @@ export interface BugState {
   isOpen: boolean;
   closedBy?: User;
   closeAt?: Date;
-  comments: Comment[];
+  comments: string[];
 }
 
 export interface Comment {
