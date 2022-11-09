@@ -131,7 +131,7 @@ const Comments: React.FC<CommentsProps> = ({ userFullName, bugId }) => {
                       onClose={handleClickConfirmDialog}
                     >
                       <DialogTitle>
-                        <strong>Remove Comment</strong>
+                        <strong>Remove this Comment</strong>
                       </DialogTitle>
                       <Divider />
                       <DialogActions>
