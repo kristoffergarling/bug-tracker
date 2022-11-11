@@ -64,7 +64,10 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
       ) : (
         <Box sx={{ display: { xs: "auto", md: "flex" } }}>
           <HeadTag title={`Bug: ${bug.title} | Bug Tracker by K. Garling`} />
-          <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
+          <TableContainer
+            component={Paper}
+            sx={{ maxHeight: 500, minWidth: "50%" }}
+          >
             <Table sx={{ minWidth: 250 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
@@ -148,8 +151,6 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
             sx={{
               ml: { xs: "auto", md: 2 },
               mt: { xs: 2, md: 0 },
-              width: "100%",
-              maxHeight: 300,
             }}
             component={Paper}
           >

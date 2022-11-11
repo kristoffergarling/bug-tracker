@@ -86,6 +86,20 @@ export const fetchCommentsByBugId = (bugId: string): AppThunk => {
   };
 };
 
+export const deleteComment = (bugId: string, createdAt: Date): AppThunk => {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.delete(
+        `${process.env.BACKEND_URI}/projects/bugs/comments/${bugId}`,
+        createdAt
+      );
+      dispatch(removeComment({ bugId, commentId: data }));
+    } catch (error: any) {
+      dispatch(setCommentsError(error));
+    }
+  };
+};
+
 export const {
   setComments,
   addComment,

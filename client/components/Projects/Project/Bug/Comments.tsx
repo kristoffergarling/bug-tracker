@@ -23,15 +23,16 @@ import CommentIcon from "@mui/icons-material/Comment";
 import SendIcon from "@mui/icons-material/Send";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { CommentPayload } from "../../../../redux/types";
-import { createComment } from "../../../../redux/slices/commentsSlice";
+import {
+  createComment,
+  deleteComment,
+  fetchCommentsByBugId,
+  selectCommentsByBugId,
+} from "../../../../redux/slices/commentsSlice";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { formatDateTime } from "../../../../utils/helperFunctions";
-import {
-  selectCommentsByBugId,
-  fetchCommentsByBugId,
-} from "../../../../redux/slices/commentsSlice";
 import { RootState } from "../../../../redux/store";
 import { ColouredAvatar } from "../../../../styles/customStyles";
 
@@ -61,8 +62,8 @@ const Comments: React.FC<CommentsProps> = ({ userFullName, bugId }) => {
     setOpenConfirmDialog(!openConfirmDialog);
   };
 
-  const handleDeleteComment = (comment: string) => {
-    console.log(comment);
+  const handleDeleteComment = (bugId: string, createdAt: Date) => {
+    dispatch(deleteComment(bugId, createdAt));
     dispatch(fetchCommentsByBugId(bugId));
   };
 
@@ -145,6 +146,10 @@ const Comments: React.FC<CommentsProps> = ({ userFullName, bugId }) => {
                         <Button
                           variant="contained"
                           onClick={() => {
+                            handleDeleteComment(
+                              JSON.parse(comment).bugId,
+                              JSON.parse(comment).createdAt
+                            );
                             handleClickConfirmDialog;
                           }}
                         >
