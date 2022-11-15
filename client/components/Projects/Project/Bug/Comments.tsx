@@ -65,6 +65,10 @@ const Comments: React.FC<CommentsProps> = ({ userFullName, bugId }) => {
   const handleDeleteComment = (bugId: string, createdAt: Date) => {
     dispatch(deleteComment(bugId, createdAt));
     dispatch(fetchCommentsByBugId(bugId));
+    dispatch(fetchCommentsByBugId(bugId));
+    dispatch(fetchCommentsByBugId(bugId));
+    dispatch(fetchCommentsByBugId(bugId));
+    dispatch(fetchCommentsByBugId(bugId));
   };
 
   const comments = useSelector((state: RootState) =>
@@ -75,6 +79,7 @@ const Comments: React.FC<CommentsProps> = ({ userFullName, bugId }) => {
     data: CommentPayload
   ) => {
     dispatch(createComment(data));
+    dispatch(fetchCommentsByBugId(bugId));
     dispatch(fetchCommentsByBugId(bugId));
     dispatch(fetchCommentsByBugId(bugId));
     dispatch(fetchCommentsByBugId(bugId));
@@ -171,7 +176,7 @@ const Comments: React.FC<CommentsProps> = ({ userFullName, bugId }) => {
               onSubmit={methods.handleSubmit(submitHandler)}
               style={{ display: "flex" }}
             >
-              <FormControl sx={{ width: "100%" }} variant="standard">
+              <FormControl variant="standard">
                 <InputLabel
                   sx={{ color: "black" }}
                   htmlFor="input-with-icon-adornment"

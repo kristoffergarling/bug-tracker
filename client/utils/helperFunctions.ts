@@ -1,9 +1,8 @@
 import { format } from "date-fns";
-import axios from "axios";
-import storage from "./localStorage";
 
 export const formatDateTime = (date: Date) => {
-  return format(new Date(date), "hh':'mm '-' yyyy/MM/dd");
+  const formattedDate = format(new Date(date), "hh':'mm '-' yyyy/MM/dd");
+  return formattedDate;
 };
 
 export const firstLetterToUpperCase = (s: string) => {

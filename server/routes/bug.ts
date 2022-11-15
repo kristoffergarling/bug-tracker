@@ -21,6 +21,6 @@ router.post("/edit/:bugId", editBug);
 router.post("/edit/status/:bugId", changeBugStatus);
 router.post("/comments/:bugId", addBugComment);
 router.get("/comments/:bugId", fetchCommentsByBugId);
-router.delete("/comments/:bugId", deleteComment);
+router.delete("/comments/:bugId/:createdAt", deleteComment);
 
 export default router;

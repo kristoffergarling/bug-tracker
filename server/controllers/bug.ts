@@ -119,12 +119,17 @@ export const fetchCommentsByBugId = async (req: Request, res: Response) => {
 };
 
 export const deleteComment = async (req: Request, res: Response) => {
-  const { bugId } = req.params;
-  const { commentId } = req.body;
+  const { bugId, createdAt } = req.params;
 
   try {
     const bug = await Bug.findById(bugId);
+    const comments = bug?.comments.filter(
+      (comment) => comment.includes(createdAt) === false
+    );
+
+    bug?.set({ comments });
     await bug?.save();
+
     res.json(bug);
   } catch (error) {
     console.log(error);
