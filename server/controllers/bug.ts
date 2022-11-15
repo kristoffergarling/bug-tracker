@@ -120,7 +120,7 @@ export const fetchCommentsByBugId = async (req: Request, res: Response) => {
 
 export const deleteComment = async (req: Request, res: Response) => {
   const { bugId } = req.params;
-  const { comment } = req.body;
+  const { commentId } = req.body;
 
   try {
     const bug = await Bug.findById(bugId);
