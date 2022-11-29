@@ -10,7 +10,7 @@ export default function useAuthCheck() {
   const { user } = useSelector(selectAuthState);
 
   useEffect(() => {
-    if (!user) {
+    if (!user || !user.firstName) {
       const isLoggedIn = storage.loadUser();
       if (!isLoggedIn) {
         if (router.pathname === "/signup") {

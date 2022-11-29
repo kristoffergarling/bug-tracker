@@ -33,7 +33,7 @@ const Dashboard: React.FC<DashboardProps> = ({ href, prevPage, children }) => {
     setMobileOpen(!mobileOpen);
   };
 
-  return (
+  return user ? (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
 
@@ -57,13 +57,15 @@ const Dashboard: React.FC<DashboardProps> = ({ href, prevPage, children }) => {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: { sm: calc(100% - ${drawerWidth}px) },
         }}
       >
         <Toolbar />
         {children}
       </Box>
     </Box>
+  ) : (
+    <LoadingScreen />
   );
 };
 
