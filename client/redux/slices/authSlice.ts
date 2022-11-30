@@ -76,7 +76,7 @@ export const signIn = (
       dispatch(setUser(userData));
       router.push("/");
     } catch (error: any) {
-      dispatch(setAuthError(error.message));
+      dispatch(setAuthError(error.response.data.message));
     }
   };
 };
@@ -95,6 +95,8 @@ export const signUp = (
         credentials
       );
 
+      console.log(response);
+
       const userData = response.data;
 
       if (userData.error) {
@@ -105,7 +107,8 @@ export const signUp = (
       dispatch(clearAuthError());
       router.push("/signin");
     } catch (error: any) {
-      dispatch(setAuthError(error.message));
+      console.log(error);
+      dispatch(setAuthError(error.response.data.message));
     }
   };
 };

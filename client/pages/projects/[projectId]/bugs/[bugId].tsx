@@ -151,6 +151,7 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
             sx={{
               ml: { xs: "auto", md: 2 },
               mt: { xs: 2, md: 0 },
+              height: "100%",
             }}
             component={Paper}
           >

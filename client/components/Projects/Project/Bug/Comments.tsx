@@ -103,7 +103,7 @@ const Comments: React.FC<CommentsProps> = ({ userFullName, bugId }) => {
         </TableRow>
       </TableHead>
 
-      <TableBody sx={{ overflow: "hidden" }}>
+      <TableBody>
         {comments
           ? comments.map((comment) => (
               <TableRow key={comment}>
@@ -111,18 +111,13 @@ const Comments: React.FC<CommentsProps> = ({ userFullName, bugId }) => {
                   sx={{
                     display: "flex",
                     justifyContent: "space-between",
-                    overflow: "hidden",
                   }}
                 >
                   <Box>
                     <Typography variant="body2" component="p">
                       {formatDateTime(JSON.parse(comment).createdAt)}
                     </Typography>
-                    <Typography
-                      variant="subtitle1"
-                      component="p"
-                      sx={{ width: "fit-content" }}
-                    >
+                    <Typography variant="subtitle1" component="p">
                       <strong>{JSON.parse(comment).createdBy}: </strong>{" "}
                       {JSON.parse(comment).text}
                     </Typography>

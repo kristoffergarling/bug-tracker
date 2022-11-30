@@ -73,7 +73,7 @@ export const deleteProject = (
       dispatch(setAddProjectLoading());
       await axios.delete(`${process.env.BACKEND_URI}/projects/${projectId}`);
       dispatch(fetchProjects());
-      router.push("/projects");
+      router.push("/");
     } catch (err) {
       console.log(err);
     }
