@@ -6,7 +6,7 @@ const nextConfig = () => {
     reactStrictMode: true,
     env: {
       FRONTEND_URI: "http://localhost:3000",
-      BACKEND_URI: "http://localhost:5000",
+      BACKEND_URI: "https://bug-tracker-backend.onrender.com",
     },
   };
 };
