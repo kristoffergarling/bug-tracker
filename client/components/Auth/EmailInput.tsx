@@ -13,6 +13,10 @@ const EmailInput: React.FC = () => {
     formState: { errors },
   } = useFormContext();
 
+  const errorMessage = errors.email
+    ? (errors.email?.message as string)
+    : ("" as string);
+
   return (
     <Controller
       name="email"
@@ -22,7 +26,7 @@ const EmailInput: React.FC = () => {
         <StyledTextField
           {...field}
           error={errors.email ? true : false}
-          helperText={errors.email ? errors.email?.message : ""}
+          helperText={errorMessage}
           id="email"
           label="Email"
           fullWidth

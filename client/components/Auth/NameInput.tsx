@@ -17,6 +17,15 @@ const NameInput: React.FC<NameInputProps> = ({ label }) => {
     formState: { errors },
   } = useFormContext();
 
+  const errorMessage =
+    label === "firstName"
+      ? errors.firstName
+        ? (errors.firstName?.message as string)
+        : ("" as string)
+      : errors.lastName
+      ? (errors.lastName?.message as string)
+      : ("" as string);
+
   return (
     <Controller
       name={label}
@@ -34,15 +43,7 @@ const NameInput: React.FC<NameInputProps> = ({ label }) => {
               ? true
               : false
           }
-          helperText={
-            label === "firstName"
-              ? errors.firstName
-                ? errors.firstName?.message
-                : ""
-              : errors.lastName
-              ? errors.lastName?.message
-              : ""
-          }
+          helperText={errorMessage}
           id={label}
           label={label === "firstName" ? "First Name" : "Last Name"}
           fullWidth

@@ -18,6 +18,15 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ label }) => {
     formState: { errors },
   } = useFormContext();
 
+  const errorMessage =
+    label === "password"
+      ? errors.password
+        ? (errors.password?.message as string)
+        : ("" as string)
+      : errors.confirmPassword
+      ? (errors.confirmPassword?.message as string)
+      : ("" as string);
+
   return (
     <Controller
       name={label}
@@ -35,15 +44,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ label }) => {
               ? true
               : false
           }
-          helperText={
-            label === "password"
-              ? errors.password
-                ? errors.password?.message
-                : ""
-              : errors.confirmPassword
-              ? errors.confirmPassword?.message
-              : ""
-          }
+          helperText={errorMessage}
           type="password"
           id={label}
           label={label === "password" ? "Password" : "Confirm Password"}

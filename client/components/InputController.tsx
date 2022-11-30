@@ -12,6 +12,15 @@ const InputController: React.FC<InputControllerProps> = ({ label }) => {
     formState: { errors },
   } = useFormContext();
 
+  const errorMessage =
+    label === "title"
+      ? errors.title
+        ? (errors.title.message as string)
+        : ("" as string)
+      : errors.description
+      ? (errors.description.message as string)
+      : ("" as string);
+
   return (
     <Controller
       name={label}
@@ -30,15 +39,7 @@ const InputController: React.FC<InputControllerProps> = ({ label }) => {
               ? true
               : false
           }
-          helperText={
-            label === "title"
-              ? errors.title
-                ? errors.title.message
-                : ""
-              : errors.description
-              ? errors.description.message
-              : ""
-          }
+          helperText={errorMessage}
           id={label}
           label={label.charAt(0).toUpperCase() + label.slice(1)}
           fullWidth
