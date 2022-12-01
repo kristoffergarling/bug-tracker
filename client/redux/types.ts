@@ -69,7 +69,7 @@ export interface BugState {
   description: string;
   priority: BugPriority;
   status: BugStatus;
-  createdBy: User;
+  createdBy: string;
   createdAt: Date;
   updatedAt: Date;
   isOpen: boolean;

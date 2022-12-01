@@ -111,7 +111,6 @@ export const {
 export const selectComments = (state: RootState) => state.comments.comments;
 
 export const selectCommentsByBugId = (state: RootState, bugId: string) => {
-  console.log(state.comments.comments);
   return state.comments.comments[bugId];
 };
 

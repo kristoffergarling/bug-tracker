@@ -93,7 +93,7 @@ const Bug: NextPage<BugProps> = ({ bugId }) => {
               <TableBody>
                 <TableRow>
                   <TableCell component="th" scope="row" colSpan={2}>
-                    <Typography variant="subtitle1" component="p">
+                    <Typography variant="body1" component="p">
                       <strong>Created by: </strong>
                       {bug.createdBy}
                     </Typography>
