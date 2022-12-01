@@ -50,8 +50,6 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ userIsAdmin, project }) => {
     dispatch(deleteProject(project._id, router));
   };
 
-  // console.log(userIsAdmin);
-
   return (
     <>
       <IconButton
@@ -88,13 +86,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ userIsAdmin, project }) => {
           </MenuItem>
         </Link>
 
-        {userIsAdmin && (
-          <EditTitleDialog
-            isMenuItem={true}
-            handleActionMenuClose={handleClose}
-            project={project}
-          />
-        )}
+        {userIsAdmin && <EditTitleDialog isMenuItem={true} project={project} />}
 
         <MenuItem>
           <AddContributorsDialog isProjectPage={true} projectId={project._id} />

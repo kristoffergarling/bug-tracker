@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../store";
-import { Comment, CommentPayload } from "../types";
+import { CommentPayload } from "../types";
 import axios from "axios";
 
 interface InitialCommentsState {
-  comments: { [bugId: string]: Comment[] };
+  comments: { [bugId: string]: string[] };
   loading: boolean;
   error: string | null;
 }
@@ -21,7 +21,7 @@ const commentsSlice = createSlice({
   reducers: {
     setComments: (
       state,
-      action: PayloadAction<{ bugId: string; comments: Comment[] }>
+      action: PayloadAction<{ bugId: string; comments: string[] }>
     ) => {
       state.comments[action.payload.bugId] = action.payload.comments;
       state.loading = false;
@@ -29,7 +29,7 @@ const commentsSlice = createSlice({
     },
     addComment: (
       state,
-      action: PayloadAction<{ bugId: string; comment: Comment }>
+      action: PayloadAction<{ bugId: string; comment: string }>
     ) => {
       state.comments[action.payload.bugId].push(action.payload.comment);
       state.loading = false;
@@ -41,11 +41,11 @@ const commentsSlice = createSlice({
     },
     removeComment: (
       state,
-      action: PayloadAction<{ bugId: string; commentId: string }>
+      action: PayloadAction<{ bugId: string; createdAt: Date }>
     ) => {
-      const { bugId, commentId } = action.payload;
+      const { bugId, createdAt } = action.payload;
       state.comments[bugId] = state.comments[bugId].filter(
-        (comment) => comment._id !== commentId
+        (comment) => JSON.parse(comment).createdAt !== createdAt
       );
       state.loading = false;
       state.error = null;
@@ -60,13 +60,14 @@ const commentsSlice = createSlice({
 export const createComment = (commentData: CommentPayload): AppThunk => {
   return async (dispatch) => {
     try {
-      console.log(commentData);
       dispatch(setAddCommentLoading());
       const { data } = await axios.post(
         `${process.env.BACKEND_URI}/projects/bugs/comments/${commentData.bugId}`,
         commentData
       );
-      dispatch(addComment(JSON.parse(data)));
+      dispatch(
+        addComment({ bugId: commentData.bugId, comment: JSON.stringify(data) })
+      );
     } catch (error: any) {
       dispatch(setCommentsError(error));
     }
@@ -92,7 +93,7 @@ export const deleteComment = (bugId: string, createdAt: any): AppThunk => {
       const { data } = await axios.delete(
         `${process.env.BACKEND_URI}/projects/bugs/comments/${bugId}/${createdAt}`
       );
-      dispatch(removeComment({ bugId, commentId: data }));
+      dispatch(removeComment({ bugId, createdAt }));
     } catch (error: any) {
       dispatch(setCommentsError(error));
     }
@@ -110,6 +111,7 @@ export const {
 export const selectComments = (state: RootState) => state.comments.comments;
 
 export const selectCommentsByBugId = (state: RootState, bugId: string) => {
+  console.log(state.comments.comments);
   return state.comments.comments[bugId];
 };
 

@@ -44,7 +44,6 @@ export const deleteProject = async (req: Request, res: Response) => {
 export const editProject = async (req: Request, res: Response) => {
   const { projectId } = req.params;
   const { title, description } = req.body;
-  console.log(title, description);
 
   try {
     await Project.findByIdAndUpdate(projectId, {

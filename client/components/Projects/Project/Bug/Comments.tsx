@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Table,
   TableHead,
@@ -12,20 +12,13 @@ import {
   InputAdornment,
   Button,
   Box,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Divider,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import CommentIcon from "@mui/icons-material/Comment";
 import SendIcon from "@mui/icons-material/Send";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { CommentPayload } from "../../../../redux/types";
 import {
   createComment,
-  deleteComment,
   fetchCommentsByBugId,
   selectCommentsByBugId,
 } from "../../../../redux/slices/commentsSlice";
@@ -34,7 +27,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { formatDateTime } from "../../../../utils/helperFunctions";
 import { RootState } from "../../../../redux/store";
-import { ColouredAvatar } from "../../../../styles/customStyles";
+import DeleteCommentDialog from "./DeleteCommentDialog";
 
 interface CommentsProps {
   userFullName: string;
@@ -56,20 +49,6 @@ const Comments: React.FC<CommentsProps> = ({ userFullName, bugId }) => {
       bugId: bugId,
     },
   });
-
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const handleClickConfirmDialog = () => {
-    setOpenConfirmDialog(!openConfirmDialog);
-  };
-
-  const handleDeleteComment = (bugId: string, createdAt: Date) => {
-    dispatch(deleteComment(bugId, createdAt));
-    dispatch(fetchCommentsByBugId(bugId));
-    dispatch(fetchCommentsByBugId(bugId));
-    dispatch(fetchCommentsByBugId(bugId));
-    dispatch(fetchCommentsByBugId(bugId));
-    dispatch(fetchCommentsByBugId(bugId));
-  };
 
   const comments = useSelector((state: RootState) =>
     selectCommentsByBugId(state, bugId)
@@ -106,7 +85,7 @@ const Comments: React.FC<CommentsProps> = ({ userFullName, bugId }) => {
       <TableBody>
         {comments
           ? comments.map((comment) => (
-              <TableRow key={comment}>
+              <TableRow key={JSON.parse(comment).createdAt}>
                 <TableCell
                   sx={{
                     display: "flex",
@@ -115,49 +94,16 @@ const Comments: React.FC<CommentsProps> = ({ userFullName, bugId }) => {
                 >
                   <Box>
                     <Typography variant="body2" component="p">
-                      {formatDateTime(JSON.parse(comment).createdAt)}
+                      {JSON.parse(comment).createdAt
+                        ? formatDateTime(JSON.parse(comment).createdAt as Date)
+                        : "Just now"}
                     </Typography>
                     <Typography variant="subtitle1" component="p">
-                      <strong>{JSON.parse(comment).createdBy}: </strong>{" "}
+                      <strong>{JSON.parse(comment).createdBy}: </strong>
                       {JSON.parse(comment).text}
                     </Typography>
                   </Box>
-                  <ColouredAvatar
-                    onClick={handleClickConfirmDialog}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    <DeleteIcon />
-                    <Dialog
-                      open={openConfirmDialog}
-                      onClose={handleClickConfirmDialog}
-                    >
-                      <DialogTitle>
-                        <strong>Remove this Comment</strong>
-                      </DialogTitle>
-                      <Divider />
-                      <DialogActions>
-                        <Button
-                          variant="outlined"
-                          autoFocus
-                          onClick={handleClickConfirmDialog}
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          variant="contained"
-                          onClick={() => {
-                            handleDeleteComment(
-                              JSON.parse(comment).bugId,
-                              JSON.parse(comment).createdAt
-                            );
-                            handleClickConfirmDialog;
-                          }}
-                        >
-                          Remove
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
-                  </ColouredAvatar>
+                  <DeleteCommentDialog comment={comment} />
                 </TableCell>
               </TableRow>
             ))

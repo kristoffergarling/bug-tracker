@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import Bug from "../models/bug";
 import Comment from "../models/comment";
 import Project from "../models/project";
-import { ObjectID } from "typeorm";
 
 export const createBug = async (req: Request, res: Response) => {
   const { projectId } = req.params;
@@ -111,7 +110,9 @@ export const fetchCommentsByBugId = async (req: Request, res: Response) => {
 
   try {
     const bug = await Bug.findById(bugId);
-    const comments = bug?.comments.map((comment) => JSON.parse(comment));
+    const comments = bug?.comments.map((comment: string) =>
+      JSON.parse(comment)
+    );
     res.json(comments);
   } catch (error) {
     console.log(error);
@@ -124,7 +125,7 @@ export const deleteComment = async (req: Request, res: Response) => {
   try {
     const bug = await Bug.findById(bugId);
     const comments = bug?.comments.filter(
-      (comment) => comment.includes(createdAt) === false
+      (comment: string) => comment.includes(createdAt) === false
     );
 
     bug?.set({ comments });

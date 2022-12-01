@@ -79,7 +79,6 @@ export interface BugState {
 }
 
 export interface Comment {
-  _id: string;
   bugId: string;
   text: string;
   createdAt: Date;

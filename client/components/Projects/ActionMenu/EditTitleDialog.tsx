@@ -30,7 +30,6 @@ const style = {
 };
 
 interface EditTitleDialogProps {
-  handleActionMenuClose?: () => void;
   project: ProjectState;
   isMenuItem: boolean;
 }
@@ -45,17 +44,14 @@ const validationSchema = yup.object().shape({
 });
 
 const EditTitleDialog: React.FC<EditTitleDialogProps> = ({
-  handleActionMenuClose,
   project,
   isMenuItem,
 }) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+
   const handleClick = () => {
     setOpen(!open);
-  };
-  const handleOpen = () => {
-    setOpen(true);
   };
 
   const methods = useForm<EditProjectPayload>({
