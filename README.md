@@ -1,5 +1,7 @@
 # Bug Tracker made with MERN stack + TypeScript
 
+NOTE: To view the Live Demo, please wait 3 minutes after logging in for the backend server to start!
+
 ## Features
 
 <img src="https://github.com/kristoffergarling/bug-tracker/blob/main/images/bug-tracker.usecases.png" alt="UML diagram"></img>
