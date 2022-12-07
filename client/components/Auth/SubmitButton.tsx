@@ -24,7 +24,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ label, loading }) => {
         type="submit"
         disabled={loading}
       >
-        {loading ? <CircularProgress color="inherit" /> : label}
+        {loading ? <CircularProgress color="inherit" size={30} /> : label}
       </Button>
     </CenteredFlexBox>
   );
