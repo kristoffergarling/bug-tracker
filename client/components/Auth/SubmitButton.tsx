@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import { CenteredFlexBox } from "../../styles/customStyles";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import CircularProgress from "@mui/material/CircularProgress";
 
 interface SubmitButtonProps {
   label: string;
@@ -13,7 +14,9 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ label, loading }) => {
   return (
     <CenteredFlexBox sx={{ marginTop: "25px" }}>
       <Button
-        startIcon={label === "SIGN UP" ? <PersonAddIcon /> : <LoginIcon />}
+        startIcon={
+          loading ? "" : label === "SIGN UP" ? <PersonAddIcon /> : <LoginIcon />
+        }
         size="large"
         fullWidth
         variant="contained"
@@ -21,7 +24,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ label, loading }) => {
         type="submit"
         disabled={loading}
       >
-        {label}
+        {loading ? <CircularProgress color="inherit" /> : label}
       </Button>
     </CenteredFlexBox>
   );
