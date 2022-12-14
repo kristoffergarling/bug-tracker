@@ -10,6 +10,7 @@ import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import useAuthCheck from "../hooks/useAuthCheck";
+import { fetchUsers } from "../redux/slices/usersSlice";
 
 import { Alert, AlertTitle } from "@mui/material";
 import { CenteredFlexBox, AuthFormContainer } from "../styles/customStyles";
@@ -38,6 +39,9 @@ const SignIn: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { loading, error } = useSelector(selectAuthState);
+
+  //The following line enables a web service that pings the website so it stays awake.
+  dispatch(fetchUsers());
 
   const methods = useForm<InputValues>({
     mode: "onChange",
