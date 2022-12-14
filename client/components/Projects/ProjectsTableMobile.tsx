@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { selectAuthState } from "../../redux/slices/authSlice";
 import { ProjectState } from "../../redux/types";
-import { formatDateTime } from "../../utils/helperFunctions";
+import { formatDateTime, shortenString } from "../../utils/helperFunctions";
 
 import {
   TableContainer,
@@ -76,7 +76,7 @@ const ProjectsTableDesktop: React.FC<ProjectsProps> = ({
                 <Typography variant="subtitle1" sx={{ display: "flex" }}>
                   <strong>Description:</strong>
                   <Typography sx={{ marginLeft: 1 }} variant="subtitle1">
-                    {project.description}
+                    {shortenString(project.description, 128)}
                   </Typography>
                 </Typography>
 
