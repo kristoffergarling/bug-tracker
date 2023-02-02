@@ -1,7 +1,5 @@
 # Bug Tracker made with MERN stack + TypeScript
 
-NOTE: To view the Live Demo, please wait 3 minutes after logging in for the backend server to start!
-
 <h2>Overview</h2>
 <p>This is a bug tracking tool that allows users to report, view, and manage bugs in their projects.</p>
 <h2>Functional Requirements</h2>
