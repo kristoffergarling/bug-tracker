@@ -8,7 +8,6 @@ import {
   Paper,
   Typography,
   TableBody,
-  Box,
   Chip,
   Badge,
 } from "@mui/material";
@@ -24,7 +23,6 @@ import {
 
 import LoadingSkeleton from "../../../components/UI/LoadingSkeleton";
 import AddBugModal from "./AddBugModal/AddBugModal";
-import getBreakpoints from "../../../utils/getBreakpoints";
 
 interface ProjectBugsProps {
   bugs: BugState[];
@@ -37,7 +35,6 @@ const ProjectBugsMobile: React.FC<ProjectBugsProps> = ({
   openModal,
   setOpenModal,
 }) => {
-  const { xs, sm, md } = getBreakpoints();
   const handleModalClick = () => {
     setOpenModal(!openModal);
   };

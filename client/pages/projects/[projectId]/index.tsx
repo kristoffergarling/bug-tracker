@@ -39,6 +39,8 @@ const Project: NextPage<ProjectProps> = ({ projectId }) => {
   useEffect(() => {
     dispatch(fetchProjects());
     dispatch(fetchBugsByProjectId(projectId));
+    dispatch(fetchBugsByProjectId(projectId));
+    dispatch(fetchBugsByProjectId(projectId));
   }, [openAddBugModal]);
 
   return (

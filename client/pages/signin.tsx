@@ -40,9 +40,6 @@ const SignIn: React.FC = () => {
   const dispatch = useDispatch();
   const { loading, error } = useSelector(selectAuthState);
 
-  //The following line enables a web service that pings the website so it stays awake.
-  dispatch(fetchUsers());
-
   const methods = useForm<InputValues>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
