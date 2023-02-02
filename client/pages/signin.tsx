@@ -40,6 +40,9 @@ const SignIn: React.FC = () => {
   const dispatch = useDispatch();
   const { loading, error } = useSelector(selectAuthState);
 
+  //The following line is for pinging the backend to keep it awake.
+  dispatch(fetchUsers());
+
   const methods = useForm<InputValues>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
